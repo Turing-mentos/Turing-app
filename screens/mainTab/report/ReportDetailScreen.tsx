@@ -1,0 +1,10 @@
+import {View, Text} from 'react-native';
+import React from 'react';
+
+export default function ReportDetailScreen() {
+  return (
+    <View>
+      <Text>ReportDetailScreen</Text>
+    </View>
+  );
+}
