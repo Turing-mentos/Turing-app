@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TuringApp</string>
+    <string name="app_name">Turing</string>
+    <string name="kakao_app_key">578f7929f9d222f0b94b3bf26090e982</string>
 </resources>
