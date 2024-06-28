@@ -4,6 +4,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 // 회원가입 / 로그인
+import LoadingScreen from './LoadingScreen';
+import IntroduceScreen from './IntroduceScreen';
 import SignInScreen from './SignInScreen';
 import SingUpScreen from './SingUpScreen';
 
@@ -36,6 +38,16 @@ export default function RootStack() {
   return (
     <Stack.Navigator>
       {/* 회원가입 / 로그인 */}
+      <Stack.Screen
+        name="Loading"
+        component={LoadingScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Introduce"
+        component={IntroduceScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
