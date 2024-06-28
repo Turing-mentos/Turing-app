@@ -25,7 +25,7 @@ export interface APIResponse<T, D = any> {
   request?: any;
 }
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: SERVER_URL,
   headers: {
     'Content-Type': 'application/json',
