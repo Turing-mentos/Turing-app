@@ -1,3 +1,5 @@
+import MockAdapter from 'axios-mock-adapter';
+
 import ResponseDTO from './responseDTO';
 
 const signInResponseExample = {
@@ -8,7 +10,8 @@ const signInResponseExample = {
   email: 'test@naver.com',
 };
 
-export function setupSignInMocks(mock) {
+export function setupSignInMocks(mock: MockAdapter) {
+  // 카카오 로그인 api
   mock
     .onPost('/auth/kakao/login')
     .reply(
