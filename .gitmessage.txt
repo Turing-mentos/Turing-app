@@ -20,7 +20,7 @@
 #🐛 [#] FIX    : 
 #📝 [#] DOCS   : 
 #✅ [#] TEST   :
-#⚡ [#] REFACT : 
+#⚡ [#] REFACTOR : 
 #💄 [#] STYLE  :
 #🔧 [#] CHORE  : 
 
