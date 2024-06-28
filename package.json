@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.4",
+    "@invertase/react-native-apple-authentication": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-seoul/kakao-login": "^5.4.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
@@ -36,6 +37,7 @@
     "@react-native/typescript-config": "0.74.83",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
+    "axios-mock-adapter": "^1.22.0",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
