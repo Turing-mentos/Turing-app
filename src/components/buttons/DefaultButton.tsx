@@ -59,7 +59,7 @@ const ButtonLabel = styled.Text<{type: 'normal' | 'disable' | 'etc'}>`
   font-family: Pretendard;
   font-size: 18px;
   font-weight: 600;
-  lien-height: 150%;
+  line-height: 150%;
   align-items: center;
   justify-content: center;
 `;

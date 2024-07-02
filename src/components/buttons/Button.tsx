@@ -34,7 +34,6 @@ const ButtonWrapper = styled.View<{type: 'home' | 'confirm' | 'register'}>`
   align-items: center;
   flex-direction: row;
   gap: 10px;
-  flex-shrink: 0;
   border-radius: 5px;
   background-color: #192239;
 `;
