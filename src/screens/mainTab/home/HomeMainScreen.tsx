@@ -5,6 +5,7 @@ import DefaultButton from '../../../components/buttons/DefaultButton';
 import NavigateBox from '../../../components/box/NaviagateBox';
 import ProgressBar from '../../../components/progressbar/ProgressBar';
 import StudentTag from '../../../components/tag/StudentTag';
+import HalfSizeButton from '../../../components/buttons/halfSizeButton';
 export default function HomeMainScreen() {
   return (
     <View>
@@ -13,6 +14,7 @@ export default function HomeMainScreen() {
       <NavigateBox label="화살표박스아이콘"></NavigateBox>
       <ProgressBar maxNum={100} currentCredit={95} />
       <StudentTag></StudentTag>
+      <HalfSizeButton>s</HalfSizeButton>
     </View>
   );
 }
