@@ -12,7 +12,7 @@ export default function PrevDivider() {
 }
 
 const Container = styled.View`
-  background-color: #fefefe;
+  background-color: ${props => props.theme.color.grey[100]};
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -24,11 +24,11 @@ const Container = styled.View`
 const Line = styled.View`
   flex: 1;
   height: 1px;
-  background-color: #d4d8e2;
+  background-color: ${props => props.theme.color.grey[300]};
 `;
 
 const Content = styled.Text`
-  color: #9ea3b4;
+  color: ${props => props.theme.color.grey[500]};
   font-size: 12px;
   line-height: 18px;
 `;

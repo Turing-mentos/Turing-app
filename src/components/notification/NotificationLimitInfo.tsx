@@ -10,16 +10,16 @@ export default function NotificationLimitInfo() {
 }
 
 const Container = styled.View`
-  background-color: #fefefe;
+  background-color: ${props => props.theme.color.grey[100]};
   padding-top: 80px;
   padding-bottom: 60px;
 `;
 
 const Content = styled.Text`
-  color: #9ea3b4;
+  color: ${props => props.theme.color.grey[500]};
   text-align: center;
 
-  font-family: 'Pretendard';
+  font-family: Pretendard;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;

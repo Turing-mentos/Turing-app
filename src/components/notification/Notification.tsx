@@ -63,10 +63,11 @@ export default function Notification({
 const NotificationContainer = styled.TouchableOpacity<{$isRead: Boolean}>`
   padding: 16px 20px 16px 20px;
   flex-direction: row;
-  background-color: ${props => (props.$isRead ? '#fefefe' : '#E6E8F0')};
+  background-color: ${props =>
+    props.$isRead ? props.theme.color.grey[100] : props.theme.color.grey[200]};
   gap: 4px;
   border-bottom-width: ${props => (props.$isRead ? '1px' : '0')};
-  border-bottom-color: #f4f6fb;
+  border-bottom-color: ${props => props.theme.color.grey[150]};
 `;
 
 const IconContainer = styled.View`
@@ -87,14 +88,24 @@ const SubTextContainer = styled.View`
 `;
 
 const SubText = styled.Text`
+  color: ${props => props.theme.color.grey[600]};
+
+  font-family: Pretendard;
   font-size: 14px;
-  color: #7b8297;
-  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
 `;
 
 const ContentContainer = styled.View``;
 
 const Content = styled.Text`
+  color: ${props => props.theme.color.BTN900};
+
+  /* Text/M16 */
+  font-family: Pretendard;
   font-size: 16px;
-  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 24px */
 `;
