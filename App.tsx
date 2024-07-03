@@ -8,5 +8,5 @@ export default function App() {
     <NavigationContainer>
       <RootStack />
     </NavigationContainer>
-  );
+  );  
 }
