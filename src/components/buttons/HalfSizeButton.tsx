@@ -9,11 +9,11 @@ type ButtonProps = {
 
 const HalfSizeButton = ({label, onPress}: ButtonProps) => {
   return (
-    <ButtonWrapper>
-      <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
+      <ButtonWrapper>
         <ButtonLabel>{label}</ButtonLabel>
-      </TouchableOpacity>
-    </ButtonWrapper>
+      </ButtonWrapper>
+    </TouchableOpacity>
   );
 };
 

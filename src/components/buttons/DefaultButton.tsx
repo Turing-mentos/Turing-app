@@ -6,17 +6,17 @@ type ButtonProps = {
   type: 'normal' | 'disable' | 'etc';
   label: string;
   // TODO: 추후 작성
-  // onPress: () => void;
+  onPress?: () => void;
 };
 
-const DefaultButton = ({label, type}: ButtonProps) => {
+const DefaultButton = ({label, type, onPress}: ButtonProps) => {
   return (
-    <ButtonWrapper type={type}>
-      {/* TODO: onPress 추가 */}
-      <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
+      <ButtonWrapper type={type}>
+        {/* TODO: onPress 추가 */}
         <ButtonLabel type={type}>{label}</ButtonLabel>
-      </TouchableOpacity>
-    </ButtonWrapper>
+      </ButtonWrapper>
+    </TouchableOpacity>
   );
 };
 

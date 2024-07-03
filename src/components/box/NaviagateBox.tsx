@@ -4,7 +4,6 @@ import {TouchableOpacity} from 'react-native';
 
 type LabelProps = {
   label: string;
-  // TODO: Navigate
   onPress?: () => void;
 };
 
@@ -15,7 +14,7 @@ const NavigateBox = ({label, onPress}: LabelProps) => {
         <Label>{label}</Label>
         <TouchableOpacity onPress={onPress}>
           <ArrowImage
-            source={require('../../../assets/images/right_arrow.png')}
+            source={require('../../../assets/images/arrow_rightward.png')}
           />
         </TouchableOpacity>
       </TextWrapper>

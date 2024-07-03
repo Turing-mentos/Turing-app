@@ -1,8 +1,10 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import styled from '@emotion/native';
+import {STUDENT_TAG_COLORS} from './constant';
 
 // TODO: 색상 알고리즘 확정 이후 추가 필요
+type tagProps = {};
 const StudentTag = () => {
   return (
     <Container>

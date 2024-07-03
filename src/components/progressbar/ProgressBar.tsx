@@ -1,4 +1,3 @@
-import {Image, Text, View} from 'react-native';
 import styled from '@emotion/native';
 
 type ProgressBarProps = {
