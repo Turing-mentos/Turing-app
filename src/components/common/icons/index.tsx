@@ -5,3 +5,5 @@ export {default as NewSchedule} from '../../../../assets/images/notification/new
 export {default as Question} from '../../../../assets/images/notification/question_icon.svg';
 export {default as Report} from '../../../../assets/images/notification/report_icon.svg';
 export {default as ScheduleChange} from '../../../../assets/images/notification/schedule_change_icon.svg';
+
+export {default as Arrow3Left} from '../../../../assets/images/arrow3-left.svg';
