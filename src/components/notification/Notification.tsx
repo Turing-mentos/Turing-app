@@ -7,7 +7,7 @@ import {
   NotificationAPI,
   NotificationDTO,
 } from '../../api/notification';
-import Icon, {IconTypes} from '../common/icons/SvgIcon';
+import NotificationIcon from './NotificationIcon';
 
 type NotificationProps = NotificationDTO;
 
@@ -19,16 +19,6 @@ export default function Notification({
   createdAt,
   targetId,
 }: NotificationProps) {
-  const iconName = {
-    HOMEWORK: 'Homework',
-    NOTEBOOK: 'Notebook',
-    COMMENT: 'Comment',
-    QUESTION: 'Question',
-    SCHEDULE_CHANGE: 'ScheduleChange',
-    NEW_SCHEDULE: 'NewSchedule',
-    REPORT: 'Report',
-  };
-
   async function handlePressNotification() {
     await NotificationAPI.markNotificationAsRead(id);
 
@@ -44,7 +34,7 @@ export default function Notification({
       $isRead={readStatus}
       onPress={handlePressNotification}>
       <IconContainer>
-        <Icon name={iconName[category] as IconTypes} width={16} height={16} />
+        <NotificationIcon category={category} width={16} height={16} />
       </IconContainer>
       <TextContainer>
         <SubTextContainer>
