@@ -76,3 +76,7 @@ yarn-error.log
 
 #react-native-config
 ios/tmp.xcconfig
+
+# FCM
+google-services.json
+GoogleService-Info.plist

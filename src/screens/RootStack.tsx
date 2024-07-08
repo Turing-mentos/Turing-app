@@ -1,7 +1,8 @@
 import React from 'react';
+import {Button, Pressable} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
+import HeaderLeftArrow from '../components/header/HeaderLeftArrow';
 
 // 회원가입 / 로그인
 import LoadingScreen from './LoadingScreen';
@@ -33,6 +34,10 @@ import PrivacyPolicyScreen from './myPage/PrivacyPolicyScreen';
 // 알림 내부 페이지
 import NotificationMainScreen from './notification/NotificationMainScreen';
 import NotificationSettingScreen from './notification/NotificationSettingScreen';
+import theme from '../styles/theme';
+import Icon from '../components/common/icons/SvgIcon';
+
+const Stack = createNativeStackNavigator();
 
 export default function RootStack() {
   return (
@@ -96,7 +101,29 @@ export default function RootStack() {
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
 
       {/* 알림 관련 페이지 */}
-      <Stack.Screen name="Notification" component={NotificationMainScreen} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationMainScreen}
+        // options={({navigation}) => ({
+        //   header: () => <Header title="알림" navigation={navigation} />,
+        // })}
+        options={({navigation}) => ({
+          headerLeft: () => <HeaderLeftArrow navigation={navigation} />,
+          headerTitleStyle: {
+            fontSize: 18,
+            fontFamily: 'Pretendard',
+            fontWeight: 600,
+            lineHeight: 27,
+            color: theme.color.BTN900,
+          },
+          headerRight: () => (
+            <Button
+              title="설정"
+              onPress={() => navigation.push('NotificationSetting')}
+            />
+          ),
+        })}
+      />
       <Stack.Screen
         name="NotificationSetting"
         component={NotificationSettingScreen}
