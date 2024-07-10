@@ -1,29 +1,29 @@
 import React from 'react';
 import styled from '@emotion/native';
 
-import {UserType} from './SignUp';
+import {Role} from './SignUp';
 
-interface UserTypeSelectBoxProps {
+interface RoleSelectBoxProps {
   selected: boolean;
-  userType: UserType;
+  role: Role;
   onPress: (args: any) => any;
 }
 
-const convertUserType = {
+const convertRole = {
   teacher: '과외 선생님',
   student: '과외 학생',
 };
 
-export default function UserTypeSelectBox({
+export default function RoleSelectBox({
   selected,
-  userType,
+  role,
   onPress,
-}: UserTypeSelectBoxProps) {
+}: RoleSelectBoxProps) {
   return (
     <Container $selected={selected} onPress={onPress}>
       <ContentGroup>
-        <Text $selected={selected}>{convertUserType[userType]}</Text>
-        {userType === 'teacher' ? (
+        <Text $selected={selected}>{convertRole[role]}</Text>
+        {role === 'teacher' ? (
           <Icon source={require(`../../../assets/images/signin/teacher.png`)} />
         ) : (
           <Icon source={require(`../../../assets/images/signin/student.png`)} />

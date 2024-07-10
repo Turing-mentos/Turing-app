@@ -1,22 +1,25 @@
 import React, {useState} from 'react';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
-import UserTypeSelectBox from './UserTypeSelectBox';
+import RoleSelectBox from './RoleSelectBox';
 import DefaultButton from '../buttons/DefaultButton';
 import InputBox from './InputBox';
-
-export type UserType = 'teacher' | 'student';
+import useUserStore, {Role} from '../../store/useUserStore';
 
 export default function SignUp() {
   const [step, setStep] = useState(1);
-  const [userType, setUserType] = useState<UserType>();
+  const [role, setRole] = useState<Role>();
   const [username, setUsername] = useState({
     lastName: '',
     firstName: '',
   });
 
-  function handleSelectUserType(selectedUserType: UserType) {
-    setUserType(selectedUserType);
+  const setUser = useUserStore(state => state.setUser);
+  const navigation = useNavigation();
+
+  function handleSelectRole(selectdRole: Role) {
+    setRole(selectdRole);
   }
 
   function handleTextChange(
@@ -30,8 +33,16 @@ export default function SignUp() {
   }
 
   function handleSubmit() {
-    console.log('userType:', userType);
+    console.log('role:', role);
     console.log('username:', username.lastName + username.firstName);
+    setUser({
+      id: undefined,
+      firstName: username.firstName,
+      lastName: username.lastName,
+      role: role,
+    });
+
+    navigation.navigate('Onboarding');
   }
 
   const TextContent =
@@ -44,11 +55,11 @@ export default function SignUp() {
       <TextGroup>
         <Step>2/2</Step>
         <Question>
-          반가워요{userType === 'teacher' && ' 선생님'}, {'\n'}앞으로 어떻게
+          반가워요{role === 'teacher' && ' 선생님'}, {'\n'}앞으로 어떻게
           불러드릴까요?
         </Question>
         <SubText>
-          {userType === 'teacher' ? '학생' : '선생님'} 계정과 연결되면 보이게 될
+          {role === 'teacher' ? '학생' : '선생님'} 계정과 연결되면 보이게 될
           이름이에요.{'\n'}실명 닉네임을 권장드려요.
         </SubText>
       </TextGroup>
@@ -57,15 +68,15 @@ export default function SignUp() {
   const InputContent =
     step === 1 ? (
       <SelectGroup>
-        <UserTypeSelectBox
-          selected={userType === 'teacher'}
-          userType="teacher"
-          onPress={() => handleSelectUserType('teacher')}
+        <RoleSelectBox
+          selected={role === 'teacher'}
+          role="teacher"
+          onPress={() => handleSelectRole('teacher')}
         />
-        <UserTypeSelectBox
-          selected={userType === 'student'}
-          userType="student"
-          onPress={() => handleSelectUserType('student')}
+        <RoleSelectBox
+          selected={role === 'student'}
+          role="student"
+          onPress={() => handleSelectRole('student')}
         />
       </SelectGroup>
     ) : (
@@ -87,9 +98,9 @@ export default function SignUp() {
     step === 1 ? (
       <ButtonGroup>
         <DefaultButton
-          type={userType ? 'normal' : 'disable'}
+          type={role ? 'normal' : 'disable'}
           label="다음"
-          onPress={userType ? () => setStep(2) : () => {}}
+          onPress={role ? () => setStep(2) : () => {}}
         />
       </ButtonGroup>
     ) : (

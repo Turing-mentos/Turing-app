@@ -7,7 +7,7 @@ import Loading from '../components/loading/Loading';
 export default function LoadingScreen({navigation}) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('Introduce');
+      navigation.navigate('SignIn');
     }, 2000);
 
     return () => clearTimeout(timer);
