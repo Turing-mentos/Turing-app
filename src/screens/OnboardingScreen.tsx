@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from '@emotion/native';
 
-import SignUp from '../components/signUp/SignUp';
+import Onboarding from '../components/onboarding/Onboarding';
 
-export default function SingUpScreen() {
+export default function OnboardingScreen() {
   return (
     <Container>
-      <SignUp />
+      <Onboarding />
     </Container>
   );
 }
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${props => props.theme.color.grey[100]};
 `;

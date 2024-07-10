@@ -6,7 +6,7 @@ import HeaderLeftArrow from '../components/header/HeaderLeftArrow';
 
 // 회원가입 / 로그인
 import LoadingScreen from './LoadingScreen';
-import IntroduceScreen from './IntroduceScreen';
+import OnboardingScreen from './OnboardingScreen';
 import SignInScreen from './SignInScreen';
 import SingUpScreen from './SingUpScreen';
 
@@ -49,9 +49,9 @@ export default function RootStack() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Introduce"
-        component={IntroduceScreen}
-        options={{headerShown: false}}
+        name="Onboarding"
+        component={OnboardingScreen}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name="SignIn"
@@ -109,6 +109,7 @@ export default function RootStack() {
         // })}
         options={({navigation}) => ({
           headerLeft: () => <HeaderLeftArrow navigation={navigation} />,
+          headerTitle: '하이',
           headerTitleStyle: {
             fontSize: 18,
             fontFamily: 'Pretendard',
