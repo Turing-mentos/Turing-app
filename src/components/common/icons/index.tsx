@@ -9,3 +9,15 @@ export {default as ScheduleChange} from '../../../../assets/images/notification/
 export {default as Arrow3Left} from '../../../../assets/images/arrow3-left.svg';
 export {default as ToggleOn} from '../../../../assets/images/toggle-on.svg';
 export {default as ToggleOff} from '../../../../assets/images/toggle-off.svg';
+
+export {default as Notification} from '../../../../assets/images/myPage/notification-setting.svg';
+export {default as Account} from '../../../../assets/images/myPage/account.svg';
+export {default as Contact} from '../../../../assets/images/myPage/contact.svg';
+export {default as Privacy} from '../../../../assets/images/myPage/privacy.svg';
+export {default as Review} from '../../../../assets/images/myPage/review.svg';
+export {default as TermsOfUse} from '../../../../assets/images/myPage/terms-of-use.svg';
+
+export {default as Checked} from '../../../../assets/images/myPage/checked.svg';
+export {default as Unchecked} from '../../../../assets/images/myPage/unchecked.svg';
+
+export {default as ExclamationBlue} from '../../../../assets/images/exclamation-mark-blue.svg';

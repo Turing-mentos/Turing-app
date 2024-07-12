@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import RoleSelectBox from './RoleSelectBox';
 import DefaultButton from '../buttons/DefaultButton';
-import InputBox from './InputBox';
+import InputText from '../common/InputText';
 import useUserStore, {Role} from '../../store/useUserStore';
 
 export default function SignUp() {
@@ -81,12 +81,12 @@ export default function SignUp() {
       </SelectGroup>
     ) : (
       <InputGroup>
-        <InputBox
+        <InputText
           placeholder="성"
           value={username.lastName}
           onChangeText={text => handleTextChange('lastName', text)}
         />
-        <InputBox
+        <InputText
           placeholder="이름"
           value={username.firstName}
           onChangeText={text => handleTextChange('firstName', text)}

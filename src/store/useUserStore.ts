@@ -1,12 +1,12 @@
 import {create} from 'zustand';
 
-export type Role = 'teacher' | 'student';
+export type Role = 'teacher' | 'student' | undefined;
 
 interface User {
   id: number | undefined;
   firstName: string;
   lastName: string;
-  role: Role | undefined;
+  role: Role;
 }
 
 interface UserStore {
