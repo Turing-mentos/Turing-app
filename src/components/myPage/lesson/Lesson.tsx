@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import LinkStatus from './LinkStatus';
-import {Role} from '../../store/useUserStore';
+import {Role} from '../../../store/useUserStore';
 
 interface LessonProps {
   name: string;
@@ -23,7 +23,9 @@ export default function Lesson({name, subject, linkStatus, role}: LessonProps) {
         <LinkStatus status={linkStatus} role={role} />
       </Group>
 
-      <Image source={require('../../../assets/images/arrow_rightward.png')} />
+      <Image
+        source={require('../../../../assets/images/arrow_rightward.png')}
+      />
     </LinkBox>
   );
 }

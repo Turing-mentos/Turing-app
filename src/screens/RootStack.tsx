@@ -24,7 +24,7 @@ import ReportDetailScreen from './mainTab/report/ReportDetailScreen';
 import MyPageMainScreen from './myPage/MyPageMainScreen';
 import ProfileManagementScreen from './myPage/ProfileManagementScreen';
 import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScreen';
-import NewClassScreen from './myPage/NewClassScreen';
+import NewLessonScreen from './myPage/NewLessonScreen';
 import StudentManagementScreen from './myPage/StudentManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
@@ -94,7 +94,7 @@ export default function RootStack() {
         name="ProfileManagementUpdate"
         component={ProfileManagementUpdateScreen}
       />
-      <Stack.Screen name="NewClass" component={NewClassScreen} />
+      <Stack.Screen name="NewLesson" component={NewLessonScreen} />
       <Stack.Screen
         name="StudentManagement"
         component={StudentManagementScreen}

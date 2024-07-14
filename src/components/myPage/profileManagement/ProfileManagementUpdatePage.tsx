@@ -6,15 +6,17 @@ import useUserStore from '../../../store/useUserStore';
 import Icon from '../../common/icons/SvgIcon';
 import DefaultButton from '../../buttons/DefaultButton';
 import InputBox from '../../common/InputBox';
+import {ProfileAPI} from '../../../api/profile';
 
 export default function ProfileManagementUpdatePage() {
-  const {role} = useUserStore(state => state.user);
+  const {role, lastName, firstName, university, department, studentNum} =
+    useUserStore(state => state.user);
   const [profile, setProfile] = useState({
-    lastName: '',
-    firstName: '',
-    university: '',
-    department: '',
-    studentNum: '',
+    lastName: lastName,
+    firstName: firstName,
+    university: university,
+    department: department,
+    studentNum: studentNum,
   });
   const navigation = useNavigation();
   const target = role === 'teacher' ? '학생' : '선생님';
@@ -27,8 +29,16 @@ export default function ProfileManagementUpdatePage() {
     }));
   }
 
-  function handleUpdateSubmit() {
+  async function handleUpdateSubmit() {
     console.log('profile: ', profile);
+    if (role === 'teacher') {
+      await ProfileAPI.updateTeacherProfile(profile);
+    } else if (role === 'student') {
+      await ProfileAPI.updateStudentProfile(profile);
+    } else {
+      console.error('일치하는 role이 없습니다.');
+    }
+
     navigation.goBack();
   }
 
@@ -58,27 +68,29 @@ export default function ProfileManagementUpdatePage() {
           />
         </Section>
 
-        <Section>
-          <Title>정보</Title>
-          <InputBox
-            label="대학교"
-            value={profile.university}
-            onChangeText={value => handleTextChange('university', value)}
-            placeholder="ex. 튜링대학교(서울)"
-          />
-          <InputBox
-            label="학과"
-            value={profile.department}
-            onChangeText={value => handleTextChange('department', value)}
-            placeholder="ex. 경영학과"
-          />
-          <InputBox
-            label="학번"
-            value={profile.studentNum}
-            onChangeText={value => handleTextChange('studentNum', value)}
-            placeholder="ex. 20학번"
-          />
-        </Section>
+        {role === 'teacher' && (
+          <Section>
+            <Title>정보</Title>
+            <InputBox
+              label="대학교"
+              value={profile.university}
+              onChangeText={value => handleTextChange('university', value)}
+              placeholder="ex. 튜링대학교(서울)"
+            />
+            <InputBox
+              label="학과"
+              value={profile.department}
+              onChangeText={value => handleTextChange('department', value)}
+              placeholder="ex. 경영학과"
+            />
+            <InputBox
+              label="학번"
+              value={profile.studentNum}
+              onChangeText={value => handleTextChange('studentNum', value)}
+              placeholder="ex. 20학번"
+            />
+          </Section>
+        )}
 
         <InfoBox>
           <Icon name="ExclamationBlue" width={16} height={16} />

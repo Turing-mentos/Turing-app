@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
 import Lesson from './Lesson';
-import useUserStore from '../../store/useUserStore';
+import useUserStore from '../../../store/useUserStore';
 
 export default function LessonInProgressSection() {
+  const navigation = useNavigation();
   const user = useUserStore(state => state.user);
   const buttonText =
     user.role === 'teacher'
@@ -22,7 +24,7 @@ export default function LessonInProgressSection() {
         <Lesson name="박민영" subject="영어" linkStatus role={user.role} />
       </LessonGroup>
 
-      <AddButton>
+      <AddButton onPress={() => navigation.navigate('NewLesson')}>
         <AddButtonText>+ &nbsp;&nbsp;{buttonText}</AddButtonText>
       </AddButton>
     </Container>

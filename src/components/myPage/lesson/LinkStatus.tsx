@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/native';
 
-import Icon from '../common/icons/SvgIcon';
-import {Role} from '../../store/useUserStore';
+import Icon from '../../common/icons/SvgIcon';
+import {Role} from '../../../store/useUserStore';
 
 interface LinkStatusProps {
   status: boolean;

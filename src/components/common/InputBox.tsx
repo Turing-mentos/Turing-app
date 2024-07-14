@@ -5,7 +5,7 @@ import InputText from './InputText';
 
 interface InfoBoxProps {
   label: string;
-  value: string;
+  value?: string;
   onChangeText: (value: any) => void;
   placeholder?: string;
 }
@@ -49,15 +49,4 @@ const InputLabel = styled.Text`
 
 const TextBox = styled.View`
   width: 304px;
-`;
-
-const TextContent = styled.Text`
-  color: ${props => props.theme.color.grey[500]};
-
-  /* Text/M14 */
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21px; /* 21px */
 `;

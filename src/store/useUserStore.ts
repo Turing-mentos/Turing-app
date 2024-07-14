@@ -7,6 +7,10 @@ interface User {
   firstName: string;
   lastName: string;
   role: Role;
+
+  university?: string;
+  department?: string;
+  studentNum?: string;
 }
 
 interface UserStore {
@@ -20,6 +24,10 @@ const useUserStore = create<UserStore>(set => ({
     firstName: '',
     lastName: '',
     role: undefined,
+
+    university: '',
+    department: '',
+    studentNum: '',
   },
   setUser: (newUser: User) => set(state => ({...state, user: newUser})),
 }));

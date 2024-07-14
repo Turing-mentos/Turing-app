@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import ProfileManagementSection from './profileManagement/ProfileManagementSection';
-import LessonInProgressSection from './LessonInProgressSection';
+import LessonInProgressSection from './lesson/LessonInProgressSection';
 import AppManagementSection from './AppManagementSection';
 import SupportCustomerSection from './SupportCustomerSection';
 

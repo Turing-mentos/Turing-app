@@ -7,8 +7,10 @@ import InfoBox from '../../common/InfoBox';
 
 export default function ProfileManagementPage() {
   const navigation = useNavigation();
-  const {firstName, lastName, role} = useUserStore(store => store.user);
+  const {firstName, lastName, university, department, studentNum, role} =
+    useUserStore(store => store.user);
   const roleKr = role === 'teacher' ? '선생님' : '학생';
+
   const nickname = lastName + firstName;
 
   return (
@@ -20,12 +22,14 @@ export default function ProfileManagementPage() {
         </NicknameBox>
       </Section>
 
-      <Section>
-        <Title>정보</Title>
-        <InfoBox label="대학교" content="세종대학교" />
-        <InfoBox label="학과" />
-        <InfoBox label="학번" />
-      </Section>
+      {role === 'teacher' && (
+        <Section>
+          <Title>정보</Title>
+          <InfoBox label="대학교" content={university} />
+          <InfoBox label="학과" content={department} />
+          <InfoBox label="학번" content={studentNum} />
+        </Section>
+      )}
 
       <Line />
 
