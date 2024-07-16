@@ -10,7 +10,6 @@ import QuestionMainScreen from './question/QuestionMainScreen';
 import NoticeMainScreen from './notice/NoticeMainScreen';
 import ReportMainScreen from './report/ReportMainScreen';
 import Icon from '../../components/common/icons/SvgIcon';
-import theme from '../../styles/theme';
 
 const Tab = createBottomTabNavigator();
 

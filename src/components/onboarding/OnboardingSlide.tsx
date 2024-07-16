@@ -17,6 +17,45 @@ const subTexts = [
   '튜링의 홈 화면 위젯에서\n모든 기능을 한 눈에 확인하고 관리해보세요.',
 ];
 
+const OnboardingSelected = ({slide}: {slide: number}) => {
+  switch (slide) {
+    case 0:
+      return (
+        <OnboardingImage
+          source={require('../../../assets/images/onboarding/onboarding0.png')}
+        />
+      );
+
+    case 1:
+      return (
+        <OnboardingImage
+          source={require('../../../assets/images/onboarding/onboarding1.png')}
+        />
+      );
+    case 2:
+      return (
+        <OnboardingImage
+          source={require('../../../assets/images/onboarding/onboarding2.png')}
+        />
+      );
+    case 3:
+      return (
+        <OnboardingImage
+          source={require('../../../assets/images/onboarding/onboarding3.png')}
+        />
+      );
+    case 4:
+      return (
+        <OnboardingImage
+          source={require('../../../assets/images/onboarding/onboarding4.png')}
+        />
+      );
+
+    default:
+      return <></>;
+  }
+};
+
 export default function OnboardingSlide({slide}: {slide: number}) {
   return (
     <Container>
@@ -26,9 +65,7 @@ export default function OnboardingSlide({slide}: {slide: number}) {
       </Description>
 
       <ImageContainer>
-        <OnboardingImage
-          source={require('../../../assets/images/onboarding/onboarding0.png')}
-        />
+        <OnboardingSelected slide={slide} />
       </ImageContainer>
     </Container>
   );
@@ -72,12 +109,22 @@ const ImageContainer = styled.View`
   margin-top: 25px;
   width: 350px;
   height: 334px;
-  flex-shrink: 0;
+  padding: 25px 55px 0 55px;
+  overflow: hidden;
 
   border-radius: 5px;
   background: ${props => props.theme.color.blue[400]};
+
+  /* justify-content: flex-end;
+  align-items: center; */
 `;
 
 const OnboardingImage = styled.Image`
   width: 240px;
+  /* aspect-ratio: 0.2; */
+  /* height: 300px; */
+  /* object-fit: contain; */
+
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
 `;
