@@ -21,3 +21,17 @@ export {default as Checked} from '../../../../assets/images/myPage/checked.svg';
 export {default as Unchecked} from '../../../../assets/images/myPage/unchecked.svg';
 
 export {default as ExclamationBlue} from '../../../../assets/images/exclamation-mark-blue.svg';
+
+export {default as CircleChecked} from '../../../../assets/images/myPage/circle-checked.svg';
+export {default as CircleUnchecked} from '../../../../assets/images/myPage/circle-unchecked.svg';
+
+export {default as TabHome} from '../../../../assets/images/tab/tab-home.svg';
+export {default as TabNotice} from '../../../../assets/images/tab/tab-notice.svg';
+export {default as TabQuestion} from '../../../../assets/images/tab/tab-question.svg';
+export {default as TabReport} from '../../../../assets/images/tab/tab-report.svg';
+export {default as TabSchedule} from '../../../../assets/images/tab/tab-schedule.svg';
+export {default as TabHomeUnselected} from '../../../../assets/images/tab/tab-home-unselected.svg';
+export {default as TabNoticeUnselected} from '../../../../assets/images/tab/tab-notice-unselected.svg';
+export {default as TabQuestionUnselected} from '../../../../assets/images/tab/tab-question-unselected.svg';
+export {default as TabReportUnselected} from '../../../../assets/images/tab/tab-report-unselected.svg';
+export {default as TabScheduleUnselected} from '../../../../assets/images/tab/tab-schedule-unselected.svg';
