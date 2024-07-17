@@ -23,7 +23,8 @@ import ReportDetailScreen from './mainTab/report/ReportDetailScreen';
 // 마이페이지 내부 페이지
 import MyPageMainScreen from './myPage/MyPageMainScreen';
 import ProfileManagementScreen from './myPage/ProfileManagementScreen';
-import NewClassScreen from './myPage/NewClassScreen';
+import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScreen';
+import NewLessonScreen from './myPage/NewLessonScreen';
 import StudentManagementScreen from './myPage/StudentManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
@@ -89,7 +90,11 @@ export default function RootStack() {
         name="ProfileManagement"
         component={ProfileManagementScreen}
       />
-      <Stack.Screen name="NewClass" component={NewClassScreen} />
+      <Stack.Screen
+        name="ProfileManagementUpdate"
+        component={ProfileManagementUpdateScreen}
+      />
+      <Stack.Screen name="NewLesson" component={NewLessonScreen} />
       <Stack.Screen
         name="StudentManagement"
         component={StudentManagementScreen}

@@ -1,9 +1,9 @@
-import {View, Text, TextInputProps} from 'react-native';
+import {TextInputProps} from 'react-native';
 import React from 'react';
 import styled from '@emotion/native';
 import theme from '../../styles/theme';
 
-export default function InputBox({...rest}: TextInputProps) {
+export default function InputText({...rest}: TextInputProps) {
   return <Input placeholderTextColor={theme.color.grey[500]} {...rest} />;
 }
 

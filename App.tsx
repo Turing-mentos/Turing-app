@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
 import {ThemeProvider} from '@emotion/react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import RootStack from './src/screens/RootStack';
 import {requestUserPermission} from './src/utils/permission';
@@ -18,10 +19,12 @@ export default function App() {
   fetchToken();
 
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <RootStack />
-      </NavigationContainer>
-    </ThemeProvider>
+    <GestureHandlerRootView>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <RootStack />
+        </NavigationContainer>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

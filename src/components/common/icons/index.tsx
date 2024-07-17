@@ -9,3 +9,29 @@ export {default as ScheduleChange} from '../../../../assets/images/notification/
 export {default as Arrow3Left} from '../../../../assets/images/arrow3-left.svg';
 export {default as ToggleOn} from '../../../../assets/images/toggle-on.svg';
 export {default as ToggleOff} from '../../../../assets/images/toggle-off.svg';
+
+export {default as Notification} from '../../../../assets/images/myPage/notification-setting.svg';
+export {default as Account} from '../../../../assets/images/myPage/account.svg';
+export {default as Contact} from '../../../../assets/images/myPage/contact.svg';
+export {default as Privacy} from '../../../../assets/images/myPage/privacy.svg';
+export {default as Review} from '../../../../assets/images/myPage/review.svg';
+export {default as TermsOfUse} from '../../../../assets/images/myPage/terms-of-use.svg';
+
+export {default as Checked} from '../../../../assets/images/myPage/checked.svg';
+export {default as Unchecked} from '../../../../assets/images/myPage/unchecked.svg';
+
+export {default as ExclamationBlue} from '../../../../assets/images/exclamation-mark-blue.svg';
+
+export {default as CircleChecked} from '../../../../assets/images/myPage/circle-checked.svg';
+export {default as CircleUnchecked} from '../../../../assets/images/myPage/circle-unchecked.svg';
+
+export {default as TabHome} from '../../../../assets/images/tab/tab-home.svg';
+export {default as TabNotice} from '../../../../assets/images/tab/tab-notice.svg';
+export {default as TabQuestion} from '../../../../assets/images/tab/tab-question.svg';
+export {default as TabReport} from '../../../../assets/images/tab/tab-report.svg';
+export {default as TabSchedule} from '../../../../assets/images/tab/tab-schedule.svg';
+export {default as TabHomeUnselected} from '../../../../assets/images/tab/tab-home-unselected.svg';
+export {default as TabNoticeUnselected} from '../../../../assets/images/tab/tab-notice-unselected.svg';
+export {default as TabQuestionUnselected} from '../../../../assets/images/tab/tab-question-unselected.svg';
+export {default as TabReportUnselected} from '../../../../assets/images/tab/tab-report-unselected.svg';
+export {default as TabScheduleUnselected} from '../../../../assets/images/tab/tab-schedule-unselected.svg';

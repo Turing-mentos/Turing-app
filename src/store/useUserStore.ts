@@ -1,12 +1,16 @@
 import {create} from 'zustand';
 
-export type Role = 'teacher' | 'student';
+export type Role = 'teacher' | 'student' | undefined;
 
 interface User {
   id: number | undefined;
   firstName: string;
   lastName: string;
-  role: Role | undefined;
+  role: Role;
+
+  university?: string;
+  department?: string;
+  studentNum?: string;
 }
 
 interface UserStore {
@@ -20,6 +24,10 @@ const useUserStore = create<UserStore>(set => ({
     firstName: '',
     lastName: '',
     role: undefined,
+
+    university: '',
+    department: '',
+    studentNum: '',
   },
   setUser: (newUser: User) => set(state => ({...state, user: newUser})),
 }));

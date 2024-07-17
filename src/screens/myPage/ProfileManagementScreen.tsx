@@ -1,10 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 
+import ProfileManagementPage from '../../components/myPage/profileManagement/ProfileManagementPage';
+
 export default function ProfileManagementScreen() {
-  return (
-    <View>
-      <Text>ProfileManagementScreen</Text>
-    </View>
-  );
+  return <ProfileManagementPage />;
 }
