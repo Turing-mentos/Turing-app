@@ -38,7 +38,7 @@ async function getNotifications() {
   try {
     const response = await http.get<NotificationDTO[]>('/notification/all');
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('getNotifications() error: ' + err);
   }
@@ -66,7 +66,7 @@ async function getNotificationSetting() {
       '/notification/setting',
     );
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('getNotificationSetting() error: ' + err);
   }
@@ -94,7 +94,7 @@ async function getCountOfNotifications() {
       '/notification/total',
     );
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('getCountOfNotifications() error: ' + err);
   }

@@ -50,11 +50,11 @@ export default function useSignIn() {
         kakaoNickname: kakaoResponse.nickname,
       });
 
-      if (!response.result) {
+      if (!response.data) {
         throw new Error('서버 응답 오류');
       }
 
-      const {accessToken, refreshToken} = response.result;
+      const {accessToken, refreshToken} = response.data;
       await setStorage('accessToken', accessToken);
       await setStorage('refreshToken', refreshToken);
 

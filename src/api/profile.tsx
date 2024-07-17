@@ -12,7 +12,7 @@ async function getStudentProfile() {
   try {
     const response = await http.get<Profile>('/student/profile');
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('getProfileStudent() error:', err);
   }
@@ -22,7 +22,7 @@ async function getTeacherProfile() {
   try {
     const response = await http.get<Profile>('/teacher/profile');
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('(): error', err);
   }
@@ -32,7 +32,7 @@ async function updateStudentProfile(studentProfile: Profile) {
   try {
     const response = await http.patch('/student/profile', studentProfile);
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('(): error', err);
   }
@@ -42,7 +42,7 @@ async function updateTeacherProfile(teacherProfile: Profile) {
   try {
     const response = await http.patch('/teacher/profile', teacherProfile);
 
-    return response.result;
+    return response.data;
   } catch (err) {
     console.log('(): error', err);
   }

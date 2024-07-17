@@ -1,6 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
 
-import ResponseDTO from './responseDTO';
 import {NotificationDTO, NotificationSettingDTO} from '../api/notification';
 
 const exampleGetNotifications: NotificationDTO[] = [
@@ -109,38 +108,21 @@ const exampleGetNotificationSetting: NotificationSettingDTO[] = [
 
 export function setupNotificationInMocks(mock: MockAdapter) {
   // [알림] 전체 조회
-  mock
-    .onGet('/notification/all')
-    .reply(
-      200,
-      ResponseDTO(true, 'COMMON200', '성공입니다.', exampleGetNotifications),
-    );
+  mock.onGet('/notification/all').reply(200, exampleGetNotifications);
 
   // [알림] 읽음 처리
-  mock
-    .onPatch(/\/notification\/\d+/)
-    .reply(200, ResponseDTO(true, 'COMMON200', '성공입니다.', null));
+  mock.onPatch(/\/notification\/\d+/).reply(200, null);
 
   // [알림] 개수 조회
-  mock
-    .onGet('/notification/total')
-    .reply(200, ResponseDTO(true, 'COMMON200', '성공입니다', {total: 3}));
+  mock.onGet('/notification/total').reply(200, {total: 3});
 
   // [알림] 설정 조회
-  mock
-    .onGet('/notification/setting')
-    .reply(
-      200,
-      ResponseDTO(
-        true,
-        'COMMON200',
-        '성공입니다.',
-        exampleGetNotificationSetting,
-      ),
-    );
+  mock.onGet('/notification/setting').reply(
+    200,
+
+    exampleGetNotificationSetting,
+  );
 
   // [알림] 설정 변경
-  mock
-    .onPatch(/\/notification\/setting\/d+/)
-    .reply(200, ResponseDTO(true, 'COMMON200', '성공입니다.', null));
+  mock.onPatch(/\/notification\/setting\/d+/).reply(200, null);
 }

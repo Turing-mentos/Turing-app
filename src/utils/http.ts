@@ -9,17 +9,12 @@ import axios, {
 import {getStorage} from './storage';
 import {SERVER_URL} from '@env';
 
-type ResponseCode = string;
-
 /**
- * @type T: 응답 데이터 DTO
+ * @type T: Response data DTO
  * @type D: RequestDTO
  */
 export interface APIResponse<T, D = any> {
-  isSuccess: boolean;
-  code: ResponseCode;
-  message: string;
-  result?: T;
+  data?: T;
   headers: RawAxiosResponseHeaders | AxiosResponseHeaders;
   config: InternalAxiosRequestConfig<D>;
   request?: any;
@@ -47,10 +42,7 @@ axiosInstance.interceptors.request.use(async config => {
 
 function convertToResponseDTO<T>(response: AxiosResponse): APIResponse<T> {
   return {
-    isSuccess: response.data.isSuccess,
-    code: response.data.code,
-    message: response.data.message,
-    result: response.data.result,
+    data: response.data,
     headers: response.headers,
     config: response.config,
     request: response.request,
