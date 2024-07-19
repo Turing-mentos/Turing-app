@@ -12,6 +12,10 @@ const toastConfig = {
   ),
 };
 
+export function showToast(message: string) {
+  ToastLibrary.show({text1: message});
+}
+
 export default function Toast() {
   return <ToastLibrary type="info" config={toastConfig} topOffset={100} />;
 }
