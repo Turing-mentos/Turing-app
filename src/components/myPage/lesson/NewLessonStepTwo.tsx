@@ -1,19 +1,19 @@
-import React, {useRef, useCallback, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import styled from '@emotion/native';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import Toast from 'react-native-toast-message';
+import {format} from 'date-fns';
 
 import SelectBox from '../../common/SelectBox';
 import SelectModal from './SelectModal';
 import Accordion from '../../common/Accordion';
 import LessonTime from './LessonTime';
-import {TextInput} from 'react-native';
+import {Button} from 'react-native';
 import InputNumber from '../../common/InputNumber';
 import DatePickerItem from '../../common/DatePickerItem';
 
 interface NewLessonStepTwoProps {
   studentProfile: any;
-  handleTextChange: (identifier: any, value: string) => any;
+  handleChangeProfile: (identifier: any, value: any) => any;
 }
 
 interface Time {
@@ -61,19 +61,14 @@ const generateInitialDayTimeState = (day: number) => {
 
 export default function NewLessonStepTwo({
   studentProfile,
-  handleTextChange,
+  handleChangeProfile,
 }: NewLessonStepTwoProps) {
   const subjectModalRef = useRef<BottomSheetModal>(null);
-  const handleSubjectModalPress = useCallback(() => {
-    subjectModalRef.current?.present();
-  }, []);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState(
     dayConvert.map((_, idx) => generateInitialDayTimeState(idx)),
   );
-  const [baseSession, setBaseSession] = useState('8');
   const [startDate, setStartDate] = useState(new Date());
-  const [wage, setWage] = useState('0');
 
   const timeConverter = ({hour, minute}: Time) => {
     const meridiem = hour < 12 ? '오전' : '오후';
@@ -83,13 +78,13 @@ export default function NewLessonStepTwo({
     return `${meridiem} ${convertedHour}:${convertedMinute}`;
   };
 
-  const subTitle = selectedDays
+  const subTitle = studentProfile.studyTimes
     .map(v => {
-      const {startTime, endTime} = selectedTime[v];
+      const {startTime, endTime} = v;
 
-      return `(${dayConvert[v]})${timeConverter(startTime)} ~ ${timeConverter(
-        endTime,
-      )}`;
+      return `(${dayConvert[v.day]})${timeConverter(
+        startTime,
+      )} ~ ${timeConverter(endTime)}`;
     })
     .join('\n');
 
@@ -102,6 +97,11 @@ export default function NewLessonStepTwo({
         return prev.concat(day).sort((a, b) => a - b);
       }
     });
+    setSelectedTime(prev =>
+      prev.map(time =>
+        time.day === day ? generateInitialDayTimeState(day) : time,
+      ),
+    );
   };
 
   const handleChangeTime = (day: number, type: 'startTime' | 'endTime') => {
@@ -124,9 +124,16 @@ export default function NewLessonStepTwo({
     setStartDate(new Date(date));
   };
 
-  console.log('baseSession:', baseSession);
-  console.log('startDate:', startDate);
-  console.log('wage:', wage);
+  useEffect(() => {
+    handleChangeProfile(
+      'studyTimes',
+      selectedTime.filter(v => selectedDays.includes(v.day)),
+    );
+  }, [selectedTime, selectedDays, handleChangeProfile]);
+
+  useEffect(() => {
+    handleChangeProfile('startDate', format(startDate, 'yyyy-MM-dd'));
+  }, [startDate, handleChangeProfile]);
 
   return (
     <>
@@ -138,9 +145,11 @@ export default function NewLessonStepTwo({
       <Group>
         <SelectBox
           label="과목"
+          title="과목 선택"
           placeholder="과목 선택"
-          onPress={handleSubjectModalPress}
+          selectOptions={subjects}
           value={studentProfile.subject}
+          onSelect={value => handleChangeProfile('subject', value)}
         />
       </Group>
 
@@ -191,8 +200,8 @@ export default function NewLessonStepTwo({
           <InputContainer>
             <InputNumber
               placeholder="8"
-              value={baseSession}
-              onChangeText={text => setBaseSession(text)}
+              value={studentProfile.baseSession}
+              onChangeText={text => handleChangeProfile('baseSession', text)}
             />
           </InputContainer>
         </InputGroup>
@@ -209,8 +218,8 @@ export default function NewLessonStepTwo({
           <InputContainer>
             <InputNumber
               placeholder="0원"
-              value={wage}
-              onChangeText={text => setWage(text)}
+              value={studentProfile.wage}
+              onChangeText={text => handleChangeProfile('wage', text)}
               formatValue={formatValue}
             />
           </InputContainer>
@@ -219,7 +228,7 @@ export default function NewLessonStepTwo({
 
       <SelectModal
         ref={subjectModalRef}
-        onSelect={value => handleTextChange('subject', value)}
+        onSelect={value => handleChangeProfile('subject', value)}
         selectOptions={subjects}
       />
     </>
