@@ -4118,6 +4118,7 @@ __metadata:
     axios: ^1.7.2
     axios-mock-adapter: ^1.22.0
     babel-jest: ^29.6.3
+    date-fns: ^3.6.0
     eslint: ^8.19.0
     global: ^4.4.0
     jest: ^29.6.3
@@ -4125,15 +4126,18 @@ __metadata:
     react: ^18.3.1
     react-native: ^0.74.2
     react-native-config: ^1.5.2
+    react-native-date-picker: ^5.0.4
     react-native-dotenv: ^3.4.11
     react-native-gesture-handler: ^2.17.1
     react-native-linear-gradient: ^2.8.3
     react-native-reanimated: ^3.14.0
     react-native-safe-area-context: ^4.10.1
     react-native-screens: ^3.31.1
+    react-native-simple-sheet: ^1.0.2
     react-native-svg: ^15.3.0
     react-native-svg-transformer: ^1.4.0
     react-native-swiper: ^1.6.0
+    react-native-toast-message: ^2.2.0
     react-navigate: ^0.6.0
     react-navigation: ^5.0.0
     react-test-renderer: 18.2.0
@@ -5369,6 +5373,13 @@ __metadata:
     es-errors: ^1.3.0
     is-data-view: ^1.0.1
   checksum: 7f0bf8720b7414ca719eedf1846aeec392f2054d7af707c5dc9a753cc77eb8625f067fa901e0b5127e831f9da9056138d894b9c2be79c27a21f6db5824f009c2
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "date-fns@npm:3.6.0"
+  checksum: 0daa1e9a436cf99f9f2ae9232b55e11f3dd46132bee10987164f3eebd29f245b2e066d7d7db40782627411ecf18551d8f4c9fcdf2226e48bb66545407d448ab7
   languageName: node
   linkType: hard
 
@@ -9651,6 +9662,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-date-picker@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "react-native-date-picker@npm:5.0.4"
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+  checksum: 67db7fba5de613c61a70b5b9274daef8c7d3b6f6cdc5a6063eb61126d4df43252c501c2cb78ebda37fb0997ccb0994e949976d0fb395453580019923100e03ad
+  languageName: node
+  linkType: hard
+
 "react-native-dotenv@npm:^3.4.11":
   version: 3.4.11
   resolution: "react-native-dotenv@npm:3.4.11"
@@ -9730,6 +9751,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-simple-sheet@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "react-native-simple-sheet@npm:1.0.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=2.0.0"
+    react-native-reanimated: ">=3.0.0"
+  checksum: 7dcf983ec3e384fd7e4182f6cb5ecae8b628aeffe10fde8bbd1b4e81989cd3b6e6ff8dab33378ad8d918403cab77c045a2955d3cd1493c0f8559787847676778
+  languageName: node
+  linkType: hard
+
 "react-native-svg-transformer@npm:^1.4.0":
   version: 1.4.0
   resolution: "react-native-svg-transformer@npm:1.4.0"
@@ -9764,6 +9797,16 @@ __metadata:
   dependencies:
     prop-types: ^15.5.10
   checksum: 21e7a270dce6d249f718377a8aa2578c9a89b2b076710f6a60dc849ace5b47ade9e071345607947e738c0fdb06b17d9dad6ef99a8f76d7072b13bf3655026225
+  languageName: node
+  linkType: hard
+
+"react-native-toast-message@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "react-native-toast-message@npm:2.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: b286b8d5ca0f21737c2e0a8e9c2d6dab2c06a3895335aa541c69eeb42d526cc6f3951069e59d8d346d3e6cafb8feaa450c35b0efe7c3d51ff81351d1477e71eb
   languageName: node
   linkType: hard
 

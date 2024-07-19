@@ -20,14 +20,14 @@ export default function RadioItem({label, onPress, selected}: RadioItemProps) {
   );
 
   return (
-    <Container onPress={onPress}>
+    <Container $selected={selected} onPress={onPress}>
       <Label>{label}</Label>
       {circle}
     </Container>
   );
 }
 
-const Container = styled.Pressable`
+const Container = styled.Pressable<{$selected: boolean}>`
   padding: 8px 12px;
   width: 165px;
   flex-direction: row;
@@ -35,7 +35,15 @@ const Container = styled.Pressable`
   align-items: center;
 
   border: 1px solid ${props => props.theme.color.grey[200]};
+  border-color: ${props =>
+    props.$selected
+      ? props.theme.color.blue[800]
+      : props.theme.color.grey[200]};
   border-radius: 5px;
+  background-color: ${props =>
+    props.$selected
+      ? props.theme.color.blue[200]
+      : props.theme.color.grey[100]};
 `;
 
 const Label = styled.Text`

@@ -35,3 +35,5 @@ export {default as TabNoticeUnselected} from '../../../../assets/images/tab/tab-
 export {default as TabQuestionUnselected} from '../../../../assets/images/tab/tab-question-unselected.svg';
 export {default as TabReportUnselected} from '../../../../assets/images/tab/tab-report-unselected.svg';
 export {default as TabScheduleUnselected} from '../../../../assets/images/tab/tab-schedule-unselected.svg';
+
+export {default as Information} from '../../../../assets/images/information.svg';
