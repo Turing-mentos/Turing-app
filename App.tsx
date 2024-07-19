@@ -3,6 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
 import {ThemeProvider} from '@emotion/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SimpleSheetProvider} from 'react-native-simple-sheet';
+import Toast from './src/components/common/Toast';
 
 import RootStack from './src/screens/RootStack';
 import {requestUserPermission} from './src/utils/permission';
@@ -19,12 +21,15 @@ export default function App() {
   fetchToken();
 
   return (
-    <GestureHandlerRootView>
-      <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </ThemeProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SimpleSheetProvider>
+        <ThemeProvider theme={theme}>
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+          <Toast />
+        </ThemeProvider>
+      </SimpleSheetProvider>
     </GestureHandlerRootView>
   );
 }

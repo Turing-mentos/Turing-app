@@ -1,5 +1,6 @@
 import {Image, Pressable} from 'react-native';
 import React, {useState} from 'react';
+import {showToast} from './Toast';
 
 import styled from '@emotion/native';
 
@@ -7,6 +8,8 @@ interface AccordionProps {
   title: string;
   subTitle: string;
   children: any;
+  disabled?: boolean;
+  disableMessage?: string;
 }
 
 const ArrowDown = () => (
@@ -17,10 +20,23 @@ const ArrowUp = () => (
   <Image source={require('../../../assets/images/arrow_upward.png')} />
 );
 
-export default function Accordion({title, subTitle, children}: AccordionProps) {
+export default function Accordion({
+  title,
+  subTitle,
+  disabled,
+  disableMessage,
+  children,
+}: AccordionProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleToggle = () => {
+    if (disabled) {
+      if (disableMessage) {
+        showToast(disableMessage);
+      }
+      return;
+    }
+
     setExpanded(prev => !prev);
   };
 
