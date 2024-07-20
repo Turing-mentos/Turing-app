@@ -1,27 +1,53 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
 
 import Lesson from './Lesson';
 import useUserStore from '../../../store/useUserStore';
+import {StudyRoomAPI, StudyRoomSummary} from '../../../api/studyRoom';
 
 export default function LessonInProgressSection() {
   const navigation = useNavigation();
   const user = useUserStore(state => state.user);
+  const [studyRooms, setStudyRooms] = useState<StudyRoomSummary[]>([]);
+
   const buttonText =
     user.role === 'teacher'
       ? '과외 수업 추가하기'
       : '과외 선생님 코드 연결하기';
 
+  useEffect(() => {
+    const fetchStudyRooms = async () => {
+      try {
+        const response = await StudyRoomAPI.getStudyRoomsInProgress();
+        if (response.data) {
+          setStudyRooms(response.data);
+        }
+      } catch (err) {
+        console.log('fetch study room error:', err);
+      }
+    };
+
+    fetchStudyRooms();
+  }, []);
+
   return (
     <Container>
       <TitleGroup>
         <Title>진행 중인 과외</Title>
-        <Count>0건</Count>
+        <Count>{studyRooms.length}건</Count>
       </TitleGroup>
 
       <LessonGroup>
-        <Lesson name="박민영" subject="영어" linkStatus role={user.role} />
+        {studyRooms.map(studyRoom => (
+          <Lesson
+            key={studyRoom.id}
+            name={studyRoom.studentLastName + studyRoom.studentFirstName}
+            subject={studyRoom.subject}
+            linkStatus={studyRoom.linkStatus}
+            role={user.role}
+          />
+        ))}
       </LessonGroup>
 
       <AddButton onPress={() => navigation.navigate('NewLesson')}>
@@ -64,7 +90,9 @@ const Count = styled.Text`
   line-height: 27px; /* 27px */
 `;
 
-const LessonGroup = styled.View``;
+const LessonGroup = styled.View`
+  gap: 8px;
+`;
 
 const AddButton = styled.Pressable`
   padding: 12px 16px;
