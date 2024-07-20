@@ -2,7 +2,6 @@ import React, {ReactNode} from 'react';
 import styled from '@emotion/native';
 
 import theme from '../../../styles/theme';
-import {Image} from 'react-native';
 
 interface StackScreenHeaderProps {
   title?: string;
@@ -50,10 +49,10 @@ const Title = styled.Text`
 
   /* Text/SB18 */
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  line-height: 27px; /* 27px */
+  line-height: 33px; /* 27px */
 `;
 
 const Right = styled.View`
@@ -71,4 +70,5 @@ const RightButton = styled.Pressable`
 const Logo = styled.Image`
   width: 81.497px;
   height: 28px;
+  line-height: 33px;
 `;
