@@ -29,7 +29,6 @@ export default function StudyRoomManagementHeader() {
     setDisconnectModalOpen(false);
   };
 
-  const navigation = useNavigation();
   const route = useRoute();
   const {studyRoomId, subject, name, linkStatus} = route.params;
 

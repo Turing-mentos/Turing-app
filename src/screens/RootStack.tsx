@@ -36,11 +36,18 @@ import PrivacyPolicyScreen from './myPage/PrivacyPolicyScreen';
 // 알림 내부 페이지
 import NotificationMainScreen from './notification/NotificationMainScreen';
 import NotificationSettingScreen from './notification/NotificationSettingScreen';
-import theme from '../styles/theme';
-import Icon from '../components/common/icons/SvgIcon';
 
 // 스크린 헤더들
 import StudyRoomManagementHeader from '../components/myPage/studyRoomManagement/StudyRoomManagementHeader';
+import SignUpHeader from '../components/signUp/SignUpHeader';
+import OnboardingHeader from '../components/onboarding/OnboardingHeader';
+import NotificationHeader from '../components/notification/NotificationHeader';
+import NotificationSettingHeader from '../components/notification/setting/NotificationSettingHeader';
+import MyPageHeader from '../components/myPage/MyPageHeader';
+import NewLessonHeader from '../components/myPage/lesson/NewLessonHeader';
+import UpdateLessonHeader from '../components/myPage/studyRoomManagement/UpdateLessonHeader';
+import ProfileManagementHeader from '../components/myPage/profileManagement/ProfileManagementHeader';
+import AccountHeader from '../components/myPage/account/AccountHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,14 +63,18 @@ export default function RootStack() {
       <Stack.Screen
         name="Onboarding"
         component={OnboardingScreen}
-        // options={{headerShown: false}}
+        options={{header: () => <OnboardingHeader />}}
       />
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="SignUp" component={SingUpScreen} />
+      <Stack.Screen
+        name="SignUp"
+        component={SingUpScreen}
+        options={{header: () => <SignUpHeader />}}
+      />
 
       {/* 메인 탭 */}
       <Stack.Screen
@@ -89,27 +100,43 @@ export default function RootStack() {
       <Stack.Screen name="ReportDetail" component={ReportDetailScreen} />
 
       {/* 마이페이지 관련 페이지*/}
-      <Stack.Screen name="MyPage" component={MyPageMainScreen} />
+      <Stack.Screen
+        name="MyPage"
+        component={MyPageMainScreen}
+        options={{header: () => <MyPageHeader />}}
+      />
       <Stack.Screen
         name="ProfileManagement"
         component={ProfileManagementScreen}
+        options={{header: () => <ProfileManagementHeader />}}
       />
       <Stack.Screen
         name="ProfileManagementUpdate"
         component={ProfileManagementUpdateScreen}
+        options={{header: () => <ProfileManagementHeader />}}
       />
-      <Stack.Screen name="NewLesson" component={NewLessonScreen} />
-      <Stack.Screen name="UpdateLesson" component={UpdateLessonScreen} />
+      <Stack.Screen
+        name="NewLesson"
+        component={NewLessonScreen}
+        options={{header: () => <NewLessonHeader />}}
+      />
+      <Stack.Screen
+        name="UpdateLesson"
+        component={UpdateLessonScreen}
+        options={{header: () => <UpdateLessonHeader />}}
+      />
       <Stack.Screen
         name="StudyRoomManagement"
         component={StudyRoomManagementScreen}
-        options={({navigation, route}) => ({
-          header: () => (
-            <StudyRoomManagementHeader navigation={navigation} route={route} />
-          ),
-        })}
+        options={{
+          header: () => <StudyRoomManagementHeader />,
+        }}
       />
-      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{header: () => <AccountHeader />}}
+      />
       <Stack.Screen name="Review" component={ReviewScreen} />
       <Stack.Screen name="Contact" component={ContactScreen} />
       <Stack.Screen name="TermsOfUse" component={TermsOfUseScreen} />
@@ -119,30 +146,16 @@ export default function RootStack() {
       <Stack.Screen
         name="Notification"
         component={NotificationMainScreen}
-        // options={({navigation}) => ({
-        //   header: () => <Header title="알림" navigation={navigation} />,
-        // })}
-        options={({navigation}) => ({
-          headerLeft: () => <HeaderLeftArrow navigation={navigation} />,
-          headerTitle: '하이',
-          headerTitleStyle: {
-            fontSize: 18,
-            fontFamily: 'Pretendard',
-            fontWeight: 600,
-            lineHeight: 27,
-            color: theme.color.BTN900,
-          },
-          headerRight: () => (
-            <Button
-              title="설정"
-              onPress={() => navigation.push('NotificationSetting')}
-            />
-          ),
-        })}
+        options={{
+          header: () => <NotificationHeader />,
+        }}
       />
       <Stack.Screen
         name="NotificationSetting"
         component={NotificationSettingScreen}
+        options={{
+          header: () => <NotificationSettingHeader />,
+        }}
       />
     </Stack.Navigator>
   );

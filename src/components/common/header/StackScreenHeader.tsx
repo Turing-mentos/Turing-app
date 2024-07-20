@@ -48,6 +48,9 @@ const HeaderContainer = styled.View<{$backgroundColor: string}>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${props => props.theme.color.grey[150]};
 `;
 
 const Left = styled.View`
