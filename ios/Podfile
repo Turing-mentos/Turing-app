@@ -8,6 +8,8 @@ require Pod::Executable.execute_command('node', ['-p',
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
+$KakaoSDKVersion='2.22.0'
+
 use_modular_headers!
 
 linkage = ENV['USE_FRAMEWORKS']
@@ -22,6 +24,7 @@ target 'TuringApp' do
   use_frameworks! :linkage => :static
   $RNFirebaseAsStaticFramework = true
 
+  pod 'KakaoSDK'
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
 

@@ -1132,14 +1132,42 @@ PODS:
     - KakaoSDKCommon (= 2.22.0)
     - KakaoSDKUser (= 2.22.0)
     - React
+  - KakaoSDK (2.22.0):
+    - KakaoSDKAuth (= 2.22.0)
+    - KakaoSDKCert (= 2.22.0)
+    - KakaoSDKCommon (= 2.22.0)
+    - KakaoSDKFriend (= 2.22.0)
+    - KakaoSDKNavi (= 2.22.0)
+    - KakaoSDKShare (= 2.22.0)
+    - KakaoSDKTalk (= 2.22.0)
+    - KakaoSDKTemplate (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
   - KakaoSDKAuth (2.22.0):
     - KakaoSDKCommon (= 2.22.0)
+  - KakaoSDKCert (2.22.0):
+    - KakaoSDKCertCore (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
+  - KakaoSDKCertCore (2.22.0)
   - KakaoSDKCommon (2.22.0):
     - KakaoSDKCommon/Common (= 2.22.0)
     - KakaoSDKCommon/Network (= 2.22.0)
   - KakaoSDKCommon/Common (2.22.0)
   - KakaoSDKCommon/Network (2.22.0):
     - Alamofire (~> 5.9.0)
+    - KakaoSDKCommon/Common (= 2.22.0)
+  - KakaoSDKFriend (2.22.0):
+    - KakaoSDKFriendCore (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
+  - KakaoSDKFriendCore (2.22.0)
+  - KakaoSDKNavi (2.22.0):
+    - KakaoSDKCommon/Common (= 2.22.0)
+  - KakaoSDKShare (2.22.0):
+    - KakaoSDKCommon (= 2.22.0)
+    - KakaoSDKTemplate (= 2.22.0)
+  - KakaoSDKTalk (2.22.0):
+    - KakaoSDKTemplate (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
+  - KakaoSDKTemplate (2.22.0):
     - KakaoSDKCommon/Common (= 2.22.0)
   - KakaoSDKUser (2.22.0):
     - KakaoSDKAuth (= 2.22.0)
@@ -2084,6 +2112,11 @@ PODS:
     - React-Core
   - react-native-date-picker (5.0.4):
     - React-Core
+  - react-native-kakao-share-link (1.0.10):
+    - KakaoSDKCommon (= 2.22.0)
+    - KakaoSDKShare (= 2.22.0)
+    - KakaoSDKTemplate (= 2.22.0)
+    - React-Core
   - react-native-safe-area-context (4.10.1):
     - React-Core
   - React-nativeconfig (0.74.2)
@@ -2320,6 +2353,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.23.1):
     - React-Core
+  - RNCClipboard (1.14.1):
+    - React-Core
   - RNFBApp (20.1.0):
     - Firebase/CoreOnly (= 10.27.0)
     - React-Core
@@ -2408,6 +2443,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
+  - KakaoSDK
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -2436,6 +2472,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-kakao-share-link (from `../node_modules/react-native-kakao-share-link`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -2462,6 +2499,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -2491,8 +2529,17 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - KakaoSDK
     - KakaoSDKAuth
+    - KakaoSDKCert
+    - KakaoSDKCertCore
     - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKFriendCore
+    - KakaoSDKNavi
+    - KakaoSDKShare
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
     - KakaoSDKUser
     - leveldb-library
     - nanopb
@@ -2570,6 +2617,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-kakao-share-link:
+    :path: "../node_modules/react-native-kakao-share-link"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-nativeconfig:
@@ -2622,6 +2671,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -2665,8 +2716,17 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   hermes-engine: 16b8530de1b383cdada1476cf52d1b52f0692cbc
   kakao-login: 6f7a39583ae9e1a4e76240e66ae3ec575d461d1e
+  KakaoSDK: d4108ac4357beafadcdca522d01d6576bdaee2bc
   KakaoSDKAuth: 569b377eda622d93d4575240b8031cd658163eef
+  KakaoSDKCert: 56919a9e72eec3811c48af7444018d9ce44eba18
+  KakaoSDKCertCore: aaae38948d0fb8450bf7d133acd39f9416cd983f
   KakaoSDKCommon: d57127c339fc79e73aa8b236a4c77211c29924f1
+  KakaoSDKFriend: bfd6b017e31a448fa12b3254690a0dc209685d9f
+  KakaoSDKFriendCore: 15335ad820ec06940dbe5be7f920123826234d03
+  KakaoSDKNavi: aa685ec544966e363b7b4af982530e27f2004ab1
+  KakaoSDKShare: cbbe89685ad799709d467845dcc488c115629f5e
+  KakaoSDKTalk: cf2af6650bc7d77aa6cc8dab1bd464f4fda0618d
+  KakaoSDKTemplate: 2b518d4875fb9b3e832d39e957e4e33cb27a9d36
   KakaoSDKUser: 043bcd7e91454ebf3bf64f150c430e6f65f0a08d
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
@@ -2697,6 +2757,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 86703e9e4f6522053568300827b436ccc01e1101
   react-native-config: d7d8a0c65f7fa523197879f6b777997abbfc987e
   react-native-date-picker: 6891317e850deae5b53d51355226e07a495aba61
+  react-native-kakao-share-link: 8117ae2f62b64b1919d85a850521769e8ee7d861
   react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   React-nativeconfig: 5d452e509d6fbedc1522e21b566451fc673ac6b7
   React-NativeModulesApple: 6560431301ffdab8df6212cc8c8eff779396d8e0
@@ -2724,6 +2785,7 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
+  RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNFBApp: 9acbe359ef3559d6f8ca5c350db471f2b352f98a
   RNFBMessaging: b82ef70d252500d3ad104284c0c7f8e1cd22b51e
   RNGestureHandler: 5538c370587d7e757667b9283ca867dd7635f154
@@ -2733,6 +2795,6 @@ SPEC CHECKSUMS:
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 9ad2c02dbd9811bb5a35fe23081cb0f5d5a3f9dd
 
-PODFILE CHECKSUM: 13ca14b5ad1021e0a88f47a1ae38341b56900d55
+PODFILE CHECKSUM: 5cd52fef2a964ffebb2e087e72b4d8b1c5a2ffb9
 
 COCOAPODS: 1.15.2
