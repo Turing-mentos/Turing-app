@@ -74,7 +74,7 @@ const Title = styled.Text`
 `;
 
 const Right = styled.View`
-  width: 24px;
+  min-width: 24px;
   height: 24px;
   justify-content: center;
   align-items: center;
