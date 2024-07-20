@@ -38,6 +38,7 @@ const Container = styled.View`
 `;
 
 const ModalContainer = styled.View`
+  width: 100%;
   padding: 12px 20px 32px 20px;
 
   border-radius: 15px;
