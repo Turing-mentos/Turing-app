@@ -4,31 +4,48 @@ import styled from '@emotion/native';
 interface CommonButtonProps {
   label: string;
   sub?: boolean;
+  disabled?: boolean;
   onPress: (...args: any[]) => any;
 }
 
 export default function Button({
   label,
   sub = false,
+  disabled = false,
   onPress,
 }: CommonButtonProps) {
+  const handlePress = () => {
+    if (!disabled) {
+      onPress();
+    }
+  };
+
   return (
-    <ButtonContainer onPress={onPress} $sub={sub}>
+    <ButtonContainer onPress={handlePress} $sub={sub} $disabled={disabled}>
       <ButtonLabel $sub={sub}>{label}</ButtonLabel>
     </ButtonContainer>
   );
 }
 
-const ButtonContainer = styled.TouchableOpacity<{$sub: boolean}>`
+const ButtonContainer = styled.TouchableOpacity<{
+  $sub: boolean;
+  $disabled: boolean;
+}>`
   flex: 1;
   border-radius: 5px;
   padding: 14px;
+  max-height: 56px;
+  min-height: 56px;
 
   justify-content: center;
   align-items: center;
 
   background-color: ${props =>
-    !props.$sub ? props.theme.color.BTN900 : props.theme.color.grey[200]};
+    !props.$sub
+      ? props.$disabled
+        ? props.theme.color.grey[300]
+        : props.theme.color.BTN900
+      : props.theme.color.grey[200]};
 `;
 
 const ButtonLabel = styled.Text<{$sub: boolean}>`
