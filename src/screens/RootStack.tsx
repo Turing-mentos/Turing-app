@@ -1,8 +1,5 @@
 import React from 'react';
-import {Button, Pressable} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import HeaderLeftArrow from '../components/header/HeaderLeftArrow';
 
 // 회원가입 / 로그인
 import LoadingScreen from './LoadingScreen';
@@ -26,6 +23,7 @@ import ProfileManagementScreen from './myPage/ProfileManagementScreen';
 import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScreen';
 import NewLessonScreen from './myPage/NewLessonScreen';
 import UpdateLessonScreen from './myPage/UpdateLessonScreen';
+import TeacherConnectScreen from './myPage/TeacherConnectScreen';
 import StudyRoomManagementScreen from './myPage/StudyRoomManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
@@ -48,6 +46,7 @@ import NewLessonHeader from '../components/myPage/lesson/NewLessonHeader';
 import UpdateLessonHeader from '../components/myPage/studyRoomManagement/UpdateLessonHeader';
 import ProfileManagementHeader from '../components/myPage/profileManagement/ProfileManagementHeader';
 import AccountHeader from '../components/myPage/account/AccountHeader';
+import TeacherConnectHeader from '../components/myPage/studyRoomManagement/TeacherConnectHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -124,6 +123,11 @@ export default function RootStack() {
         name="UpdateLesson"
         component={UpdateLessonScreen}
         options={{header: () => <UpdateLessonHeader />}}
+      />
+      <Stack.Screen
+        name="TeacherConnect"
+        component={TeacherConnectScreen}
+        options={{header: () => <TeacherConnectHeader />}}
       />
       <Stack.Screen
         name="StudyRoomManagement"

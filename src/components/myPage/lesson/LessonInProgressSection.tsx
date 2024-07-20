@@ -16,6 +16,14 @@ export default function LessonInProgressSection() {
       ? '과외 수업 추가하기'
       : '과외 선생님 코드 연결하기';
 
+  const handleClickButton = () => {
+    if (user.role === 'teacher') {
+      navigation.navigate('NewLesson');
+    } else if (user.role === 'student') {
+      navigation.navigate('TeacherConnect');
+    }
+  };
+
   useEffect(() => {
     const fetchStudyRooms = async () => {
       try {
@@ -51,7 +59,7 @@ export default function LessonInProgressSection() {
         ))}
       </LessonGroup>
 
-      <AddButton onPress={() => navigation.navigate('NewLesson')}>
+      <AddButton onPress={handleClickButton}>
         <AddButtonText>+ &nbsp;&nbsp;{buttonText}</AddButtonText>
       </AddButton>
     </Container>

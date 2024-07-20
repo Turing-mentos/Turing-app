@@ -166,23 +166,27 @@ export default function StudyRoomManagementPage() {
                 <Content>{startDate}</Content>
               </ContentGroup>
 
-              <ContentGroup>
-                <Label>시간당 급여</Label>
-                <Content>{wage}</Content>
-              </ContentGroup>
+              {role === 'teacher' && (
+                <ContentGroup>
+                  <Label>시간당 급여</Label>
+                  <Content>{wage}</Content>
+                </ContentGroup>
+              )}
             </Body>
           </Section>
 
-          <UpdateButton
-            onPress={() =>
-              navigation.navigate('UpdateLesson', {
-                studyRoomDetail,
-                studyRoomId,
-                linkStatus,
-              })
-            }>
-            <UpdateButtonText>수업 편집하기</UpdateButtonText>
-          </UpdateButton>
+          {role === 'teacher' && (
+            <UpdateButton
+              onPress={() =>
+                navigation.navigate('UpdateLesson', {
+                  studyRoomDetail,
+                  studyRoomId,
+                  linkStatus,
+                })
+              }>
+              <UpdateButtonText>수업 편집하기</UpdateButtonText>
+            </UpdateButton>
+          )}
 
           <Section>
             <ContentGroup>
@@ -210,6 +214,7 @@ export default function StudyRoomManagementPage() {
 const Container = styled.View`
   flex: 1;
   padding: 20px;
+  gap: 20px;
 
   background-color: ${props => props.theme.color.BG100};
 `;
@@ -292,8 +297,7 @@ const UpdateButton = styled.Pressable`
   align-self: flex-start;
   margin: 0 auto;
   padding: 8px 20px;
-  margin-top: 12px;
-  margin-bottom: 20px;
+  margin-top: -8px;
 
   border-radius: 50px;
   background-color: ${props => props.theme.color.grey[100]};
