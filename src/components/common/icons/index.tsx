@@ -44,3 +44,6 @@ export {default as Kebab} from '../../../../assets/images/kebab.svg';
 export {default as Close} from '../../../../assets/images/close.svg';
 export {default as WarningInformation} from '../../../../assets/images/warning-information.svg';
 export {default as Setting} from '../../../../assets/images/setting.svg';
+
+export {default as HomeProfile} from '../../../../assets/images/home-header-profile.svg';
+export {default as HomeAlarm} from '../../../../assets/images/home-header-alarm.svg';

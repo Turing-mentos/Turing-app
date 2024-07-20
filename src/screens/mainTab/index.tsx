@@ -11,6 +11,8 @@ import NoticeMainScreen from './notice/NoticeMainScreen';
 import ReportMainScreen from './report/ReportMainScreen';
 import Icon from '../../components/common/icons/SvgIcon';
 
+import HomeHeader from '../../components/home/HomeHeader';
+
 const Tab = createBottomTabNavigator();
 
 const RightHeader = () => {
@@ -96,9 +98,9 @@ export default function MainTab() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({route}) => ({
-        headerRight: RightHeader,
-      })}
+      // screenOptions={({route}) => ({
+      //   headerRight: RightHeader,
+      // })}
       tabBar={props => <CustomTabBar {...props} />}>
       <Tab.Screen
         name="Schedule"
@@ -113,7 +115,7 @@ export default function MainTab() {
       <Tab.Screen
         name="Home"
         component={HomeMainScreen}
-        options={{tabBarLabel: 'HOME'}}
+        options={{tabBarLabel: 'HOME', header: () => <HomeHeader />}}
       />
       <Tab.Screen
         name="Notice"
