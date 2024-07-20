@@ -1,23 +1,40 @@
 import {Image} from 'react-native';
 import React from 'react';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
 import LinkStatus from './LinkStatus';
 import {Role} from '../../../store/useUserStore';
 
 interface LessonProps {
+  studyRoomId: number;
   name: string;
   subject: string;
   linkStatus: boolean;
   role: Role;
 }
 
-export default function Lesson({name, subject, linkStatus, role}: LessonProps) {
+export default function Lesson({
+  studyRoomId,
+  name,
+  subject,
+  linkStatus,
+  role,
+}: LessonProps) {
+  const navigation = useNavigation();
   const title =
     role === 'teacher' ? `${name} | ${subject}` : `${subject} | ${name}T`;
 
   return (
-    <LinkBox>
+    <LinkBox
+      onPress={() => {
+        navigation.navigate('StudyRoomManagement', {
+          studyRoomId,
+          linkStatus,
+          name,
+          subject,
+        });
+      }}>
       <Group>
         <Title>{title}</Title>
         <LinkStatus status={linkStatus} role={role} />
@@ -30,7 +47,7 @@ export default function Lesson({name, subject, linkStatus, role}: LessonProps) {
   );
 }
 
-const LinkBox = styled.View`
+const LinkBox = styled.Pressable`
   padding: 12px 16px;
   flex-direction: row;
   justify-content: space-between;

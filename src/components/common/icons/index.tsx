@@ -37,3 +37,10 @@ export {default as TabReportUnselected} from '../../../../assets/images/tab/tab-
 export {default as TabScheduleUnselected} from '../../../../assets/images/tab/tab-schedule-unselected.svg';
 
 export {default as Information} from '../../../../assets/images/information.svg';
+export {default as ArrowRightWhite} from '../../../../assets/images/arrow-rightward-white.svg';
+export {default as ArrowLeft} from '../../../../assets/images/arrow-leftward.svg';
+export {default as Kebab} from '../../../../assets/images/kebab.svg';
+
+export {default as Close} from '../../../../assets/images/close.svg';
+export {default as WarningInformation} from '../../../../assets/images/warning-information.svg';
+export {default as Setting} from '../../../../assets/images/setting.svg';

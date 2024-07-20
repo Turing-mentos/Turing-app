@@ -1,6 +1,5 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import Button from '../../../components/buttons/Button';
 import DefaultButton from '../../../components/buttons/DefaultButton';
 import NavigateBox from '../../../components/box/NaviagateBox';
 import ProgressBar from '../../../components/progressbar/ProgressBar';

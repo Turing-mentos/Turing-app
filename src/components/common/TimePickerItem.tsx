@@ -18,7 +18,7 @@ export default function TimePickerItem({onSelect}: TimePickerProps) {
   const onConfirm = (date: Date) => {
     setOpen(false);
     setTime(date);
-    onSelect(time.getHours(), time.getMinutes());
+    onSelect(date.getHours(), date.getMinutes());
   };
 
   return (

@@ -1,17 +1,12 @@
-import React, {useRef, useCallback} from 'react';
-import {View, Text} from 'react-native';
+import React from 'react';
 import styled from '@emotion/native';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {useSimpleSheet, SimpleSheet} from 'react-native-simple-sheet';
-
-import SelectModal from './SelectModal';
 import InputText from '../../common/InputText';
 import InputBox from '../../common/InputBox';
 import SelectBox from '../../common/SelectBox';
 
 interface NewLessonStepOneProps {
   studentProfile: any;
-  handleTextChange: (identifier: any, value: string) => any;
+  handleChangeProfile: (identifier: any, value: any) => any;
 }
 
 const grades = [
@@ -32,28 +27,10 @@ const grades = [
 
 export default function NewLessonStepOne({
   studentProfile,
-  handleTextChange,
+  handleChangeProfile,
 }: NewLessonStepOneProps) {
-  const gradeModalRef = useRef<BottomSheetModal>(null);
-  const handleGradeModalPress = useCallback(() => {
-    gradeModalRef.current?.present();
-  }, []);
-  const sheet = useSimpleSheet();
-
   return (
     <>
-      <Button
-        title="Open Sheet"
-        onPress={() =>
-          sheet.open(props => (
-            <SimpleSheet {...props}>
-              <View style={{height: 500}}>
-                <Text>test</Text>
-              </View>
-            </SimpleSheet>
-          ))
-        }
-      />
       <TitleContainer>
         <Title>학생 프로필</Title>
         <TitleStep>(1/2)</TitleStep>
@@ -65,12 +42,12 @@ export default function NewLessonStepOne({
         <InputText
           placeholder="성"
           value={studentProfile.lastName}
-          onChangeText={value => handleTextChange('lastName', value)}
+          onChangeText={value => handleChangeProfile('lastName', value)}
         />
         <InputText
           placeholder="이름"
           value={studentProfile.firstName}
-          onChangeText={value => handleTextChange('firstName', value)}
+          onChangeText={value => handleChangeProfile('firstName', value)}
         />
       </Section>
 
@@ -79,23 +56,19 @@ export default function NewLessonStepOne({
 
         <SelectBox
           label="학년"
+          title="학년 선택"
           placeholder="학년 선택"
-          onPress={handleGradeModalPress}
+          selectOptions={grades}
           value={studentProfile.grade}
+          onSelect={value => handleChangeProfile('grade', value)}
         />
         <InputBox
           label="학교명"
           placeholder="ex. 튜링고, 튜링중"
-          onChangeText={value => handleTextChange('schoolName', value)}
+          onChangeText={value => handleChangeProfile('schoolName', value)}
           value={studentProfile.schoolName}
         />
       </Section>
-
-      <SelectModal
-        ref={gradeModalRef}
-        onSelect={value => handleTextChange('grade', value)}
-        selectOptions={grades}
-      />
     </>
   );
 }
@@ -142,5 +115,3 @@ const Section = styled.View`
   margin-top: 24px;
   gap: 8px;
 `;
-
-const Button = styled.Button``;
