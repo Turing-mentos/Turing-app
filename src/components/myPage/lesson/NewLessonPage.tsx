@@ -60,7 +60,7 @@ export default function NewLessonPage() {
         startDate: studentProfile.startDate,
       });
 
-      navigation.navigate('MyPage');
+      navigation.navigate('MyPage', {key: Math.random()});
     } catch (err) {
       console.log('addStudyRoom() err:', err);
     }

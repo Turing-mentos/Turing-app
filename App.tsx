@@ -27,8 +27,8 @@ export default function App() {
           <NavigationContainer>
             <RootStack />
           </NavigationContainer>
-          <Toast />
         </SimpleSheetProvider>
+        <Toast />
       </ThemeProvider>
     </GestureHandlerRootView>
   );

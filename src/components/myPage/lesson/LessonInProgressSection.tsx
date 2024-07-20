@@ -42,6 +42,7 @@ export default function LessonInProgressSection() {
         {studyRooms.map(studyRoom => (
           <Lesson
             key={studyRoom.id}
+            studyRoomId={studyRoom.id}
             name={studyRoom.studentLastName + studyRoom.studentFirstName}
             subject={studyRoom.subject}
             linkStatus={studyRoom.linkStatus}

@@ -1,6 +1,6 @@
 import http from '../utils/http';
 
-interface StudyRoomSummary {
+export interface StudyRoomSummary {
   id: number;
   studentFirstName: string;
   studentLastName: string;
@@ -33,7 +33,7 @@ interface StudyRoom {
   startDate: string;
 }
 
-interface StudyRoomDetail {
+export interface StudyRoomDetail {
   studentFirstName: string;
   studentLastName: string;
   subject: string;
@@ -53,7 +53,7 @@ interface UpdateStudyRoomRequest {
   subject: string;
   studyTimes: StudyTime[];
   baseSession: number;
-  startDate: string;
+  wage: number;
 }
 
 /**

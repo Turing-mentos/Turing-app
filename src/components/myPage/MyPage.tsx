@@ -7,6 +7,8 @@ import AppManagementSection from './AppManagementSection';
 import SupportCustomerSection from './SupportCustomerSection';
 
 export default function MyPage() {
+  console.log('myPage');
+
   return (
     <Container>
       <ProfileManagementSection />

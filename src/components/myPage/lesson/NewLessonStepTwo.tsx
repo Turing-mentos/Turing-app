@@ -1,13 +1,10 @@
 import React, {useRef, useState, useEffect} from 'react';
 import styled from '@emotion/native';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {format} from 'date-fns';
 
 import SelectBox from '../../common/SelectBox';
-import SelectModal from './SelectModal';
 import Accordion from '../../common/Accordion';
 import LessonTime from './LessonTime';
-import {Button} from 'react-native';
 import InputNumber from '../../common/InputNumber';
 import DatePickerItem from '../../common/DatePickerItem';
 
@@ -63,7 +60,6 @@ export default function NewLessonStepTwo({
   studentProfile,
   handleChangeProfile,
 }: NewLessonStepTwoProps) {
-  const subjectModalRef = useRef<BottomSheetModal>(null);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState(
     dayConvert.map((_, idx) => generateInitialDayTimeState(idx)),
@@ -225,12 +221,6 @@ export default function NewLessonStepTwo({
           </InputContainer>
         </InputGroup>
       </Group>
-
-      <SelectModal
-        ref={subjectModalRef}
-        onSelect={value => handleChangeProfile('subject', value)}
-        selectOptions={subjects}
-      />
     </>
   );
 }

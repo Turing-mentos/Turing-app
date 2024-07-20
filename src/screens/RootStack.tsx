@@ -25,7 +25,8 @@ import MyPageMainScreen from './myPage/MyPageMainScreen';
 import ProfileManagementScreen from './myPage/ProfileManagementScreen';
 import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScreen';
 import NewLessonScreen from './myPage/NewLessonScreen';
-import StudentManagementScreen from './myPage/StudentManagementScreen';
+import UpdateLessonScreen from './myPage/UpdateLessonScreen';
+import StudyRoomManagementScreen from './myPage/StudyRoomManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
 import ContactScreen from './myPage/ContactScreen';
@@ -37,6 +38,9 @@ import NotificationMainScreen from './notification/NotificationMainScreen';
 import NotificationSettingScreen from './notification/NotificationSettingScreen';
 import theme from '../styles/theme';
 import Icon from '../components/common/icons/SvgIcon';
+
+// 스크린 헤더들
+import StudyRoomManagementHeader from '../components/myPage/studyRoomManagement/StudyRoomManagementHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -95,9 +99,15 @@ export default function RootStack() {
         component={ProfileManagementUpdateScreen}
       />
       <Stack.Screen name="NewLesson" component={NewLessonScreen} />
+      <Stack.Screen name="UpdateLesson" component={UpdateLessonScreen} />
       <Stack.Screen
-        name="StudentManagement"
-        component={StudentManagementScreen}
+        name="StudyRoomManagement"
+        component={StudyRoomManagementScreen}
+        options={({navigation, route}) => ({
+          header: () => (
+            <StudyRoomManagementHeader navigation={navigation} route={route} />
+          ),
+        })}
       />
       <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="Review" component={ReviewScreen} />
