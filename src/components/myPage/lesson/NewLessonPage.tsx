@@ -1,13 +1,15 @@
 import React, {useState, useCallback} from 'react';
 import styled from '@emotion/native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {useNavigation} from '@react-navigation/native';
 
 import DefaultButton from '../../buttons/DefaultButton';
-
 import NewLessonStepOne from './NewLessonStepOne';
 import NewLessonStepTwo from './NewLessonStepTwo';
+import {StudyRoomAPI} from '../../../api/studyRoom';
 
 export default function NewLessonPage() {
+  const navigation = useNavigation();
   const [step, setStep] = useState(0);
   const [studentProfile, setStudentProfile] = useState({
     firstName: '',
@@ -44,8 +46,24 @@ export default function NewLessonPage() {
     }
   };
 
-  const handleSubmit = () => {
-    console.log('student profile:', studentProfile);
+  const handleSubmit = async () => {
+    try {
+      await StudyRoomAPI.addStudyRoom({
+        studentFirstName: studentProfile.firstName,
+        studentLastName: studentProfile.lastName,
+        studentSchool: studentProfile.schoolName,
+        studentYear: studentProfile.grade,
+        subject: studentProfile.subject,
+        baseSession: +studentProfile.baseSession,
+        wage: +studentProfile.wage,
+        studyTimes: studentProfile.studyTimes,
+        startDate: studentProfile.startDate,
+      });
+
+      navigation.navigate('MyPage');
+    } catch (err) {
+      console.log('addStudyRoom() err:', err);
+    }
   };
 
   const goNext = () => {
