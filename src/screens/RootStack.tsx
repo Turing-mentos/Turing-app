@@ -24,6 +24,7 @@ import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScree
 import NewLessonScreen from './myPage/NewLessonScreen';
 import UpdateLessonScreen from './myPage/UpdateLessonScreen';
 import TeacherConnectScreen from './myPage/TeacherConnectScreen';
+import TeacherConnectInfoScreen from './myPage/TeacherConnectInfoScreen';
 import StudyRoomManagementScreen from './myPage/StudyRoomManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
@@ -127,6 +128,11 @@ export default function RootStack() {
       <Stack.Screen
         name="TeacherConnect"
         component={TeacherConnectScreen}
+        options={{header: () => <TeacherConnectHeader />}}
+      />
+      <Stack.Screen
+        name="TeacherConnectInfo"
+        component={TeacherConnectInfoScreen}
         options={{header: () => <TeacherConnectHeader />}}
       />
       <Stack.Screen

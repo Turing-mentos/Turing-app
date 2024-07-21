@@ -56,6 +56,12 @@ interface UpdateStudyRoomRequest {
   wage: number;
 }
 
+interface TeacherInfo {
+  subject: string;
+  teacherFirstName: string;
+  teacherLastName: string;
+}
+
 /**
  * 진행중인 수업 조회(+연결 여부)
  * @returns
@@ -143,6 +149,18 @@ async function connectStudyRoom(code: number) {
   return response;
 }
 
+/**
+ * 연결할 선생님 조회
+ * @param code
+ * @returns
+ */
+async function getTeacherInfo(code: number) {
+  const response = await http.get<TeacherInfo>(
+    `/study-rooms/before-connect?code=${code}`,
+  );
+  return response;
+}
+
 export const StudyRoomAPI = {
   getStudyRoomsInProgress,
   addStudyRoom,
@@ -152,4 +170,5 @@ export const StudyRoomAPI = {
   generateStudyRoomCode,
   disconnectStudyRoom,
   connectStudyRoom,
+  getTeacherInfo,
 };

@@ -118,4 +118,11 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
 
   // 선생님-학생 연결
   mock.onPatch('/study-rooms/connect?code=654321').reply(200, null);
+
+  // 연결할 선생님 조회
+  mock.onGet('/study-rooms/before-connect?code=654321').reply(200, {
+    subject: '국어',
+    teacherFirstName: '성우',
+    teacherLastName: '조',
+  });
 }

@@ -7,11 +7,13 @@ import {
   Keyboard,
 } from 'react-native';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
 import Button from '../../common/Button';
 import {SimpleSheet, useSimpleSheet} from 'react-native-simple-sheet';
 
 export default function TeacherConnectPage() {
+  const navigation = useNavigation();
   const sheet = useSimpleSheet();
   const [focusedIndex, setFocusedIndex] = useState<number>();
   const [inputValues, setInputValues] = useState<string[]>(Array(6).fill(''));
@@ -34,10 +36,9 @@ export default function TeacherConnectPage() {
     sheet.open(props => <SimpleSheet {...props}>{HelpContent}</SimpleSheet>);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const code = inputValues.join('');
-    console.log('Entered code:', code);
-    // Handle submit logic here
+    navigation.navigate('TeacherConnectInfo', {code});
   };
 
   const handleChangeText = (text: string, index: number) => {
