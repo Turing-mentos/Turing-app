@@ -16,6 +16,7 @@ export default function StepSix() {
     chatSteps,
     handleNextChatStep,
     handleNextReportStep,
+    handleReset,
   } = useContext(ReportContext);
   const {lastName} = useUserStore(state => state.user);
 
@@ -90,7 +91,7 @@ export default function StepSix() {
       {chatSteps[5] >= 2 && (
         <>
           <NewContainer colors={['#9708CC', '#287EFF']} useAngle angle={75}>
-            <NewButton>
+            <NewButton onPress={handleReset}>
               <Icon name="PlusButton" />
               <NewText>새로 만들기</NewText>
             </NewButton>

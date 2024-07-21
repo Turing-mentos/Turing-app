@@ -7,6 +7,8 @@ import React, {
   useEffect,
 } from 'react';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
+import {CommonActions} from '@react-navigation/native';
 
 import KeyboardAvoid from '../common/KeyboardAvoid';
 
@@ -20,6 +22,7 @@ import StepFive from './chatStep/StepFive';
 import StepSix from './chatStep/StepSix';
 
 export const ReportContext = createContext({
+  handleReset: () => {},
   handleNextReportStep: () => {},
   handleChangeReportRequest: (identifier, data) => {},
   handleAddInputValue: addText => {},
@@ -73,7 +76,17 @@ export default function ReportPage() {
     totalSession: 0,
   });
 
+  const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const handleReset = useCallback(() => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Report'}],
+      }),
+    );
+  }, [navigation]);
 
   const handleNextChatStep = useCallback(
     (chatIndex: number, target: number) => {
@@ -158,6 +171,7 @@ export default function ReportPage() {
         reportRequest,
         chatSteps,
         handleNextChatStep,
+        handleReset,
       }}>
       <Container>
         <ProgressStatus>

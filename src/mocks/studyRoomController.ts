@@ -70,8 +70,8 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
     totalBaseSession: 32,
   });
   mock.onGet('/study-rooms/1').reply(200, {
-    studentFirstName: '희재',
-    studentLastName: '이',
+    opponentFirstName: '희재',
+    opponentLastName: '이',
     subject: '영어',
     studentSchool: '튜링고',
     studentYear: '고2',
