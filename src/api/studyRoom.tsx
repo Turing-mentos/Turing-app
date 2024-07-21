@@ -2,8 +2,8 @@ import http from '../utils/http';
 
 export interface StudyRoomSummary {
   id: number;
-  studentFirstName: string;
-  studentLastName: string;
+  opponentFirstName: string;
+  opponentLastName: string;
   subject: string;
   linkStatus: boolean;
 }
@@ -34,8 +34,8 @@ interface StudyRoom {
 }
 
 export interface StudyRoomDetail {
-  studentFirstName: string;
-  studentLastName: string;
+  opponentFirstName: string;
+  opponentLastName: string;
   subject: string;
   studentSchool: string;
   studentYear: string;

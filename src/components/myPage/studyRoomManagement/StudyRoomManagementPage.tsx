@@ -38,7 +38,11 @@ export default function StudyRoomManagementPage() {
   const route = useRoute();
   const {studyRoomId, linkStatus} = route.params;
 
-  const title = `${studyRoomDetail?.studentLastName}${studyRoomDetail?.studentFirstName} | ${studyRoomDetail?.subject}`;
+  const name = `${studyRoomDetail?.opponentLastName}${studyRoomDetail?.opponentFirstName}`;
+  const title =
+    role === 'teacher'
+      ? `${name} | ${studyRoomDetail?.subject}`
+      : `${studyRoomDetail?.subject} | ${name}T`;
   const schoolInfo = `${studyRoomDetail?.studentSchool} ${studyRoomDetail?.studentYear}`;
   const day = studyRoomDetail?.studyTimes
     .map(studyTime => convertDay[studyTime.day])
@@ -81,8 +85,8 @@ export default function StudyRoomManagementPage() {
         <SimpleSheetContainer title="학생 계정 연결" close={props.close}>
           <StudyRoomConnectContent
             studentName={
-              studyRoomDetail?.studentLastName +
-              studyRoomDetail?.studentFirstName
+              studyRoomDetail?.opponentLastName +
+              studyRoomDetail?.opponentFirstName
             }
             code={code}
           />
@@ -138,7 +142,7 @@ export default function StudyRoomManagementPage() {
             <Header>
               <TitleGroup>
                 <Title>{title}</Title>
-                <Grade>{schoolInfo}</Grade>
+                {role === 'teacher' && <Grade>{schoolInfo}</Grade>}
               </TitleGroup>
               <LinkStatus role={role} status={linkStatus} />
             </Header>

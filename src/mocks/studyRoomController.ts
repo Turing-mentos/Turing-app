@@ -5,15 +5,15 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
   mock.onGet('/study-rooms').reply(200, [
     {
       id: 0,
-      studentFirstName: '민영',
-      studentLastName: '박',
+      opponentFirstName: '민영',
+      opponentLastName: '박',
       subject: '국어',
       linkStatus: true,
     },
     {
       id: 1,
-      studentFirstName: '희재',
-      studentLastName: '이',
+      opponentFirstName: '희재',
+      opponentLastName: '이',
       subject: '수학',
       linkStatus: false,
     },
@@ -24,8 +24,8 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
 
   // 진행중인 수업 상세 조회
   mock.onGet('/study-rooms/0').reply(200, {
-    studentFirstName: '민영',
-    studentLastName: '박',
+    opponentFirstName: '민영',
+    opponentLastName: '박',
     subject: '국어',
     studentSchool: '튜링고',
     studentYear: '고3',
