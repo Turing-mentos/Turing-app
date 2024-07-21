@@ -1,7 +1,5 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, TouchableOpacity, Text} from 'react-native';
 import styled from '@emotion/native';
 
 import HomeMainScreen from './home/HomeMainScreen';
@@ -12,23 +10,9 @@ import ReportMainScreen from './report/ReportMainScreen';
 import Icon from '../../components/common/icons/SvgIcon';
 
 import HomeHeader from '../../components/home/HomeHeader';
+import ReportHeader from '../../components/report/ReportHeader';
 
 const Tab = createBottomTabNavigator();
-
-const RightHeader = () => {
-  const navigation = useNavigation();
-
-  return (
-    <View style={{flexDirection: 'row', gap: 10, marginRight: 10}}>
-      <TouchableOpacity onPress={() => navigation.navigate('MyPage')}>
-        <Text>마이 페이지</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
-        <Text>알림</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 const iconName = {
   Schedule: 'TabSchedule',
@@ -98,9 +82,6 @@ export default function MainTab() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      // screenOptions={({route}) => ({
-      //   headerRight: RightHeader,
-      // })}
       tabBar={props => <CustomTabBar {...props} />}>
       <Tab.Screen
         name="Schedule"
@@ -125,7 +106,7 @@ export default function MainTab() {
       <Tab.Screen
         name="Report"
         component={ReportMainScreen}
-        options={{tabBarLabel: '리포트'}}
+        options={{tabBarLabel: '리포트', header: () => <ReportHeader />}}
       />
     </Tab.Navigator>
   );
@@ -136,6 +117,7 @@ const TabBarContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: ${props => props.theme.color.grey[100]};
   border-top: 1px solid ${props => props.theme.color.grey[200]};
   border-top-width: 1px;
   border-top-style: solid;
