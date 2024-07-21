@@ -1,6 +1,6 @@
 import http from '../utils/http';
 
-interface CreateReportRequest {
+export interface CreateReportRequest {
   studentId: number;
   name: string;
   subject: string;
@@ -10,17 +10,17 @@ interface CreateReportRequest {
   pay: boolean;
 }
 
-interface CreateReportResponse {
+export interface CreateReportResponse {
   reportId: number;
 }
 
-interface UpdateReportRequest {
+export interface UpdateReportRequest {
   reportId: number;
   paragraphNum: number;
   content: string;
 }
 
-interface ReportDetail {
+export interface ReportDetail {
   reportId: number;
   opening: string;
   studyProgress: string;
@@ -31,7 +31,7 @@ interface ReportDetail {
   updatedAt: string;
 }
 
-interface ReportSummary {
+export interface ReportSummary {
   session: number;
   reportId: number;
   firstName: string;
@@ -39,6 +39,15 @@ interface ReportSummary {
   subject: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface StudentInfo {
+  studentId: number;
+  subject: string;
+  firstName: string;
+  lastName: string;
+  currentSession: number;
+  totalSession: number;
 }
 
 /**
@@ -90,10 +99,20 @@ async function checkExistStudyRoom() {
   return await http.get<boolean>('/report/check');
 }
 
+/**
+ * 리포트 최초 진입 시 학생 정보 불러오기
+ *
+ * @returns
+ */
+async function getStudentsInfo() {
+  return await http.get<StudentInfo[]>('/report/init');
+}
+
 export const ReportAPI = {
   createReport,
   updateReport,
   getReportDetail,
   getReportSummaryAll,
   checkExistStudyRoom,
+  getStudentsInfo,
 };

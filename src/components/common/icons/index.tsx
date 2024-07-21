@@ -47,3 +47,8 @@ export {default as Setting} from '../../../../assets/images/setting.svg';
 
 export {default as HomeProfile} from '../../../../assets/images/home-header-profile.svg';
 export {default as HomeAlarm} from '../../../../assets/images/home-header-alarm.svg';
+
+export {default as Cross} from '../../../../assets/images/report/cross.svg';
+export {default as InputEnter} from '../../../../assets/images/report/input-enter.svg';
+export {default as InputEnterDisabled} from '../../../../assets/images/report/input-enter-disabled.svg';
+export {default as PlusButton} from '../../../../assets/images/report/plus.svg';

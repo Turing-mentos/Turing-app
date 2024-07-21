@@ -36,7 +36,7 @@ export function setupReportInMocks(mock: MockAdapter) {
     },
     {
       session: 4,
-      reportId: 0,
+      reportId: 1,
       firstName: '희재',
       lastName: '이',
       subject: '국어',
@@ -47,4 +47,24 @@ export function setupReportInMocks(mock: MockAdapter) {
 
   // 리포트 최초 진입 시 과외 정보 여부 확인
   mock.onGet('/report/check').reply(200, true);
+
+  // 리포트 최초 진입 시 학생들 정보 불러오기
+  mock.onGet('/report/init').reply(200, [
+    {
+      studentId: 1,
+      subject: '수학',
+      firstName: '이현',
+      lastName: '신',
+      currentSession: 5,
+      totalSession: 8,
+    },
+    {
+      studentId: 2,
+      subject: '과학',
+      firstName: '범준',
+      lastName: '김',
+      currentSession: 10,
+      totalSession: 10,
+    },
+  ]);
 }

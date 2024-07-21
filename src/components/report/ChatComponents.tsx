@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import styled from '@emotion/native';
 import {Animated} from 'react-native';
 import Indicator from './Indicator';
@@ -18,8 +18,8 @@ export const ChatBox = ({
   children: any;
   loading?: boolean;
 }) => {
-  const translateY = new Animated.Value(30);
-  const opacity = new Animated.Value(0);
+  const translateY = useMemo(() => new Animated.Value(30), []);
+  const opacity = useMemo(() => new Animated.Value(0), []);
 
   useEffect(() => {
     Animated.parallel([
@@ -33,7 +33,7 @@ export const ChatBox = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [opacity, translateY]);
 
   return (
     <AnimatedChatBoxStyled style={{transform: [{translateY}], opacity}}>
@@ -52,8 +52,8 @@ const AnimatedMyChatBox = Animated.createAnimatedComponent(styled.View`
 `);
 
 export const MyChatBox = ({children}: {children: any}) => {
-  const translateY = new Animated.Value(30);
-  const opacity = new Animated.Value(0);
+  const translateY = useMemo(() => new Animated.Value(30), []);
+  const opacity = useMemo(() => new Animated.Value(0), []);
 
   useEffect(() => {
     Animated.parallel([
@@ -67,7 +67,7 @@ export const MyChatBox = ({children}: {children: any}) => {
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [translateY, opacity]);
 
   return (
     <AnimatedMyChatBox style={{transform: [{translateY}], opacity}}>
