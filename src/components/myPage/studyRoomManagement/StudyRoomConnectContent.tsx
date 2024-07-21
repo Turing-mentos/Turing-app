@@ -9,7 +9,7 @@ export default function StudyRoomConnectContent({studentName, code}) {
   const handleCopy = () => {
     try {
       Clipboard.setString(code + '');
-      showToast('복사가 완료되었습니다!');
+      showToast('복사가 완료되었습니다!', 'complete');
     } catch (err) {
       showToast('복사에 실패했습니다!');
     }

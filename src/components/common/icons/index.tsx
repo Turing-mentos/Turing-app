@@ -52,3 +52,8 @@ export {default as Cross} from '../../../../assets/images/report/cross.svg';
 export {default as InputEnter} from '../../../../assets/images/report/input-enter.svg';
 export {default as InputEnterDisabled} from '../../../../assets/images/report/input-enter-disabled.svg';
 export {default as PlusButton} from '../../../../assets/images/report/plus.svg';
+export {default as ReportCalendar} from '../../../../assets/images/report/calendar.svg';
+export {default as Copy} from '../../../../assets/images/report/copy.svg';
+export {default as BlueCheck} from '../../../../assets/images/blue-check.svg';
+export {default as InformationBlack} from '../../../../assets/images/information-black.svg';
+export {default as ArrowDownwardWhite} from '../../../../assets/images/arrow-downward-white.svg';

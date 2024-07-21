@@ -16,6 +16,8 @@ import ReschedulingRequestScreen from './mainTab/schedule/ReschedulingRequestScr
 import QuestionDetailScreen from './mainTab/question/QuestionDetailScreen';
 import NoticeWriteScreen from './mainTab/notice/NoticeWriteScreen';
 import ReportDetailScreen from './mainTab/report/ReportDetailScreen';
+import ReportHelpScreen from './mainTab/report/ReportHelpScreen';
+import PrevReportScreen from './mainTab/report/PrevReportScreen';
 
 // 마이페이지 내부 페이지
 import MyPageMainScreen from './myPage/MyPageMainScreen';
@@ -48,6 +50,9 @@ import UpdateLessonHeader from '../components/myPage/studyRoomManagement/UpdateL
 import ProfileManagementHeader from '../components/myPage/profileManagement/ProfileManagementHeader';
 import AccountHeader from '../components/myPage/account/AccountHeader';
 import TeacherConnectHeader from '../components/myPage/studyRoomManagement/TeacherConnectHeader';
+import ReportDetailHeader from '../components/report/detail/ReportDetailHeader';
+import ReportHelpHeader from '../components/report/detail/ReportHelpHeader';
+import PrevReportHeader from '../components/report/detail/PrevReportHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -97,7 +102,21 @@ export default function RootStack() {
       <Stack.Screen name="NoticeWrite" component={NoticeWriteScreen} />
 
       {/* 리포트 관련 페이지 */}
-      <Stack.Screen name="ReportDetail" component={ReportDetailScreen} />
+      <Stack.Screen
+        name="ReportDetail"
+        component={ReportDetailScreen}
+        options={{header: () => <ReportDetailHeader />}}
+      />
+      <Stack.Screen
+        name="ReportHelp"
+        component={ReportHelpScreen}
+        options={{header: () => <ReportHelpHeader />}}
+      />
+      <Stack.Screen
+        name="PrevReport"
+        component={PrevReportScreen}
+        options={{header: () => <PrevReportHeader />}}
+      />
 
       {/* 마이페이지 관련 페이지*/}
       <Stack.Screen

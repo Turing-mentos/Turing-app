@@ -1,6 +1,7 @@
 import React, {useEffect, useContext, useState, useCallback} from 'react';
 import styled from '@emotion/native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
 
 import {AppIcon, ChatBox, Text} from '../ChatComponents';
 import {ReportContext} from '../ReportPage';
@@ -19,13 +20,17 @@ export default function StepSix() {
     handleReset,
   } = useContext(ReportContext);
   const {lastName} = useUserStore(state => state.user);
+  const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [reportId, setReportId] = useState<number>();
 
   const createReport = useCallback(async () => {
     try {
       const response = await ReportAPI.createReport(reportRequest);
-      console.log(response.data);
+      if (response.data) {
+        setReportId(response.data.reportId);
+      }
 
       setIsLoading(false);
       scrollDown();
@@ -33,6 +38,14 @@ export default function StepSix() {
       console.log('create report error:', err);
     }
   }, [reportRequest, scrollDown]);
+
+  const handleCompleteReport = () => {
+    navigation.navigate('ReportDetail', {
+      reportId,
+      name: reportRequest.name,
+      subject: reportRequest.subject,
+    });
+  };
 
   useEffect(() => {
     if (chatSteps[5] === 0) {
@@ -81,7 +94,7 @@ export default function StepSix() {
               학부모님께 전달해보세요!
             </Text>
 
-            <GoButton>
+            <GoButton onPress={handleCompleteReport}>
               <GoButtonText>완성된 리포트 보러가기</GoButtonText>
             </GoButton>
           </ChatBox>

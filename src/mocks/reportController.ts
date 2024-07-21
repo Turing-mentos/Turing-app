@@ -40,8 +40,8 @@ export function setupReportInMocks(mock: MockAdapter) {
       firstName: '희재',
       lastName: '이',
       subject: '국어',
-      createdAt: '2024-07-21T06:38:13.761Z',
-      updatedAt: '2024-07-21T06:38:13.761Z',
+      createdAt: '2024-06-21T06:38:13.761Z',
+      updatedAt: '2024-06-21T06:38:13.761Z',
     },
   ]);
 
