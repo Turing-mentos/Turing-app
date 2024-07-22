@@ -8,7 +8,6 @@ import StudentButton from '../StudentButton';
 import {ReportContext} from '../ReportPage';
 
 export default function StepOne() {
-  const [existStudyRoom, setExistStudyRoom] = useState(false);
   const [students, setStudents] = useState<StudentInfo[]>([]);
   const [selectedStudentId, setSelectedStudentId] = useState(0);
 
@@ -22,7 +21,7 @@ export default function StepOne() {
   } = useContext(ReportContext);
 
   const handleStartProcess = () => {
-    if (existStudyRoom) {
+    if (students.length > 0) {
       if (chatSteps[0] === 1) {
         fetchStudents();
         handleNextChatStep(0, 2);
@@ -67,21 +66,6 @@ export default function StepOne() {
     students,
     handleSelectStudent,
   ]);
-
-  useEffect(() => {
-    const checkExistStudyRoom = async () => {
-      try {
-        const response = await ReportAPI.checkExistStudyRoom();
-        if (response.data) {
-          setExistStudyRoom(response.data);
-        }
-      } catch (err) {
-        console.log('checkExistStudyRoom err:', err);
-      }
-    };
-
-    checkExistStudyRoom();
-  }, []);
 
   useEffect(() => {
     if (chatSteps[0] === 0) {
