@@ -40,21 +40,21 @@ export default function InputNumber({
         $focused={focused}
         placeholderTextColor={theme.color.grey[600]}
       />
-      <Text $focused={focused} onPress={handleFocus}>
-        {formatValue(value)}
+      <Text $focused={focused} onPress={handleFocus} $exists={!!value}>
+        {value ? formatValue(value) : rest.placeholder}
       </Text>
     </>
   );
 }
 
-const Text = styled.Text<{$focused: boolean}>`
+const Text = styled.Text<{$focused: boolean; $exists: boolean}>`
   display: ${props => props.$focused && 'none'};
   padding: 8px 16px;
   border-radius: 5px;
   background-color: ${props =>
     props.$focused ? props.theme.color.blue[400] : props.theme.color.grey[200]};
   color: ${props =>
-    props.$focused ? props.theme.color.grey[100] : props.theme.color.BTN900};
+    props.$exists ? props.theme.color.BTN900 : props.theme.color.grey[600]};
   text-align: center;
   font-size: 18px;
   font-family: Pretendard;

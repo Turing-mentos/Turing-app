@@ -6,24 +6,30 @@ import InputSelect from './InputSelect';
 interface InfoBoxProps {
   label: string;
   value: string;
-  onPress: (value: any) => void;
+  title: string;
+  onSelect: (arg: any) => void;
+  selectOptions: any[];
   placeholder?: string;
 }
 
 export default function SelectBox({
   label,
+  title,
   value,
-  onPress,
+  onSelect,
   placeholder,
+  selectOptions,
 }: InfoBoxProps) {
   return (
     <InputGroup>
       <InputLabel>{label}</InputLabel>
       <TextBox>
         <InputSelect
+          title={title}
           value={value}
-          onPress={onPress}
           placeholder={placeholder}
+          onSelect={onSelect}
+          selectOptions={selectOptions}
         />
       </TextBox>
     </InputGroup>

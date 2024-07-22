@@ -25,6 +25,7 @@ const ProgressBar = ({maxNum, currentCredit}: ProgressBarProps) => {
 export default ProgressBar;
 
 const TotalProgressBar = styled.View`
+  flex: 1;
   position: relative;
   height: 4px;
   width: 100%;

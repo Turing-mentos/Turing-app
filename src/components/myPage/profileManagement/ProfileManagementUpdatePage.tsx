@@ -30,7 +30,6 @@ export default function ProfileManagementUpdatePage() {
   }
 
   async function handleUpdateSubmit() {
-    console.log('profile: ', profile);
     if (role === 'teacher') {
       await ProfileAPI.updateTeacherProfile(profile);
     } else if (role === 'student') {
@@ -39,7 +38,7 @@ export default function ProfileManagementUpdatePage() {
       console.error('일치하는 role이 없습니다.');
     }
 
-    navigation.goBack();
+    navigation.navigate('ProfileManagement', {key: Math.random()});
   }
 
   return (

@@ -37,3 +37,25 @@ export {default as TabReportUnselected} from '../../../../assets/images/tab/tab-
 export {default as TabScheduleUnselected} from '../../../../assets/images/tab/tab-schedule-unselected.svg';
 
 export {default as Information} from '../../../../assets/images/information.svg';
+export {default as ArrowRightWhite} from '../../../../assets/images/arrow-rightward-white.svg';
+export {default as ArrowLeft} from '../../../../assets/images/arrow-leftward.svg';
+export {default as Kebab} from '../../../../assets/images/kebab.svg';
+
+export {default as Close} from '../../../../assets/images/close.svg';
+export {default as WarningInformation} from '../../../../assets/images/warning-information.svg';
+export {default as Setting} from '../../../../assets/images/setting.svg';
+
+export {default as HomeProfile} from '../../../../assets/images/home-header-profile.svg';
+export {default as HomeAlarm} from '../../../../assets/images/home-header-alarm.svg';
+
+export {default as Cross} from '../../../../assets/images/report/cross.svg';
+export {default as InputEnter} from '../../../../assets/images/report/input-enter.svg';
+export {default as InputEnterDisabled} from '../../../../assets/images/report/input-enter-disabled.svg';
+export {default as PlusButton} from '../../../../assets/images/report/plus.svg';
+export {default as ReportCalendar} from '../../../../assets/images/report/calendar.svg';
+export {default as Copy} from '../../../../assets/images/report/copy.svg';
+export {default as BlueCheck} from '../../../../assets/images/blue-check.svg';
+export {default as InformationBlack} from '../../../../assets/images/information-black.svg';
+export {default as ArrowDownwardWhite} from '../../../../assets/images/arrow-downward-white.svg';
+export {default as HelpQuestionGrey} from '../../../../assets/images/help-question-grey.svg';
+export {default as BlueCheckSingle} from '../../../../assets/images/blue-check-single.svg';

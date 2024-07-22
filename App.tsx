@@ -22,14 +22,14 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <SimpleSheetProvider>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <SimpleSheetProvider>
           <NavigationContainer>
             <RootStack />
           </NavigationContainer>
-          <Toast />
-        </ThemeProvider>
-      </SimpleSheetProvider>
+        </SimpleSheetProvider>
+        <Toast />
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
