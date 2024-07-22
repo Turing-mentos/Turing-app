@@ -1,18 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from '@emotion/native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Loading from '../components/loading/Loading';
 
-export default function LoadingScreen({navigation}) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate('SignIn');
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [navigation]);
-
+export default function LoadingScreen() {
   return (
     <Container
       colors={['#9708CC', '#287EFF']}

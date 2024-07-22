@@ -4,8 +4,8 @@ export function setupSignInMocks(mock: MockAdapter) {
   // 카카오 로그인
   mock.onPost('/auth/verify/kakao').reply(200, {
     email: 'yeop3415@naver.com',
-    accessToken: null,
-    refreshToken: null,
+    accessToken: 'asdf',
+    refreshToken: 'asdf',
   });
 
   // 애플 로그인
@@ -25,4 +25,7 @@ export function setupSignInMocks(mock: MockAdapter) {
     department: '컴퓨터공학과',
     studentNumber: '19011453',
   });
+
+  // 회원가입
+  mock.onPost('/members/signup').reply(200, null);
 }

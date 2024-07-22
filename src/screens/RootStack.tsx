@@ -1,5 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import useSignIn from '../hooks/useSignIn';
+import {getStorage} from '../utils/storage';
 
 // 회원가입 / 로그인
 import LoadingScreen from './LoadingScreen';
@@ -57,6 +60,27 @@ import PrevReportHeader from '../components/report/detail/PrevReportHeader';
 const Stack = createNativeStackNavigator();
 
 export default function RootStack() {
+  const navigation = useNavigation();
+  const {fetchUserInfoAndSave} = useSignIn();
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      try {
+        const accessToken = await getStorage('accessToken');
+
+        if (accessToken) {
+          await fetchUserInfoAndSave();
+          navigation.navigate('MainTab');
+        }
+      } catch (err) {
+        console.log('자동 로그인 에러:', err);
+        navigation.navigate('SignIn');
+      }
+    };
+
+    autoLogin();
+  }, []);
+
   return (
     <Stack.Navigator>
       {/* 회원가입 / 로그인 */}

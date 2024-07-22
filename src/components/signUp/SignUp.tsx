@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import styled from '@emotion/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 import RoleSelectBox from './RoleSelectBox';
 import DefaultButton from '../buttons/DefaultButton';
 import InputText from '../common/InputText';
-import useUserStore, {Role} from '../../store/useUserStore';
+import {Role} from '../../store/useUserStore';
+import {showToast} from '../common/Toast';
+import {AuthAPI} from '../../api/auth';
+import useSignIn from '../../hooks/useSignIn';
 
 export default function SignUp() {
   const [step, setStep] = useState(1);
@@ -15,8 +18,10 @@ export default function SignUp() {
     firstName: '',
   });
 
-  const setUser = useUserStore(state => state.setUser);
+  // const setUser = useUserStore(state => state.setUser);
   const navigation = useNavigation();
+  const route = useRoute();
+  const {fetchUserInfoAndSave} = useSignIn();
 
   function handleSelectRole(selectdRole: Role) {
     setRole(selectdRole);
@@ -32,17 +37,28 @@ export default function SignUp() {
     }));
   }
 
-  function handleSubmit() {
-    console.log('role:', role);
-    console.log('username:', username.lastName + username.firstName);
-    setUser({
-      id: undefined,
-      firstName: username.firstName,
-      lastName: username.lastName,
-      role: role,
-    });
+  async function handleSubmit() {
+    try {
+      const {provider, email} = route.params;
 
-    navigation.navigate('Onboarding');
+      if (!provider || !email) {
+        throw new Error('provider, email 없음');
+      }
+
+      await AuthAPI.signUp({
+        provider,
+        email,
+        firstName: username.firstName,
+        lastName: username.lastName,
+        role: role === 'teacher' ? 'TEACHER' : 'STUDENT',
+      });
+      await fetchUserInfoAndSave();
+
+      navigation.navigate('Onboarding');
+    } catch (err) {
+      showToast('회원가입 중 에러가 발생했습니다!');
+      console.log('회원가입 에러:', err);
+    }
   }
 
   const TextContent =

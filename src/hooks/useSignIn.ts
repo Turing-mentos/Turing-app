@@ -52,7 +52,7 @@ export default function useSignIn() {
         });
       }
     } catch (err) {
-      console.log('fetchUserInfoAndSave() err:', err);
+      throw new Error('유저 정보 불러오기 실패:' + err);
     }
   }
 
@@ -118,7 +118,9 @@ export default function useSignIn() {
   }
 
   return {
+    saveUserTokens,
     handleSignInKakao,
     handleSignInApple,
+    fetchUserInfoAndSave,
   };
 }
