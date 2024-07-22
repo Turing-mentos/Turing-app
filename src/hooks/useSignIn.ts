@@ -76,7 +76,7 @@ export default function useSignIn() {
         const {accessToken, refreshToken} = response.data!;
 
         if (!accessToken) {
-          navigation.navigate('SignUp', {email, provider: 'KAKAO'});
+          navigation.navigate('SignUp', {email, provider: 'APPLE'});
           return;
         }
 
