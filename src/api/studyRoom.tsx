@@ -2,8 +2,8 @@ import http from '../utils/http';
 
 export interface StudyRoomSummary {
   id: number;
-  studentFirstName: string;
-  studentLastName: string;
+  opponentFirstName: string;
+  opponentLastName: string;
   subject: string;
   linkStatus: boolean;
 }
@@ -34,8 +34,8 @@ interface StudyRoom {
 }
 
 export interface StudyRoomDetail {
-  studentFirstName: string;
-  studentLastName: string;
+  opponentFirstName: string;
+  opponentLastName: string;
   subject: string;
   studentSchool: string;
   studentYear: string;
@@ -54,6 +54,12 @@ interface UpdateStudyRoomRequest {
   studyTimes: StudyTime[];
   baseSession: number;
   wage: number;
+}
+
+interface TeacherInfo {
+  subject: string;
+  teacherFirstName: string;
+  teacherLastName: string;
 }
 
 /**
@@ -143,6 +149,18 @@ async function connectStudyRoom(code: number) {
   return response;
 }
 
+/**
+ * 연결할 선생님 조회
+ * @param code
+ * @returns
+ */
+async function getTeacherInfo(code: number) {
+  const response = await http.get<TeacherInfo>(
+    `/study-rooms/before-connect?code=${code}`,
+  );
+  return response;
+}
+
 export const StudyRoomAPI = {
   getStudyRoomsInProgress,
   addStudyRoom,
@@ -152,4 +170,5 @@ export const StudyRoomAPI = {
   generateStudyRoomCode,
   disconnectStudyRoom,
   connectStudyRoom,
+  getTeacherInfo,
 };

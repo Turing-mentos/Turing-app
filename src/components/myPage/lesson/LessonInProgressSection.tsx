@@ -51,7 +51,7 @@ export default function LessonInProgressSection() {
           <Lesson
             key={studyRoom.id}
             studyRoomId={studyRoom.id}
-            name={studyRoom.studentLastName + studyRoom.studentFirstName}
+            name={studyRoom.opponentLastName + studyRoom.opponentFirstName}
             subject={studyRoom.subject}
             linkStatus={studyRoom.linkStatus}
             role={user.role}

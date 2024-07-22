@@ -1,10 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import ReportDetailPage from '../../../components/report/detail/ReportDetailPage';
 
 export default function ReportDetailScreen() {
-  return (
-    <View>
-      <Text>ReportDetailScreen</Text>
-    </View>
-  );
+  return <ReportDetailPage />;
 }

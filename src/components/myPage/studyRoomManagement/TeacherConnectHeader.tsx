@@ -15,7 +15,9 @@ export default function TeacherConnectHeader() {
       backgroundColor={theme.color.BG100}
       disableBack
       rightButton={RightButton}
-      onPressRightButton={() => navigation.goBack()}
+      onPressRightButton={() =>
+        navigation.navigate('MyPage', {key: Math.random()})
+      }
     />
   );
 }

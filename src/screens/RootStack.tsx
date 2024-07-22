@@ -16,6 +16,8 @@ import ReschedulingRequestScreen from './mainTab/schedule/ReschedulingRequestScr
 import QuestionDetailScreen from './mainTab/question/QuestionDetailScreen';
 import NoticeWriteScreen from './mainTab/notice/NoticeWriteScreen';
 import ReportDetailScreen from './mainTab/report/ReportDetailScreen';
+import ReportHelpScreen from './mainTab/report/ReportHelpScreen';
+import PrevReportScreen from './mainTab/report/PrevReportScreen';
 
 // 마이페이지 내부 페이지
 import MyPageMainScreen from './myPage/MyPageMainScreen';
@@ -24,6 +26,7 @@ import ProfileManagementUpdateScreen from './myPage/ProfileManagementUpdateScree
 import NewLessonScreen from './myPage/NewLessonScreen';
 import UpdateLessonScreen from './myPage/UpdateLessonScreen';
 import TeacherConnectScreen from './myPage/TeacherConnectScreen';
+import TeacherConnectInfoScreen from './myPage/TeacherConnectInfoScreen';
 import StudyRoomManagementScreen from './myPage/StudyRoomManagementScreen';
 import AccountScreen from './myPage/AccountScreen';
 import ReviewScreen from './myPage/ReviewScreen';
@@ -47,6 +50,9 @@ import UpdateLessonHeader from '../components/myPage/studyRoomManagement/UpdateL
 import ProfileManagementHeader from '../components/myPage/profileManagement/ProfileManagementHeader';
 import AccountHeader from '../components/myPage/account/AccountHeader';
 import TeacherConnectHeader from '../components/myPage/studyRoomManagement/TeacherConnectHeader';
+import ReportDetailHeader from '../components/report/detail/ReportDetailHeader';
+import ReportHelpHeader from '../components/report/detail/ReportHelpHeader';
+import PrevReportHeader from '../components/report/detail/PrevReportHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,7 +102,21 @@ export default function RootStack() {
       <Stack.Screen name="NoticeWrite" component={NoticeWriteScreen} />
 
       {/* 리포트 관련 페이지 */}
-      <Stack.Screen name="ReportDetail" component={ReportDetailScreen} />
+      <Stack.Screen
+        name="ReportDetail"
+        component={ReportDetailScreen}
+        options={{header: () => <ReportDetailHeader />}}
+      />
+      <Stack.Screen
+        name="ReportHelp"
+        component={ReportHelpScreen}
+        options={{header: () => <ReportHelpHeader />}}
+      />
+      <Stack.Screen
+        name="PrevReport"
+        component={PrevReportScreen}
+        options={{header: () => <PrevReportHeader />}}
+      />
 
       {/* 마이페이지 관련 페이지*/}
       <Stack.Screen
@@ -127,6 +147,11 @@ export default function RootStack() {
       <Stack.Screen
         name="TeacherConnect"
         component={TeacherConnectScreen}
+        options={{header: () => <TeacherConnectHeader />}}
+      />
+      <Stack.Screen
+        name="TeacherConnectInfo"
+        component={TeacherConnectInfoScreen}
         options={{header: () => <TeacherConnectHeader />}}
       />
       <Stack.Screen
