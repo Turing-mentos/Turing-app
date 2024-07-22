@@ -2,17 +2,13 @@ import * as KakaoLogin from '@react-native-seoul/kakao-login';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
-import http from '../utils/http';
 import {setStorage} from '../utils/storage';
-
-interface SignInResponseDTO {
-  accessToken: string;
-  refreshToken: string;
-  email: string;
-}
+import {AuthAPI} from '../api/auth';
+import useUserStore from '../store/useUserStore';
 
 export default function useSignIn() {
   const navigation = useNavigation();
+  const setUser = useUserStore(state => state.setUser);
 
   function goToHome() {
     navigation.dispatch(
@@ -44,21 +40,49 @@ export default function useSignIn() {
 
   async function handleSignInKakao() {
     try {
+      await KakaoLogin.login();
       const kakaoResponse = await KakaoLogin.getProfile();
-      const response = await http.post<SignInResponseDTO>('/auth/kakao/login', {
-        email: kakaoResponse.email,
-        kakaoNickname: kakaoResponse.nickname,
-      });
+      const {email} = kakaoResponse;
+      console.log('kakao email:', email);
+      const response = await AuthAPI.signInWithKakao(email);
+      console.log('handleSignInKakao response:', response);
 
-      if (!response.data) {
-        throw new Error('서버 응답 오류');
+      const {accessToken, refreshToken} = response.data!;
+
+      if (!accessToken) {
+        navigation.navigate('SignUp', {email, provider: 'KAKAO'});
+        return;
       }
 
-      const {accessToken, refreshToken} = response.data;
       await setStorage('accessToken', accessToken);
       await setStorage('refreshToken', refreshToken);
 
-      goToHome();
+      const userInfoResponse = await AuthAPI.getUserInfoFromAccessToken();
+
+      if (userInfoResponse.data) {
+        const {
+          memberId,
+          role,
+          firstName,
+          lastName,
+          university,
+          department,
+          studentNumber,
+        } = userInfoResponse.data;
+        const convertedRole = role === 'TEACHER' ? 'teacher' : 'student';
+
+        setUser({
+          id: memberId,
+          role: convertedRole,
+          firstName,
+          lastName,
+          university,
+          department,
+          studentNum: studentNumber,
+        });
+
+        goToHome();
+      }
     } catch (err) {
       console.log('카카오 로그인 에러:', err);
     }
