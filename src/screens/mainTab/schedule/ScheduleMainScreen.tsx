@@ -173,8 +173,7 @@ const ScheduleMainScreen = () => {
                   									<Text style={styles.pm2}>~ 7:00 PM</Text>
                 								</Text>
               							</View>
-                            
-              <Image style={styles.icon} resizeMode="cover" source={require('../../../../assets/images/schedule/right-arrow.png')} />
+                            <Image style={styles.icon} resizeMode="cover" source={require('../../../../assets/images/schedule/right-arrow.png')} />
       			
               							{/* <Image style={styles.icon} resizeMode="cover" source="ICON_.png" /> */}
             						</View>
@@ -285,7 +284,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', // 어두운 배경 설정
+    backgroundColor: 'rgba(12,14,18,0.2)',
   },
   modalView: {
     margin: 20,
