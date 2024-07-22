@@ -1,14 +1,28 @@
 import MockAdapter from 'axios-mock-adapter';
 
-const signInResponseExample = {
-  accessToken:
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0cm90aGNhbSIsImlhdCI6MTY4OTE2NTI2OCwic3ViIjoiMSIsImV4cCI6MTcwNDcxNzI2OCwibWVtYmVySWQiOjF9.N4vrCb0G6PJn0TYF4-679LjYUU1nHLv_jVD1ctDr8BU',
-  refreshToken:
-    'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODkxNjUyNjgsInN1YiI6IjEiLCJleHAiOjE2OTAzNzQ4NjgsIm1lbWJlcklkIjoxLCJyb2xlcyI6IlVTRVIifQ.U3hRxPtYYodjhehymNQqhB9JoQOea1uFlMYfjWZuToo',
-  email: 'test@naver.com',
-};
-
 export function setupSignInMocks(mock: MockAdapter) {
-  // 카카오 로그인 api
-  mock.onPost('/auth/kakao/login').reply(200, signInResponseExample);
+  // 카카오 로그인
+  mock.onPost('/auth/verify/kakao').reply(200, {
+    email: 'yeop3415@naver.com',
+    accessToken: null,
+    refreshToken: null,
+  });
+
+  // 애플 로그인
+  mock.onPost('/auth/verify/apple').reply(200, {
+    email: 'yeop3415@icloud.com',
+    accessToken: null,
+    refreshToken: null,
+  });
+
+  // 유저 정보 가져오기
+  mock.onPost('/auth/login').reply(200, {
+    role: 'TEACHER',
+    memberId: 0,
+    firstName: '승엽',
+    lastName: '현',
+    university: '세종대학교',
+    department: '컴퓨터공학과',
+    studentNumber: '19011453',
+  });
 }
