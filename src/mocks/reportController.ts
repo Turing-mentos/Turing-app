@@ -27,6 +27,7 @@ export function setupReportInMocks(mock: MockAdapter) {
   mock.onGet('/report/all').reply(200, [
     {
       session: 8,
+      studentId: 0,
       reportId: 0,
       firstName: '민영',
       lastName: '박',
@@ -36,6 +37,7 @@ export function setupReportInMocks(mock: MockAdapter) {
     },
     {
       session: 4,
+      studentId: 1,
       reportId: 1,
       firstName: '희재',
       lastName: '이',

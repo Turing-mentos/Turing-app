@@ -57,3 +57,5 @@ export {default as Copy} from '../../../../assets/images/report/copy.svg';
 export {default as BlueCheck} from '../../../../assets/images/blue-check.svg';
 export {default as InformationBlack} from '../../../../assets/images/information-black.svg';
 export {default as ArrowDownwardWhite} from '../../../../assets/images/arrow-downward-white.svg';
+export {default as HelpQuestionGrey} from '../../../../assets/images/help-question-grey.svg';
+export {default as BlueCheckSingle} from '../../../../assets/images/blue-check-single.svg';

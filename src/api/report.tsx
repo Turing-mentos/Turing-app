@@ -33,6 +33,7 @@ export interface ReportDetail {
 
 export interface ReportSummary {
   session: number;
+  studentId: number;
   reportId: number;
   firstName: string;
   lastName: string;
