@@ -23,7 +23,6 @@ export default function StepOne() {
   const handleStartProcess = () => {
     if (students.length > 0) {
       if (chatSteps[0] === 1) {
-        fetchStudents();
         handleNextChatStep(0, 2);
       }
     } else {
@@ -34,6 +33,7 @@ export default function StepOne() {
   const fetchStudents = async () => {
     try {
       const response = await ReportAPI.getStudentsInfo();
+      console.log(response);
       if (response.data) {
         setStudents(response.data);
       }
@@ -71,6 +71,7 @@ export default function StepOne() {
     if (chatSteps[0] === 0) {
       // 안녕하세요 튜링입니다.
       handleNextChatStep(0, 1);
+      fetchStudents();
     } else if (chatSteps[0] === 1) {
       // 리포트 생성 시작하기
     } else if (chatSteps[0] === 2) {

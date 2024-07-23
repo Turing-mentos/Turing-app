@@ -94,7 +94,7 @@ export default function ReportPage() {
         setChatSteps(prev =>
           prev.map((v, idx) => (chatIndex === idx ? target : v)),
         );
-      }, 1000);
+      }, 800);
     },
     [],
   );
@@ -106,7 +106,7 @@ export default function ReportPage() {
   const handleNextReportStep = useCallback(() => {
     setTimeout(() => {
       setStep(prev => prev + 1);
-    }, 1000);
+    }, 800);
   }, []);
 
   const handleChangeReportRequest = useCallback(

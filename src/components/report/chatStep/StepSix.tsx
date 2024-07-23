@@ -19,7 +19,7 @@ export default function StepSix() {
     handleNextReportStep,
     handleReset,
   } = useContext(ReportContext);
-  const {lastName} = useUserStore(state => state.user);
+  const {firstName} = useUserStore(state => state.user);
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -79,7 +79,7 @@ export default function StepSix() {
           <ChatBox>
             <Text>
               잠시만 기다려 주세요.{'\n'}
-              {lastName} 쌤을 위해 리포트를 생성하고 있어요.
+              {firstName} 쌤을 위해 리포트를 생성하고 있어요.
             </Text>
           </ChatBox>
         </>
@@ -137,7 +137,6 @@ const GoButtonText = styled.Text`
 const NewContainer = styled(LinearGradient)`
   padding: 12px 24px;
   border-radius: 50px;
-  background-color: red;
   align-self: flex-start;
   margin: 0 auto;
 `;
