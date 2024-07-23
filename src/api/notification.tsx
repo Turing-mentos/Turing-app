@@ -8,6 +8,7 @@ export const category = {
   SCHEDULE_CHANGE: '수업 일정 변경 요청',
   NEW_SCHEDULE: '학생의 새로운 시험 일정',
   REPORT: '리포트 작성하기',
+  SESSION: '기준회차 추가',
 } as const;
 
 export interface NotificationDTO {

@@ -37,7 +37,7 @@ export default function DetailNotificationSetting() {
         <SettingGroup>
           <SettingTitle>스케줄</SettingTitle>
           <SettingComponent category="SCHEDULE_CHANGE" />
-          <SettingComponent category="NEW_SCHEDULE" />
+          <SettingComponent category="SESSION" />
         </SettingGroup>
 
         <SettingGroup>
