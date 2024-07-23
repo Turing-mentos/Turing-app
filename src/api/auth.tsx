@@ -10,6 +10,7 @@ interface GetUserInfoResponse {
   university: string;
   department: string;
   studentNumber: string;
+  provider: 'APPLE' | 'KAKAO';
 }
 
 interface SignInResponse {
@@ -70,6 +71,7 @@ async function reissueAccessToken() {
  * @returns
  */
 async function signInWithApple(appleIdToken: string) {
+  console.log(appleIdToken);
   const response = await http.post<SignInResponse>('/auth/verify/apple', {
     appleIdToken,
   });
@@ -100,10 +102,21 @@ async function signUp(request: SignUpRequest) {
   return response;
 }
 
+/**
+ * 회원 탈퇴
+ *
+ * @returns
+ */
+async function withdraw() {
+  const response = await http.delete<null>('/members');
+  return response;
+}
+
 export const AuthAPI = {
   getUserInfoFromAccessToken,
   reissueAccessToken,
   signInWithApple,
   signInWithKakao,
   signUp,
+  withdraw,
 };
