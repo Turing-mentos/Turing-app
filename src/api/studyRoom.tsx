@@ -34,8 +34,8 @@ interface StudyRoom {
 }
 
 export interface StudyRoomDetail {
-  opponentFirstName: string;
-  opponentLastName: string;
+  oppositeFirstName: string;
+  oppositeLastName: string;
   subject: string;
   studentSchool: string;
   studentYear: string;

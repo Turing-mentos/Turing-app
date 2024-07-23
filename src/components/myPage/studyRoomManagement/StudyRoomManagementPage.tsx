@@ -38,7 +38,7 @@ export default function StudyRoomManagementPage() {
   const route = useRoute();
   const {studyRoomId, linkStatus} = route.params;
 
-  const name = `${studyRoomDetail?.opponentLastName}${studyRoomDetail?.opponentFirstName}`;
+  const name = `${studyRoomDetail?.oppositeLastName}${studyRoomDetail?.oppositeFirstName}`;
   const title =
     role === 'teacher'
       ? `${name} | ${studyRoomDetail?.subject}`
@@ -85,8 +85,8 @@ export default function StudyRoomManagementPage() {
         <SimpleSheetContainer title="학생 계정 연결" close={props.close}>
           <StudyRoomConnectContent
             studentName={
-              studyRoomDetail?.opponentLastName +
-              studyRoomDetail?.opponentFirstName
+              studyRoomDetail?.oppositeLastName +
+              studyRoomDetail?.oppositeFirstName
             }
             code={code}
           />
