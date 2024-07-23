@@ -6,8 +6,9 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 
-import {getStorage} from './storage';
+import {getStorage, removeStorage, setStorage} from './storage';
 import {SERVER_URL} from '@env';
+import {AuthAPI} from '../api/auth';
 
 /**
  * @type T: Response data DTO
@@ -35,6 +36,50 @@ axiosInstance.interceptors.request.use(async config => {
 
   return config;
 });
+
+const getRefreshToken = async (): Promise<string | void> => {
+  try {
+    const {
+      data: {accessToken, refreshToken},
+    } = await AuthAPI.reissueAccessToken();
+
+    await setStorage('accessToken', accessToken);
+
+    if (refreshToken !== null) {
+      await setStorage('refreshToken', refreshToken);
+    }
+
+    return accessToken;
+  } catch (e) {
+    removeStorage('accessToken');
+    removeStorage('refreshToken');
+  }
+};
+
+axiosInstance.interceptors.response.use(
+  res => res,
+  async err => {
+    const {
+      config,
+      response: {status},
+    } = err;
+
+    /** 1 */
+    if (config.url === '/auth/reissue' || status !== 401 || config.sent) {
+      return Promise.reject(err);
+    }
+
+    /** 2 */
+    config.sent = true;
+    const accessToken = await getRefreshToken();
+
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return axios(config);
+  },
+);
 
 /**
  * @TODO response 인터셉터 생성 필요(토큰 만료 관련)
