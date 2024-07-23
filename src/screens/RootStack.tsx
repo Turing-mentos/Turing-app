@@ -56,6 +56,8 @@ import TeacherConnectHeader from '../components/myPage/studyRoomManagement/Teach
 import ReportDetailHeader from '../components/report/detail/ReportDetailHeader';
 import ReportHelpHeader from '../components/report/detail/ReportHelpHeader';
 import PrevReportHeader from '../components/report/detail/PrevReportHeader';
+import PrivacyPolicyHeader from '../components/myPage/PrivacyPolicyHeader';
+import TermsOfUseHeader from '../components/myPage/TermsOfUseHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -192,8 +194,16 @@ export default function RootStack() {
       />
       <Stack.Screen name="Review" component={ReviewScreen} />
       <Stack.Screen name="Contact" component={ContactScreen} />
-      <Stack.Screen name="TermsOfUse" component={TermsOfUseScreen} />
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+      <Stack.Screen
+        name="TermsOfUse"
+        component={TermsOfUseScreen}
+        options={{header: () => <TermsOfUseHeader />}}
+      />
+      <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyScreen}
+        options={{header: () => <PrivacyPolicyHeader />}}
+      />
 
       {/* 알림 관련 페이지 */}
       <Stack.Screen
