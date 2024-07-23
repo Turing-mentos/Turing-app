@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useRoute} from '@react-navigation/native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useRoute, useFocusEffect} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
@@ -95,32 +95,36 @@ export default function StudyRoomManagementPage() {
     ));
   };
 
-  useEffect(() => {
-    const fetchStudyRoomDetail = async () => {
-      try {
-        const response = await StudyRoomAPI.getStudyRoomDetail(studyRoomId);
-        if (response.data) {
-          setStudyRoomDetail(response.data);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchStudyRoomDetail = async () => {
+        try {
+          const response = await StudyRoomAPI.getStudyRoomDetail(studyRoomId);
+          if (response.data) {
+            setStudyRoomDetail(response.data);
+          }
+        } catch (err) {
+          console.log('fetchStudyRoomDetail error:', err);
         }
-      } catch (err) {
-        console.log('fetchStudyRoomDetail error:', err);
-      }
-    };
+      };
 
-    const fetchStudyRoomCode = async () => {
-      try {
-        const response = await StudyRoomAPI.generateStudyRoomCode(studyRoomId);
-        if (response.data) {
-          setCode(response.data);
+      const fetchStudyRoomCode = async () => {
+        try {
+          const response = await StudyRoomAPI.generateStudyRoomCode(
+            studyRoomId,
+          );
+          if (response.data) {
+            setCode(response.data);
+          }
+        } catch (err) {
+          console.log('fetchStudyRoomCode error:', err);
         }
-      } catch (err) {
-        console.log('fetchStudyRoomCode error:', err);
-      }
-    };
+      };
 
-    fetchStudyRoomDetail();
-    fetchStudyRoomCode();
-  }, [studyRoomId]);
+      fetchStudyRoomDetail();
+      fetchStudyRoomCode();
+    }, [studyRoomId]),
+  );
 
   return (
     <Container>
