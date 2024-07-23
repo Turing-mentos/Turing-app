@@ -38,6 +38,7 @@ export default function useSignIn() {
           university,
           department,
           studentNumber,
+          provider,
         } = userInfoResponse.data;
         const convertedRole = role === 'TEACHER' ? 'teacher' : 'student';
 
@@ -49,6 +50,7 @@ export default function useSignIn() {
           university,
           department,
           studentNum: studentNumber,
+          provider,
         });
       }
     } catch (err) {
@@ -86,7 +88,7 @@ export default function useSignIn() {
         goToHome();
       }
     } catch (err) {
-      showToast('로그인 도중 에러가 발생했습니다!');
+      // showToast('로그인 도중 에러가 발생했습니다!');
       console.log('애플 로그인 에러:', err);
     }
   }
@@ -112,7 +114,7 @@ export default function useSignIn() {
 
       goToHome();
     } catch (err) {
-      showToast('로그인 도중 에러가 발생했습니다!');
+      // showToast('로그인 도중 에러가 발생했습니다!');
       console.log('카카오 로그인 에러:', err);
     }
   }
