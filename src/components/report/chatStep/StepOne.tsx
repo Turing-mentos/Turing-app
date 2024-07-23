@@ -33,7 +33,6 @@ export default function StepOne() {
   const fetchStudents = async () => {
     try {
       const response = await ReportAPI.getStudentsInfo();
-      console.log(response);
       if (response.data) {
         setStudents(response.data);
       }
