@@ -62,6 +62,17 @@ interface TeacherInfo {
   teacherLastName: string;
 }
 
+const decodeTime = (localTime: string) => {
+  const [hour, minute] = localTime.split(':').map(Number);
+
+  return {
+    hour,
+    minute,
+    nano: 0,
+    second: 0,
+  };
+};
+
 const convertTime = ({
   hour,
   minute,
@@ -122,8 +133,8 @@ async function getStudyRoomDetail(studyRoomId: number) {
   const {studyTimes} = response.data;
   const newStudyTimes = studyTimes.map(v => ({
     ...v,
-    startTime: convertTime(v.startTime),
-    endTime: convertTime(v.endTime),
+    startTime: decodeTime(v.startTime),
+    endTime: decodeTime(v.endTime),
   }));
 
   return {

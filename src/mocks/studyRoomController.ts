@@ -32,33 +32,13 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
     studyTimes: [
       {
         day: 0,
-        startTime: {
-          hour: 12,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
-        endTime: {
-          hour: 14,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
+        startTime: '12:00',
+        endTime: '14:00',
       },
       {
         day: 2,
-        startTime: {
-          hour: 12,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
-        endTime: {
-          hour: 14,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
+        startTime: '12:00',
+        endTime: '14:00',
       },
     ],
     baseSession: 8,
@@ -78,18 +58,8 @@ export function setupStudyRoomInMocks(mock: MockAdapter) {
     studyTimes: [
       {
         day: 3,
-        startTime: {
-          hour: 10,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
-        endTime: {
-          hour: 14,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
+        startTime: '10:00',
+        endTime: '14:00',
       },
     ],
     baseSession: 8,
