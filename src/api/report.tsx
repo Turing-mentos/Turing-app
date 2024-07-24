@@ -35,8 +35,7 @@ export interface ReportSummary {
   session: number;
   studentId: number;
   reportId: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   subject: string;
   createdAt: string;
   updatedAt: string;

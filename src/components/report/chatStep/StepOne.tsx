@@ -57,6 +57,7 @@ export default function StepOne() {
       'name',
       `${selectedStudent?.lastName}${selectedStudent?.firstName}`,
     );
+    handleChangeReportRequest('studentId', selectedStudentId);
 
     handleSelectStudent(selectedStudent);
   }, [
