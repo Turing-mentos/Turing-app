@@ -9,6 +9,7 @@ import {Role} from '../../store/useUserStore';
 import {showToast} from '../common/Toast';
 import {AuthAPI} from '../../api/auth';
 import useSignIn from '../../hooks/useSignIn';
+import {setStorage} from '../../utils/storage';
 
 export default function SignUp() {
   const [step, setStep] = useState(1);
@@ -45,13 +46,18 @@ export default function SignUp() {
         throw new Error('provider, email 없음');
       }
 
-      await AuthAPI.signUp({
+      const {data} = await AuthAPI.signUp({
         provider,
         email,
         firstName: username.firstName,
         lastName: username.lastName,
         role: role === 'teacher' ? 'TEACHER' : 'STUDENT',
       });
+      if (data) {
+        const {accessToken, refreshToken} = data;
+        await setStorage('accessToken', accessToken);
+        await setStorage('refreshToken', refreshToken);
+      }
       await fetchUserInfoAndSave();
 
       navigation.navigate('Onboarding');
