@@ -8,7 +8,6 @@ import StudentButton from '../StudentButton';
 import {ReportContext} from '../ReportPage';
 
 export default function StepOne() {
-  const [existStudyRoom, setExistStudyRoom] = useState(false);
   const [students, setStudents] = useState<StudentInfo[]>([]);
   const [selectedStudentId, setSelectedStudentId] = useState(0);
 
@@ -22,9 +21,8 @@ export default function StepOne() {
   } = useContext(ReportContext);
 
   const handleStartProcess = () => {
-    if (existStudyRoom) {
+    if (students.length > 0) {
       if (chatSteps[0] === 1) {
-        fetchStudents();
         handleNextChatStep(0, 2);
       }
     } else {
@@ -59,6 +57,7 @@ export default function StepOne() {
       'name',
       `${selectedStudent?.lastName}${selectedStudent?.firstName}`,
     );
+    handleChangeReportRequest('studentId', selectedStudentId);
 
     handleSelectStudent(selectedStudent);
   }, [
@@ -69,24 +68,10 @@ export default function StepOne() {
   ]);
 
   useEffect(() => {
-    const checkExistStudyRoom = async () => {
-      try {
-        const response = await ReportAPI.checkExistStudyRoom();
-        if (response.data) {
-          setExistStudyRoom(response.data);
-        }
-      } catch (err) {
-        console.log('checkExistStudyRoom err:', err);
-      }
-    };
-
-    checkExistStudyRoom();
-  }, []);
-
-  useEffect(() => {
     if (chatSteps[0] === 0) {
       // 안녕하세요 튜링입니다.
       handleNextChatStep(0, 1);
+      fetchStudents();
     } else if (chatSteps[0] === 1) {
       // 리포트 생성 시작하기
     } else if (chatSteps[0] === 2) {

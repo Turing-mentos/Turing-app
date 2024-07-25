@@ -11,6 +11,7 @@ interface User {
   university?: string;
   department?: string;
   studentNum?: string;
+  provider?: 'APPLE' | 'KAKAO';
 }
 
 interface UserStore {
@@ -28,6 +29,7 @@ const useUserStore = create<UserStore>(set => ({
     university: '',
     department: '',
     studentNum: '',
+    provider: undefined,
   },
   setUser: (newUser: User) => set(state => ({...state, user: newUser})),
 }));

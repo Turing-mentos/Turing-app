@@ -3,10 +3,13 @@ import styled from '@emotion/native';
 
 import Toggle from '../../common/Toggle';
 import NotificationIcon from '../NotificationIcon';
-import {category as CATEGORY} from '../../../api/notification';
+import {category as CATEGORY, NotificationAPI} from '../../../api/notification';
 
 interface SettingComponentProps {
   category: keyof typeof CATEGORY;
+  state?: boolean;
+  noticeSettingId: number;
+  fetchNotificationSetting: () => Promise<any>;
 }
 
 const comment = {
@@ -17,19 +20,35 @@ const comment = {
   NEW_SCHEDULE: '학생이 새로운 시험 일정을 등록했을 때 알려드려요.',
   QUESTION: '질문 게시판에 새로운 질문이 올라왔을 때 알려드려요.',
   COMMENT: '질문 게시판에 새로운 댓글이 달렸을 때 알려드려요.',
+  SESSION:
+    '기존 수업이 모두 완료되어 새로운 기준 회차 등록이 필요할 때 알려드려요.',
   REPORT:
     '학생의 기준 회차 수업이 끝났을 때 리포트를 작성할 수 있도록 알려드려요.',
 };
 
-export default function SettingComponent({category}: SettingComponentProps) {
+export default function SettingComponent({
+  category,
+  state = false,
+  noticeSettingId,
+  fetchNotificationSetting,
+}: SettingComponentProps) {
+  const handleToggle = async () => {
+    try {
+      await NotificationAPI.setNotificationSetting(noticeSettingId);
+      await fetchNotificationSetting();
+    } catch (err) {
+      console.log('handleToggle err:', err);
+    }
+  };
+
   return (
     <SettingContainer>
       <Row>
         <IconContainer>
-          <NotificationIcon category="NOTEBOOK" width={24} height={24} />
+          <NotificationIcon category={category} width={24} height={24} />
         </IconContainer>
         <SettingTitle>{CATEGORY[category]}</SettingTitle>
-        <Toggle />
+        <Toggle defaultValue={state} handleToggle={handleToggle} />
       </Row>
 
       <Comment>{comment[category]}</Comment>
@@ -41,7 +60,6 @@ const SettingContainer = styled.View`
   padding: 12px 16px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 4px;
 
   border-radius: 5px;

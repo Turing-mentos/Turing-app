@@ -19,18 +19,20 @@ export default function StudyRoomConnectContent({studentName, code}) {
     try {
       await KakaoShareLink.sendFeed({
         content: {
-          title: 'title',
+          title: '선생님과 계정 연결하고 편하게 과외해요!',
           imageUrl:
-            'http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg',
+            'https://drive.google.com/uc?id=1Z28aWMI2ndJn9Pq4hVWD3Knst5m_9vdB',
           link: {
-            webUrl: 'https://developers.kakao.com/',
-            mobileWebUrl: 'https://developers.kakao.com/',
+            webUrl:
+              'https://elegant-bass-d29.notion.site/Turing-b3206b2ad48f4634aa1d53e31a112ef1?pvs=4',
+            mobileWebUrl:
+              'https://elegant-bass-d29.notion.site/Turing-b3206b2ad48f4634aa1d53e31a112ef1?pvs=4',
           },
-          description: 'description',
+          description: `선생님과 연결할 코드는 ${code}입니다.\n앱에서 선생님 코드를 입력해주세요!`,
         },
         buttons: [
           {
-            title: '앱에서 보기',
+            title: '계정 연결하러 가기',
             link: {
               androidExecutionParams: [{key: 'key1', value: 'value1'}],
               iosExecutionParams: [

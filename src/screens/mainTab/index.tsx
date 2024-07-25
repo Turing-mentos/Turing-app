@@ -1,5 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {CommonActions} from '@react-navigation/native';
 import styled from '@emotion/native';
 
 import HomeMainScreen from './home/HomeMainScreen';
@@ -44,6 +45,15 @@ function CustomTabBar({state, descriptors, navigation}) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
+            if (route.name === 'Report') {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'Report'}],
+                }),
+              );
+              return;
+            }
             navigation.navigate(route.name);
           }
         };

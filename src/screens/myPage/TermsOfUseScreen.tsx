@@ -1,10 +1,19 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {WebView} from 'react-native-webview';
+import styled from '@emotion/native';
 
 export default function TermsOfUseScreen() {
   return (
-    <View>
-      <Text>TermsOfUseScreent</Text>
-    </View>
+    <Container>
+      <WebView
+        source={{
+          uri: 'https://elegant-bass-d29.notion.site/471abd2e62594370a58e2a5bffe78cf4',
+        }}
+      />
+    </Container>
   );
 }
+
+const Container = styled.View`
+  flex: 1;
+`;

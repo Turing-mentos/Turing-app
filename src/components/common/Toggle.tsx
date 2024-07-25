@@ -5,34 +5,27 @@ import Icon from './icons/SvgIcon';
 
 interface ToggleProps {
   defaultValue?: boolean;
-  handleOn?: () => any;
-  handleOff?: () => any;
+  handleToggle?: (...args: any[]) => any;
   width?: number;
   height?: number;
 }
 
 export default function Toggle({
   defaultValue = false,
-  handleOn = () => {},
-  handleOff = () => {},
+  handleToggle = () => {},
   width = 48,
   height = 28,
 }: ToggleProps) {
   const [on, setOn] = useState(defaultValue);
-  const handleToggle = () => {
+  const handleToggleClick = async () => {
     setOn(prev => !prev);
+    await handleToggle();
   };
 
   const toggleName = on ? 'ToggleOn' : 'ToggleOff';
 
-  if (on) {
-    handleOn();
-  } else {
-    handleOff();
-  }
-
   return (
-    <Pressable onPress={handleToggle}>
+    <Pressable onPress={handleToggleClick}>
       <Icon name={toggleName} width={width} height={height} />
     </Pressable>
   );

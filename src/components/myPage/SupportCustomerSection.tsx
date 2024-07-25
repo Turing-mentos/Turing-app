@@ -20,7 +20,7 @@ export default function SupportCustomerSection() {
 }
 
 const Container = styled.View`
-  padding: 12px 0px 90px 0px;
+  padding: 12px 0px 80px 0px;
   background-color: ${props => props.theme.color.grey[100]};
   gap: 8px;
 `;

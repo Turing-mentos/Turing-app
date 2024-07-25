@@ -2,17 +2,14 @@ import * as KakaoLogin from '@react-native-seoul/kakao-login';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
-import http from '../utils/http';
 import {setStorage} from '../utils/storage';
-
-interface SignInResponseDTO {
-  accessToken: string;
-  refreshToken: string;
-  email: string;
-}
+import {AuthAPI} from '../api/auth';
+import useUserStore from '../store/useUserStore';
+import {showToast} from '../components/common/Toast';
 
 export default function useSignIn() {
   const navigation = useNavigation();
+  const setUser = useUserStore(state => state.setUser);
 
   function goToHome() {
     navigation.dispatch(
@@ -23,49 +20,109 @@ export default function useSignIn() {
     );
   }
 
-  async function handleSignInApple() {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      // Note: it appears putting FULL_NAME first is important, see issue #293
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
+  async function saveUserTokens(accessToken: string, refreshToken: string) {
+    await setStorage('accessToken', accessToken);
+    await setStorage('refreshToken', refreshToken);
+  }
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      // user is authenticated
+  async function fetchUserInfoAndSave() {
+    try {
+      const userInfoResponse = await AuthAPI.getUserInfoFromAccessToken();
+
+      if (userInfoResponse.data) {
+        const {
+          memberId,
+          role,
+          firstName,
+          lastName,
+          university,
+          department,
+          studentNumber,
+          provider,
+        } = userInfoResponse.data;
+        const convertedRole = role === 'TEACHER' ? 'teacher' : 'student';
+
+        setUser({
+          id: memberId,
+          role: convertedRole,
+          firstName,
+          lastName,
+          university,
+          department,
+          studentNum: studentNumber,
+          provider,
+        });
+      }
+    } catch (err) {
+      throw new Error('유저 정보 불러오기 실패:' + err);
+    }
+  }
+
+  async function handleSignInApple() {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      });
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        const {identityToken} = appleAuthRequestResponse;
+
+        if (!identityToken) {
+          throw new Error('identityToken이 없습니다.');
+        }
+        const response = await AuthAPI.signInWithApple(identityToken);
+        const {accessToken, refreshToken} = response.data!;
+
+        if (!accessToken) {
+          navigation.navigate('SignUp', {email, provider: 'APPLE'});
+          return;
+        }
+
+        await saveUserTokens(accessToken, refreshToken);
+        await fetchUserInfoAndSave();
+
+        goToHome();
+      }
+    } catch (err) {
+      // showToast('로그인 도중 에러가 발생했습니다!');
+      console.log('애플 로그인 에러:', err);
     }
   }
 
   async function handleSignInKakao() {
     try {
+      // 카카오 API
+      await KakaoLogin.login();
       const kakaoResponse = await KakaoLogin.getProfile();
-      const response = await http.post<SignInResponseDTO>('/auth/kakao/login', {
-        email: kakaoResponse.email,
-        kakaoNickname: kakaoResponse.nickname,
-      });
+      const {email} = kakaoResponse;
 
-      if (!response.data) {
-        throw new Error('서버 응답 오류');
+      // 서버 로그인 시도
+      const response = await AuthAPI.signInWithKakao(email);
+      const {accessToken, refreshToken} = response.data!;
+
+      if (!accessToken) {
+        navigation.navigate('SignUp', {email, provider: 'KAKAO'});
+        return;
       }
 
-      const {accessToken, refreshToken} = response.data;
-      await setStorage('accessToken', accessToken);
-      await setStorage('refreshToken', refreshToken);
+      await saveUserTokens(accessToken, refreshToken);
+      await fetchUserInfoAndSave();
 
       goToHome();
     } catch (err) {
+      // showToast('로그인 도중 에러가 발생했습니다!');
       console.log('카카오 로그인 에러:', err);
     }
   }
 
   return {
+    saveUserTokens,
     handleSignInKakao,
     handleSignInApple,
+    fetchUserInfoAndSave,
   };
 }

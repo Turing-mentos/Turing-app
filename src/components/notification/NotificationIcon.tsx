@@ -11,6 +11,7 @@ const iconName = {
   SCHEDULE_CHANGE: 'ScheduleChange',
   NEW_SCHEDULE: 'NewSchedule',
   REPORT: 'Report',
+  SESSION: 'Session',
 };
 
 interface NotificationIconProps {

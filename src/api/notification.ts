@@ -8,6 +8,7 @@ export const category = {
   SCHEDULE_CHANGE: '수업 일정 변경 요청',
   NEW_SCHEDULE: '학생의 새로운 시험 일정',
   REPORT: '리포트 작성하기',
+  SESSION: '기준회차 추가',
 } as const;
 
 export interface NotificationDTO {
@@ -21,7 +22,7 @@ export interface NotificationDTO {
 }
 
 export interface NotificationSettingDTO {
-  id: number;
+  noticeSettingId: number;
   enabled: boolean;
   category: keyof typeof category;
 }
@@ -35,13 +36,7 @@ export interface CountOfNotificationDTO {
  * @returns NotificationDTO[]
  */
 async function getNotifications() {
-  try {
-    const response = await http.get<NotificationDTO[]>('/notification/all');
-
-    return response.data;
-  } catch (err) {
-    console.log('getNotifications() error: ' + err);
-  }
+  return await http.get<NotificationDTO[]>('/notification/all');
 }
 
 /**
@@ -49,11 +44,7 @@ async function getNotifications() {
  * @param notificationId 알림 ID
  */
 async function markNotificationAsRead(notificationId: number) {
-  try {
-    await http.patch(`/notification/${notificationId}`);
-  } catch (err) {
-    console.log('markNotificationAsRead() error: ' + err);
-  }
+  return await http.patch<null>(`/notification/${notificationId}`);
 }
 
 /**
@@ -61,27 +52,30 @@ async function markNotificationAsRead(notificationId: number) {
  * @returns NotificationSettingDTO[]
  */
 async function getNotificationSetting() {
-  try {
-    const response = await http.get<NotificationSettingDTO[]>(
-      '/notification/setting',
-    );
-
-    return response.data;
-  } catch (err) {
-    console.log('getNotificationSetting() error: ' + err);
-  }
+  return await http.get<NotificationSettingDTO[]>('/notification/setting');
 }
 
 /**
  * [알림] 설정 변경
+ *
  * @param notificationSettingId 알림 설정 ID
  */
 async function setNotificationSetting(notificationSettingId: number) {
-  try {
-    await http.patch(`/notification/setting/${notificationSettingId}`);
-  } catch (err) {
-    console.log('setNotificationSetting() error: ' + err);
-  }
+  return await http.patch<boolean>(
+    `/notification/setting/${notificationSettingId}`,
+  );
+}
+
+/**
+ * 알림 설정 생성
+ *
+ * @param enabled
+ * @returns
+ */
+async function initNotificationSetting(enabled: boolean) {
+  return await http.get<NotificationSettingDTO[]>(
+    `/notification/setting/init?enabled=${enabled}`,
+  );
 }
 
 /**
@@ -89,15 +83,7 @@ async function setNotificationSetting(notificationSettingId: number) {
  * @returns CountOfNotificationDTO
  */
 async function getCountOfNotifications() {
-  try {
-    const response = await http.get<CountOfNotificationDTO>(
-      '/notification/total',
-    );
-
-    return response.data;
-  } catch (err) {
-    console.log('getCountOfNotifications() error: ' + err);
-  }
+  return await http.get<number>('/notification/total');
 }
 
 export const NotificationAPI = {
@@ -106,4 +92,5 @@ export const NotificationAPI = {
   getNotificationSetting,
   setNotificationSetting,
   getCountOfNotifications,
+  initNotificationSetting,
 };

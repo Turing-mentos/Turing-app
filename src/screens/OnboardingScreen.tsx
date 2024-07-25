@@ -2,8 +2,11 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import Onboarding from '../components/onboarding/Onboarding';
+import {requestUserPermission} from '../utils/permission';
 
 export default function OnboardingScreen() {
+  requestUserPermission();
+
   return (
     <Container>
       <Onboarding />

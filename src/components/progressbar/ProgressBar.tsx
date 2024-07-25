@@ -1,4 +1,6 @@
+import React from 'react';
 import styled from '@emotion/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 type ProgressBarProps = {
   maxNum: number;
@@ -15,9 +17,13 @@ const ProgressBar = ({maxNum, currentCredit}: ProgressBarProps) => {
   const currentCreditPercentage = calculatePercentage(currentCredit, maxNum);
   return (
     <TotalProgressBar>
-      <CurrenProgressBar sidePosition={currentCreditPercentage} />
-      <CurrentCreditDescription
-        sidePosition={currentCreditPercentage}></CurrentCreditDescription>
+      <CurrentProgressBar
+        colors={['#9708CC', '#287EFF']}
+        useAngle
+        angle={75}
+        sidePosition={currentCreditPercentage}
+      />
+      <CurrentCreditDescription sidePosition={currentCreditPercentage} />
     </TotalProgressBar>
   );
 };
@@ -33,7 +39,7 @@ const TotalProgressBar = styled.View`
   background-color: #e6e8f0;
 `;
 
-const CurrenProgressBar = styled.View<{
+const CurrentProgressBar = styled(LinearGradient)<{
   sidePosition: string;
 }>`
   position: absolute;

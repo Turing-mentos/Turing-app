@@ -217,7 +217,7 @@ export default function PrevReportPage() {
                       <ReportItem
                         key={item.reportId}
                         reportId={item.reportId}
-                        name={`${item.lastName}${item.firstName}`}
+                        name={item.name}
                         subject={item.subject}
                         session={item.session}
                       />

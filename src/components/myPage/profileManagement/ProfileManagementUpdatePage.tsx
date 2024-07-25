@@ -7,8 +7,10 @@ import Icon from '../../common/icons/SvgIcon';
 import DefaultButton from '../../buttons/DefaultButton';
 import InputBox from '../../common/InputBox';
 import {ProfileAPI} from '../../../api/profile';
+import useSignIn from '../../../hooks/useSignIn';
 
 export default function ProfileManagementUpdatePage() {
+  const {fetchUserInfoAndSave} = useSignIn();
   const {role, lastName, firstName, university, department, studentNum} =
     useUserStore(state => state.user);
   const [profile, setProfile] = useState({
@@ -16,7 +18,7 @@ export default function ProfileManagementUpdatePage() {
     firstName: firstName,
     university: university,
     department: department,
-    studentNum: studentNum,
+    studentNumber: studentNum,
   });
   const navigation = useNavigation();
   const target = role === 'teacher' ? '학생' : '선생님';
@@ -30,15 +32,21 @@ export default function ProfileManagementUpdatePage() {
   }
 
   async function handleUpdateSubmit() {
-    if (role === 'teacher') {
-      await ProfileAPI.updateTeacherProfile(profile);
-    } else if (role === 'student') {
-      await ProfileAPI.updateStudentProfile(profile);
-    } else {
-      console.error('일치하는 role이 없습니다.');
-    }
+    try {
+      if (role === 'teacher') {
+        await ProfileAPI.updateTeacherProfile(profile);
+      } else if (role === 'student') {
+        await ProfileAPI.updateStudentProfile(profile);
+      } else {
+        console.error('일치하는 role이 없습니다.');
+      }
 
-    navigation.navigate('ProfileManagement', {key: Math.random()});
+      navigation.navigate('ProfileManagement', {key: Math.random()});
+    } catch (err) {
+      console.log('handleUpdateSubmit err:', err);
+    } finally {
+      await fetchUserInfoAndSave();
+    }
   }
 
   return (
@@ -84,7 +92,7 @@ export default function ProfileManagementUpdatePage() {
             />
             <InputBox
               label="학번"
-              value={profile.studentNum}
+              value={profile.studentNumber}
               onChangeText={value => handleTextChange('studentNum', value)}
               placeholder="ex. 20학번"
             />

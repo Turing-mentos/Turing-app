@@ -34,8 +34,8 @@ interface StudyRoom {
 }
 
 export interface StudyRoomDetail {
-  opponentFirstName: string;
-  opponentLastName: string;
+  oppositeFirstName: string;
+  oppositeLastName: string;
   subject: string;
   studentSchool: string;
   studentYear: string;
@@ -62,8 +62,36 @@ interface TeacherInfo {
   teacherLastName: string;
 }
 
+const decodeTime = (localTime: string) => {
+  const [hour, minute] = localTime.split(':').map(Number);
+
+  return {
+    hour,
+    minute,
+    nano: 0,
+    second: 0,
+  };
+};
+
+const convertTime = ({
+  hour,
+  minute,
+  second,
+  nano,
+}: {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}) => {
+  return `${hour < 10 ? '0' + hour : hour}:${
+    minute < 10 ? '0' + minute : minute
+  }`;
+};
+
 /**
  * 진행중인 수업 조회(+연결 여부)
+ * x
  * @returns
  */
 async function getStudyRoomsInProgress() {
@@ -73,16 +101,28 @@ async function getStudyRoomsInProgress() {
 
 /**
  * 과외 정보 등록
+ *
  * @param studyRoom
  * @returns
  */
 async function addStudyRoom(studyRoom: StudyRoom) {
-  const response = await http.post<null>('/study-rooms', studyRoom);
+  const {studyTimes} = studyRoom;
+  const newStudyTimes = studyTimes.map(v => ({
+    ...v,
+    startTime: convertTime(v.startTime),
+    endTime: convertTime(v.endTime),
+  }));
+  const request = {
+    ...studyRoom,
+    studyTimes: newStudyTimes,
+  };
+  const response = await http.post<null>('/study-rooms', request);
   return response;
 }
 
 /**
  * 진행중인 수업 상세 조회
+ *
  * @param studyRoomId
  * @returns
  */
@@ -90,11 +130,25 @@ async function getStudyRoomDetail(studyRoomId: number) {
   const response = await http.get<StudyRoomDetail>(
     `/study-rooms/${studyRoomId}`,
   );
-  return response;
+  const {studyTimes} = response.data;
+  const newStudyTimes = studyTimes.map(v => ({
+    ...v,
+    startTime: decodeTime(v.startTime),
+    endTime: decodeTime(v.endTime),
+  }));
+
+  return {
+    ...response,
+    data: {
+      ...response.data,
+      studyTimes: newStudyTimes,
+    },
+  };
 }
 
 /**
  * 과외 정보 수정
+ *
  * @param studyRoomId
  * @param request
  * @returns
@@ -103,7 +157,20 @@ async function updateStudyRoom(
   studyRoomId: number,
   request: UpdateStudyRoomRequest,
 ) {
-  const response = await http.put<null>(`/study-rooms/${studyRoomId}`, request);
+  const {studyTimes} = request;
+  const newStudyTimes = studyTimes.map(v => ({
+    ...v,
+    startTime: convertTime(v.startTime),
+    endTime: convertTime(v.endTime),
+  }));
+  const newRequest = {
+    ...request,
+    studyTimes: newStudyTimes,
+  };
+  const response = await http.put<null>(
+    `/study-rooms/${studyRoomId}`,
+    newRequest,
+  );
   return response;
 }
 
