@@ -23,19 +23,22 @@ export default function HomePage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [studyRoomIds, setStudyRoomIds] = useState<number[]>([]);
 
-  console.log('studyRoomIds:', studyRoomIds);
+  // console.log('studyRoomIds:', studyRoomIds);
   const today = format(new Date(), 'yyyy-MM-dd');
   const dateSchedules = groupSchedulesByDate(schedules);
 
-  console.log('dateSchedules:', dateSchedules);
+  // console.log('dateSchedules:', dateSchedules);
   const todaySchedule = dateSchedules[today];
 
-  console.log('todaySchedule:', todaySchedule);
+  // console.log('todaySchedule:', todaySchedule);
 
   const handleInitNotificationSetting = async (enabled: boolean) => {
     try {
+      console.log('user id', user.id);
+      if (user.id) {
+        await setStorage(user.id + '', true);
+      }
       await NotificationAPI.initNotificationSetting(enabled);
-      await setStorage('visited', true);
     } catch (err) {
       console.log('handleInitNotificationSetting() err:', err);
     }
@@ -43,7 +46,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const initNotificationSetting = async () => {
-      const visited = await getStorage('visited');
+      const visited = await getStorage(user.id + '');
 
       if (!visited) {
         // 모달 오픈

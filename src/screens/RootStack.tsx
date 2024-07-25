@@ -94,11 +94,7 @@ export default function RootStack() {
         component={LoadingScreen}
         options={{headerShown: false}}
       /> */}
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        options={{header: () => <OnboardingHeader />}}
-      />
+
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
@@ -108,6 +104,11 @@ export default function RootStack() {
         name="SignUp"
         component={SingUpScreen}
         options={{header: () => <SignUpHeader />}}
+      />
+      <Stack.Screen
+        name="Onboarding"
+        component={OnboardingScreen}
+        options={{header: () => <OnboardingHeader />}}
       />
 
       {/* 메인 탭 */}
