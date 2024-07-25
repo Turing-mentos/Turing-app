@@ -7,7 +7,7 @@ import PlusButton from '../../../../assets/images/schedule/plus.svg'
 import {useSimpleSheet, SimpleSheet} from 'react-native-simple-sheet';
 import SimpleSheetContainer from '../../../components/common/SimpleSheetContainer.tsx';
 import NoticeWriteScreen from './NoticeWriteScreen.tsx';
-// import HomeworkList from './HomeworkList.tsx';
+import HomeworkList from './HomeworkList.tsx';
 const Notice = () => {
   const sheet = useSimpleSheet();
 
@@ -33,8 +33,8 @@ const Notice = () => {
         category: '독해',
         title: '마더텅',
         rangeType: 'ch',
-        rangeStart: '3',
-        rangeEnd: '5',
+        rangeStart: 3,
+        rangeEnd: 5,
         content: '문풀',
         memo: '중요',
         isDone: false,

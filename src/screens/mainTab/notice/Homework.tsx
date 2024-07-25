@@ -29,7 +29,7 @@ export default function Homework({
 
   return (
     <ButtonContainer onPress={handlePress} $sub={sub} $disabled={disabled}>
-      {isChecked ? <Checked /> : <NonChecked />}
+      {!isChecked ? <Checked /> : <NonChecked />}
       <CheckBoxLabel $sub={sub} $isChecked={isChecked}>
         {label}
       </CheckBoxLabel>

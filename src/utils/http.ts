@@ -29,6 +29,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async config => {
+  console.log('config:', config);
   const accessToken = await getStorage('accessToken');
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -63,7 +64,7 @@ axiosInstance.interceptors.response.use(
       config,
       response: {status},
     } = err;
-
+    console.log('err:', err);
     /** 1 */
     if (config.url === '/auth/reissue' || status !== 403 || config.sent) {
       return Promise.reject(err);
