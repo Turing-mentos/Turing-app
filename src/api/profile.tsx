@@ -5,7 +5,7 @@ export interface Profile {
   firstName?: string;
   university?: string;
   department?: string;
-  studentNum?: string;
+  studentNumber?: string;
 }
 
 async function getStudentProfile() {
@@ -29,23 +29,11 @@ async function getTeacherProfile() {
 }
 
 async function updateStudentProfile(studentProfile: Profile) {
-  try {
-    const response = await http.patch('/student/profile', studentProfile);
-
-    return response.data;
-  } catch (err) {
-    console.log('(): error', err);
-  }
+  return await http.patch<boolean>('/members/profile', studentProfile);
 }
 
 async function updateTeacherProfile(teacherProfile: Profile) {
-  try {
-    const response = await http.patch('/teacher/profile', teacherProfile);
-
-    return response.data;
-  } catch (err) {
-    console.log('(): error', err);
-  }
+  return await http.patch<boolean>('/members/profile', teacherProfile);
 }
 
 export const ProfileAPI = {
