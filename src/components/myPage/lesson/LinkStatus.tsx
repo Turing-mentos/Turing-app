@@ -22,7 +22,7 @@ export default function LinkStatus({status, role}: LinkStatusProps) {
 }
 
 const Container = styled.View<{$checked: boolean}>`
-  align-self: flex-start;
+  /* align-self: flex-start; */
   padding: 2px 8px;
   flex-direction: row;
   align-items: center;

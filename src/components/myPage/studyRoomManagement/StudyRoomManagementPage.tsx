@@ -148,7 +148,9 @@ export default function StudyRoomManagementPage() {
                 <Title>{title}</Title>
                 {role === 'teacher' && <Grade>{schoolInfo}</Grade>}
               </TitleGroup>
-              <LinkStatus role={role} status={linkStatus} />
+              <StatusContainer>
+                <LinkStatus role={role} status={linkStatus} />
+              </StatusContainer>
             </Header>
 
             <Line />
@@ -235,9 +237,14 @@ const Section = styled.View`
   background-color: ${props => props.theme.color.grey[100]};
 `;
 
+const StatusContainer = styled.View`
+  align-self: flex-start;
+`;
+
 const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const TitleGroup = styled.View``;
