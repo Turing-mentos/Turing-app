@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -24,20 +25,22 @@ export default function LessonInProgressSection() {
     }
   };
 
-  useEffect(() => {
-    const fetchStudyRooms = async () => {
-      try {
-        const response = await StudyRoomAPI.getStudyRoomsInProgress();
-        if (response.data) {
-          setStudyRooms(response.data);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchStudyRooms = async () => {
+        try {
+          const response = await StudyRoomAPI.getStudyRoomsInProgress();
+          if (response.data) {
+            setStudyRooms(response.data);
+          }
+        } catch (err) {
+          console.log('fetch study room error:', err);
         }
-      } catch (err) {
-        console.log('fetch study room error:', err);
-      }
-    };
+      };
 
-    fetchStudyRooms();
-  }, []);
+      fetchStudyRooms();
+    }, []),
+  );
 
   return (
     <Container>

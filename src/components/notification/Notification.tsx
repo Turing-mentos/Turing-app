@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
 import {formatNotificationTime} from '../../utils/time';
 import {
@@ -19,8 +20,36 @@ export default function Notification({
   createdAt,
   targetId,
 }: NotificationProps) {
+  const navigation = useNavigation();
+
   async function handlePressNotification() {
     await NotificationAPI.markNotificationAsRead(id);
+
+    if (category === 'NOTEBOOK') {
+      // 알림장 작성하기
+      // 최초 작성 이동 or 알림장 작성 페이지 이동
+    } else if (category === 'HOMEWORK') {
+      // 숙제 알리미
+      navigation.navigate('Notice');
+    } else if (category === 'NEW_SCHEDULE') {
+      // 학생의 새로운 시험 일정 등록
+      navigation.navigate('Schedule');
+    } else if (category === 'COMMENT') {
+      // 새로운 댓글
+      // 댓글이 달린 질문의 세부 화면으로 이동
+    } else if (category === 'QUESTION') {
+      // 새로운 질문
+      navigation.navigate('Question');
+    } else if (category === 'REPORT') {
+      // 리포트 작성하기
+      navigation.navigate('Report');
+    } else if (category === 'SCHEDULE_CHANGE') {
+      // 수업 일정 변경 요청
+      // SCHEDULE 18 화면으로 이동
+    } else if (category === 'SESSION') {
+      // 기준회차 추가
+      // SCHEDULE 50 화면으로 이동
+    }
 
     /**
      *  @TODO 추후 알림에 해당하는 페이지로 이동 로직 작성 필요!

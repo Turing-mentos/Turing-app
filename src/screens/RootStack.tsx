@@ -1,5 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import useSignIn from '../hooks/useSignIn';
+import {getStorage} from '../utils/storage';
 
 // 회원가입 / 로그인
 import LoadingScreen from './LoadingScreen';
@@ -53,10 +56,36 @@ import TeacherConnectHeader from '../components/myPage/studyRoomManagement/Teach
 import ReportDetailHeader from '../components/report/detail/ReportDetailHeader';
 import ReportHelpHeader from '../components/report/detail/ReportHelpHeader';
 import PrevReportHeader from '../components/report/detail/PrevReportHeader';
+import PrivacyPolicyHeader from '../components/myPage/PrivacyPolicyHeader';
+import TermsOfUseHeader from '../components/myPage/TermsOfUseHeader';
 
 const Stack = createNativeStackNavigator();
 
 export default function RootStack() {
+  const navigation = useNavigation();
+  const {fetchUserInfoAndSave} = useSignIn();
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      try {
+        const accessToken = await getStorage('accessToken');
+        console.log('accessToken:', accessToken);
+
+        if (accessToken) {
+          await fetchUserInfoAndSave();
+          navigation.navigate('MainTab');
+        } else {
+          navigation.navigate('SignIn');
+        }
+      } catch (err) {
+        console.log('자동 로그인 에러:', err);
+        navigation.navigate('SignIn');
+      }
+    };
+
+    autoLogin();
+  }, [fetchUserInfoAndSave, navigation]);
+
   return (
     <Stack.Navigator>
       {/* 회원가입 / 로그인 */}
@@ -168,8 +197,16 @@ export default function RootStack() {
       />
       <Stack.Screen name="Review" component={ReviewScreen} />
       <Stack.Screen name="Contact" component={ContactScreen} />
-      <Stack.Screen name="TermsOfUse" component={TermsOfUseScreen} />
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+      <Stack.Screen
+        name="TermsOfUse"
+        component={TermsOfUseScreen}
+        options={{header: () => <TermsOfUseHeader />}}
+      />
+      <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyScreen}
+        options={{header: () => <PrivacyPolicyHeader />}}
+      />
 
       {/* 알림 관련 페이지 */}
       <Stack.Screen

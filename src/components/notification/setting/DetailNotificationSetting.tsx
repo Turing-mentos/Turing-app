@@ -1,27 +1,75 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
 import styled from '@emotion/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 import SettingComponent from './SettingComponent';
 import {NotificationAPI} from '../../../api/notification';
 
+const initialSettingState = {
+  NOTEBOOK: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  HOMEWORK: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  SCHEDULE_CHANGE: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  NEW_SCHEDULE: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  QUESTION: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  COMMENT: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  REPORT: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+  SESSION: {
+    enabled: false,
+    noticeSettingId: -1,
+  },
+};
+
 export default function DetailNotificationSetting() {
-  const [settingState, setSettingState] = useState({
-    NOTEBOOK: false,
-    HOMEWORK: false,
-    SCHEDULE_CHANGE: false,
-    NEW_SCHEDULE: false,
-    QUESTION: false,
-    COMMENT: false,
-    REPORT: false,
-  });
+  const [settingState, setSettingState] = useState(initialSettingState);
 
-  useEffect(() => {
-    (async function () {
-      const settings = await NotificationAPI.getNotificationSetting();
+  const fetchNotificationSetting = async () => {
+    try {
+      const response = await NotificationAPI.getNotificationSetting();
 
-      const nextSettingState = settings.map(setting => ({}));
-    })();
-  }, []);
+      if (response.data) {
+        const settings = response.data;
+        const transformedData = settings.reduce(
+          (acc, {category, enabled, noticeSettingId}) => {
+            acc[category].enabled = enabled;
+            acc[category].noticeSettingId = noticeSettingId;
+            return acc;
+          },
+          initialSettingState,
+        );
+        console.log('test!');
+        setSettingState(transformedData);
+      }
+    } catch (err) {
+      console.log('fetchNotificationSetting() err:', err);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchNotificationSetting();
+    }, []),
+  );
 
   return (
     <Container>
@@ -30,25 +78,60 @@ export default function DetailNotificationSetting() {
       <SettingGroupsContainer>
         <SettingGroup>
           <SettingTitle>알림장</SettingTitle>
-          <SettingComponent category="NOTEBOOK" />
-          <SettingComponent category="HOMEWORK" />
+          <SettingComponent
+            state={settingState.NOTEBOOK.enabled}
+            category="NOTEBOOK"
+            noticeSettingId={settingState.NOTEBOOK.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
+          <SettingComponent
+            state={settingState.HOMEWORK.enabled}
+            category="HOMEWORK"
+            noticeSettingId={settingState.HOMEWORK.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
         </SettingGroup>
 
         <SettingGroup>
           <SettingTitle>스케줄</SettingTitle>
-          <SettingComponent category="SCHEDULE_CHANGE" />
-          <SettingComponent category="NEW_SCHEDULE" />
+          <SettingComponent
+            state={settingState.SCHEDULE_CHANGE.enabled}
+            category="SCHEDULE_CHANGE"
+            noticeSettingId={settingState.SCHEDULE_CHANGE.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
+          <SettingComponent
+            state={settingState.SESSION.enabled}
+            category="SESSION"
+            noticeSettingId={settingState.SESSION.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
         </SettingGroup>
 
         <SettingGroup>
           <SettingTitle>질문 게시판</SettingTitle>
-          <SettingComponent category="QUESTION" />
-          <SettingComponent category="COMMENT" />
+          <SettingComponent
+            state={settingState.QUESTION.enabled}
+            category="QUESTION"
+            noticeSettingId={settingState.QUESTION.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
+          <SettingComponent
+            state={settingState.COMMENT.enabled}
+            category="COMMENT"
+            noticeSettingId={settingState.COMMENT.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
         </SettingGroup>
 
         <SettingGroup>
           <SettingTitle>리포트</SettingTitle>
-          <SettingComponent category="REPORT" />
+          <SettingComponent
+            state={settingState.REPORT.enabled}
+            category="REPORT"
+            noticeSettingId={settingState.REPORT.noticeSettingId}
+            fetchNotificationSetting={fetchNotificationSetting}
+          />
         </SettingGroup>
       </SettingGroupsContainer>
     </Container>

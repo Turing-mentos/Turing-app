@@ -5,6 +5,7 @@ export {default as NewSchedule} from '../../../../assets/images/notification/new
 export {default as Question} from '../../../../assets/images/notification/question_icon.svg';
 export {default as Report} from '../../../../assets/images/notification/report_icon.svg';
 export {default as ScheduleChange} from '../../../../assets/images/notification/schedule_change_icon.svg';
+export {default as Session} from '../../../../assets/images/notification/session.svg';
 
 export {default as Arrow3Left} from '../../../../assets/images/arrow3-left.svg';
 export {default as ToggleOn} from '../../../../assets/images/toggle-on.svg';

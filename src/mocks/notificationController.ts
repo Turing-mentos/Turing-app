@@ -70,37 +70,37 @@ const exampleGetNotifications: NotificationDTO[] = [
 
 const exampleGetNotificationSetting: NotificationSettingDTO[] = [
   {
-    id: 1,
+    noticeSettingId: 1,
     enabled: true,
     category: 'NOTEBOOK',
   },
   {
-    id: 2,
+    noticeSettingId: 2,
     enabled: true,
     category: 'HOMEWORK',
   },
   {
-    id: 3,
+    noticeSettingId: 3,
     enabled: false,
     category: 'SCHEDULE_CHANGE',
   },
   {
-    id: 4,
+    noticeSettingId: 4,
     enabled: false,
     category: 'NEW_SCHEDULE',
   },
   {
-    id: 5,
+    noticeSettingId: 5,
     enabled: true,
     category: 'QUESTION',
   },
   {
-    id: 6,
+    noticeSettingId: 6,
     enabled: true,
     category: 'COMMENT',
   },
   {
-    id: 7,
+    noticeSettingId: 7,
     enabled: true,
     category: 'REPORT',
   },
