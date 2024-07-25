@@ -75,7 +75,7 @@ export default function useSignIn() {
           throw new Error('identityToken이 없습니다.');
         }
         const response = await AuthAPI.signInWithApple(identityToken);
-        const {accessToken, refreshToken} = response.data!;
+        const {accessToken, refreshToken, email} = response.data!;
 
         if (!accessToken) {
           navigation.navigate('SignUp', {email, provider: 'APPLE'});
