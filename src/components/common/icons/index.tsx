@@ -60,3 +60,4 @@ export {default as InformationBlack} from '../../../../assets/images/information
 export {default as ArrowDownwardWhite} from '../../../../assets/images/arrow-downward-white.svg';
 export {default as HelpQuestionGrey} from '../../../../assets/images/help-question-grey.svg';
 export {default as BlueCheckSingle} from '../../../../assets/images/blue-check-single.svg';
+export {default as ArrowRightward} from '../../../../assets/images/arrow-rightward.svg';
