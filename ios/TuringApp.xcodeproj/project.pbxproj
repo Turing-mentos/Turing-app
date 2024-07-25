@@ -15,6 +15,7 @@
 		15231947918E64804FD6D32C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5BE49F52A00D524E9944799C /* PrivacyInfo.xcprivacy */; };
 		2748BC122C2FCAA2009B6F8E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2748BC112C2FCAA2009B6F8E /* GoogleService-Info.plist */; };
 		274A2B432C48020C00D6026A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 274A2B422C48020B00D6026A /* Assets.xcassets */; };
+		27696B5B2C52951A00A94CA4 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27696B5A2C52951A00A94CA4 /* GradientView.swift */; };
 		36EA07DCCCFDBDE3591AADDA /* Pods_TuringApp_TuringAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DD96A10062E7D62B71BDD1 /* Pods_TuringApp_TuringAppTests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		2748BC112C2FCAA2009B6F8E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2748BC132C2FCE59009B6F8E /* TuringApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TuringApp.entitlements; path = TuringApp/TuringApp.entitlements; sourceTree = "<group>"; };
 		274A2B422C48020B00D6026A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		27696B5A2C52951A00A94CA4 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		27F497972C25D89B00B2D233 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		27FBFF1E2C4BBA46005FCEC0 /* TuringApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TuringApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-TuringApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuringApp.debug.xcconfig"; path = "Target Support Files/Pods-TuringApp/Pods-TuringApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				27696B5A2C52951A00A94CA4 /* GradientView.swift */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				5BE49F52A00D524E9944799C /* PrivacyInfo.xcprivacy */,
@@ -428,6 +431,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				27696B5B2C52951A00A94CA4 /* GradientView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +450,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-TuringApp-TuringAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -473,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-TuringApp-TuringAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = TuringAppTests/Info.plist;

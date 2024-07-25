@@ -89,11 +89,11 @@ export default function RootStack() {
   return (
     <Stack.Navigator>
       {/* 회원가입 / 로그인 */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Loading"
         component={LoadingScreen}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="Onboarding"
         component={OnboardingScreen}
