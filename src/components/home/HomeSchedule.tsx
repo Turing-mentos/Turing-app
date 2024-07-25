@@ -55,6 +55,7 @@ function CalendarDate({
         <CircleContainer>
           {daySchedules.slice(0, 3).map(schedule => (
             <Circle
+              key={schedule.scheduleId}
               $backgroundColor={
                 theme.color.student[studyRoomColors[schedule.studyRoomId]]
               }

@@ -15,6 +15,8 @@ import {requestUserPermission} from '../../utils/permission';
 import {HomeAPI, Schedule} from '../../api/home';
 import {StudyRoomAPI} from '../../api/studyRoom';
 import {groupSchedulesByDate} from '../../utils/time';
+import HomeQuestion from './HomeQuestion';
+import HomeNotice from './HomeNotice';
 
 const timeToMinutes = (time: string) => {
   const [hours, minutes] = time.split(':').map(Number);
@@ -27,6 +29,7 @@ export default function HomePage() {
 
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [studyRoomIds, setStudyRoomIds] = useState<number[]>([]);
+  const [needConnect, setNeedConnect] = useState(true);
 
   const today = format(new Date(), 'yyyy-MM-dd');
   const hasEnrolledStudyRoom = studyRoomIds.length > 0;
@@ -104,6 +107,9 @@ export default function HomePage() {
             throw new Error('studyRooms do not exist');
           }
 
+          if (studyRooms.filter(v => v.linkStatus).length > 0) {
+            setNeedConnect(false);
+          }
           const fetchedStudyRoomIds = studyRooms.map(studyRoom => studyRoom.id);
           setStudyRoomIds(fetchedStudyRoomIds.sort((a, b) => a - b));
           const {data: fetchedSchedules} = await HomeAPI.getWeeklySchedule(
@@ -128,17 +134,27 @@ export default function HomePage() {
   return (
     <Container>
       <HomeInnerHeader state={headerState} />
+      <ScrollView>
+        <Main>
+          {!hasEnrolledStudyRoom && <NoStudyRoom />}
 
-      <Main>
-        {!hasEnrolledStudyRoom && <NoStudyRoom />}
+          {hasEnrolledStudyRoom && (
+            <>
+              <HomeSchedule schedules={schedules} studyRoomIds={studyRoomIds} />
 
-        {hasEnrolledStudyRoom && (
-          <HomeSchedule schedules={schedules} studyRoomIds={studyRoomIds} />
-        )}
-      </Main>
+              <HomeQuestion needConnect={needConnect} />
+              <HomeNotice needConnect={needConnect} />
+            </>
+          )}
+        </Main>
+      </ScrollView>
     </Container>
   );
 }
+
+const ScrollView = styled.ScrollView`
+  flex: 1;
+`;
 
 const Container = styled.View`
   flex: 1;
