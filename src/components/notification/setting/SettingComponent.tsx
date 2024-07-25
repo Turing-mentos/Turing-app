@@ -36,7 +36,6 @@ export default function SettingComponent({
     try {
       await NotificationAPI.setNotificationSetting(noticeSettingId);
       await fetchNotificationSetting();
-      console.log('clicked!');
     } catch (err) {
       console.log('handleToggle err:', err);
     }
