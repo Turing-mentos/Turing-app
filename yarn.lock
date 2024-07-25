@@ -2869,6 +2869,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/checkbox@npm:^0.5.17":
+  version: 0.5.17
+  resolution: "@react-native-community/checkbox@npm:0.5.17"
+  peerDependencies:
+    react: "*"
+    react-native: ">= 0.62"
+    react-native-windows: ">=0.62"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 98cddff11b976a1f712bfc4d7de946d5e102108bedc016bbcb668b3917757dd5092b5b93f651f740508dd8437ba3a0ce5ca15cef3ebf7bcfc15a490b0b7d0d6b
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:13.6.8":
   version: 13.6.8
   resolution: "@react-native-community/cli-clean@npm:13.6.8"
@@ -4116,6 +4130,7 @@ __metadata:
     "@invertase/react-native-apple-authentication": ^2.3.0
     "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-clipboard/clipboard": ^1.14.1
+    "@react-native-community/checkbox": ^0.5.17
     "@react-native-firebase/app": ^20.1.0
     "@react-native-firebase/messaging": ^20.1.0
     "@react-native-seoul/kakao-login": ^5.4.1
@@ -4150,7 +4165,7 @@ __metadata:
     react-native-reanimated: ^3.14.0
     react-native-safe-area-context: ^4.10.8
     react-native-screens: ^3.31.1
-    react-native-simple-sheet: ^1.0.2
+    react-native-simple-sheet: ^1.0.3
     react-native-svg: ^15.3.0
     react-native-svg-transformer: ^1.4.0
     react-native-swiper: ^1.6.0
@@ -9560,7 +9575,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -9671,6 +9686,34 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react-native-animatable@npm:1.3.3":
+  version: 1.3.3
+  resolution: "react-native-animatable@npm:1.3.3"
+  dependencies:
+    prop-types: ^15.7.2
+  checksum: eb35821de36ae4eb00f97d99fc22ed79bd017248092ff1299f9d46a7ab946de16d2e6d6bfbf4cab5ef77d0d3bf47684aec761a7670ec7d36aae8d77ab8ddd171
+  languageName: node
+  linkType: hard
+
+"react-native-calendars@npm:^1.1305.0":
+  version: 1.1305.0
+  resolution: "react-native-calendars@npm:1.1305.0"
+  dependencies:
+    hoist-non-react-statics: ^3.3.1
+    lodash: ^4.17.15
+    memoize-one: ^5.2.1
+    moment: ^2.29.4
+    prop-types: ^15.5.10
+    react-native-swipe-gestures: ^1.0.5
+    recyclerlistview: ^4.0.0
+    xdate: ^0.8.0
+  dependenciesMeta:
+    moment:
+      optional: true
+  checksum: bf50aa57f0e1efd3837319e9f119ebbd85c293be2d21c533850d105992872b2d4f0c1e58c1c4301655fd1b2b1ee9d26f9242c055a7f14ed57baacb1917c86e83
   languageName: node
   linkType: hard
 
@@ -9819,15 +9862,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-simple-sheet@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "react-native-simple-sheet@npm:1.0.2"
+"react-native-simple-sheet@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "react-native-simple-sheet@npm:1.0.3"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-gesture-handler: ">=2.0.0"
     react-native-reanimated: ">=3.0.0"
-  checksum: 7dcf983ec3e384fd7e4182f6cb5ecae8b628aeffe10fde8bbd1b4e81989cd3b6e6ff8dab33378ad8d918403cab77c045a2955d3cd1493c0f8559787847676778
+  checksum: ecdfe297c46558b042de66d0b4dbf3e50657bd1e97e30125e3aa5d1d35ce8809d9b4834f4d121a0b29f5f81e303bb70dbfae92001a30991ecf6e643376234833
   languageName: node
   linkType: hard
 

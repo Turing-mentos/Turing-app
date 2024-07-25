@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Text, StyleSheet, View, Image, ScrollView, TouchableOpacity, Modal, Animated} from "react-native";
+import {Dimensions, Text, StyleSheet, View, Image, ScrollView, TouchableOpacity, Modal, Animated} from "react-native";
 import {Calendar, CalendarUtils} from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import PlusButton from '../../../../assets/images/schedule/plus.svg'
 import BelowArrowButton from '../../../../assets/images/schedule/underarrow.svg'
 import CancelButton from '../../../../assets/images/schedule/cancel.svg'
-
+import Check from '../../../../assets/images/schedule/schedule-check.svg'
 const getDayOfWeek = (date) => {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
   return days[date.getDay()];
@@ -13,7 +13,7 @@ const getDayOfWeek = (date) => {
 
 const formatDateToKorean = (dateString) => {
   const date = new Date(dateString);
-  const year = date.getFullYear();
+  // const year = date.getFullYear();
   const month = date.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
   const day = date.getDate();
   const dayOfWeek = getDayOfWeek(date);
@@ -28,9 +28,40 @@ const ScheduleMainScreen = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const today = new Date();
   const [currentMonth, setCurrentMonth] = React.useState(today.getMonth());
-  const currentYear = today.getFullYear();
+  const [currentYear, setCurrentYear] = React.useState(today.getFullYear());
+  const [isSwiping, setIsSwiping] = React.useState(false);
+  const scrollViewRef = React.useRef();
   const INITIAL_DATE = today.toISOString().split('T')[0];
+  const [dropdownVisible, setDropdownVisible] = React.useState(false);
 
+  // Toggle Dropdown Menu
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+  const handleScrollEnd = (event) => {
+    const screenWidth = Dimensions.get('window').width;
+    const scrollX = event.nativeEvent.contentOffset.x;
+  
+    const currentPage = Math.round(scrollX / screenWidth); // 현재 페이지 인덱스 계산
+  
+    if (isSwiping) {
+      setIsSwiping(false);
+      if (currentPage > 1) { // 우측 스와이프 (다음 월)
+        const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
+        const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+        setCurrentMonth(nextMonth);
+        setCurrentYear(nextYear);
+      } else if (currentPage < 1) { // 좌측 스와이프 (이전 월)
+        const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+        const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        setCurrentMonth(prevMonth);
+        setCurrentYear(prevYear);
+      }
+    }
+  };
+  const handleScrollStart = () => {
+    setIsSwiping(true);
+  };
   // to get sunday of target week that is first day 
   const getFirstDayOfWeek = (date) => { 
     const firstDay = new Date(date);
@@ -151,59 +182,10 @@ const ScheduleMainScreen = () => {
       			<View style={[styles.schedule47Inner, styles.abVariationSpaceBlock]}>
         				<View>
           					<Text style={styles.text}>{formatDateToKorean(selectedDate)}</Text>
-          					<View style={styles.frameWrapper}>
-            						<View style={[styles.frameParent, styles.groupFlexBox]}>
-              							<View style={styles.wrapperFlexBox}>
-                								<View style={styles.wrapperFlexBox1}>
-                  									<View style={[styles.wrapper, styles.wrapperFlexBox]}>
-                    										<Text style={[styles.text1, styles.textTypo5]}>박민영 | 영어</Text>
-                  									</View>
-                  									<View style={[styles.container, styles.wrapper1SpaceBlock]}>
-                    										<Text style={styles.text2}>
-                      											<Text style={styles.text3}>4회차</Text>
-                      											<Text style={styles.text4}> / 8회차</Text>
-                    										</Text>
-                  									</View>
-                								</View>
-                								<Text style={styles.pm700Container}>
-                  									<Text style={styles.pm}>
-                    										<Text style={styles.text3}>5:00 PM</Text>
-                    										<Text style={styles.text5}>{` `}</Text>
-                  									</Text>
-                  									<Text style={styles.pm2}>~ 7:00 PM</Text>
-                								</Text>
-              							</View>
-                            <Image style={styles.icon} resizeMode="cover" source={require('../../../../assets/images/schedule/right-arrow.png')} />
-      			
-              							{/* <Image style={styles.icon} resizeMode="cover" source="ICON_.png" /> */}
-            						</View>
+          					<View style={styles.scheduleEventCardDefault}>
+            						<Text style = {styles.defaultText}>예정된 수업이 없어요</Text>
           					</View>
-          					<View style={styles.frameWrapper}>
-            						<View style={[styles.frameParent, styles.groupFlexBox]}>
-              							<View style={styles.wrapperFlexBox}>
-                								<View style={styles.wrapperFlexBox1}>
-                  									<View style={[styles.wrapper, styles.wrapperFlexBox]}>
-                    										<Text style={[styles.text1, styles.textTypo5]}>신이현 | 수학</Text>
-                  									</View>
-                  									<View style={[styles.wrapper1, styles.wrapper1SpaceBlock]}>
-                    										<Text style={styles.text2}>
-                      											<Text style={styles.text3}>6회차</Text>
-                      											<Text style={styles.text4}> / 8회차</Text>
-                    										</Text>
-                  									</View>
-                								</View>
-                								<Text style={styles.pm700Container}>
-                  									<Text style={styles.pm}>
-                    										<Text style={styles.text3}>8:30 PM</Text>
-                    										<Text style={styles.text5}>{` `}</Text>
-                  									</Text>
-                  									<Text style={styles.pm2}>~ 10:30 PM</Text>
-                								</Text>
-              							</View>
-                            
-              							<Image style={styles.icon} resizeMode="cover" source={require('../../../../assets/images/schedule/right-arrow.png')} />
-            						</View>
-          					</View>
+          					
         				</View>
       			</View>
       			<View style={[styles.abVariation, styles.groupChildPosition]}>
@@ -212,10 +194,36 @@ const ScheduleMainScreen = () => {
           					<Image style={styles.icon} resizeMode="cover" source={require('../../../../assets/images/schedule/schedule-unchange.png')} />
         				</View>
       			</View>
-      			<View style={[styles.filterButton, styles.wrapperFlexBox]}>
-        				<Text style={[styles.text16, styles.textTypo4]}>전체 </Text>
-                <BelowArrowButton style={styles.icon2}/>
-      			</View>
+            <TouchableOpacity onPress={toggleDropdown}>
+          <View style={[styles.filterButton, styles.wrapperFlexBox]}>
+            <Text style={[styles.text16, styles.textTypo4]}>전체 </Text>
+            <BelowArrowButton style={styles.icon2}/>
+          </View>
+        </TouchableOpacity>
+
+        {/* Dropdown Menu */}
+        {dropdownVisible && (
+          <View style={[styles.instanceParent12, styles.icon104WrapperShadowBox, {top: insets.top + 70}]}>
+          <View style={styles.instanceParent}>
+          <TouchableOpacity>
+          <View style={styles.checkCheckFormValidationCParent}>
+          <Check width={12} height={12} />
+              <Text style={[styles.text, styles.dropDownText]}>  전체  </Text>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <View style={[styles.wrapper, styles.wrapperFlexBox]}>
+              <Text style={[styles.text1, styles.dropDownText]}>박민영 | 영어</Text>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <View style={[styles.wrapper, styles.wrapperFlexBox]}>
+              <Text style={[styles.text1, styles.dropDownText]}>신이현 | 수학</Text>
+          </View>
+          </TouchableOpacity>
+          </View>
+          </View>
+        )}
       			<View style={[styles.groupParent, styles.batteryPosition]}>
         				<View style={styles.groupChildLayout}>
           					<View style={[styles.groupChild, styles.groupChildLayout]} />
@@ -227,8 +235,18 @@ const ScheduleMainScreen = () => {
           					<Text style={[styles.text22, styles.textPosition]}>금</Text>
           					<Text style={[styles.text23, styles.textTypo1]}>토</Text>
         				</View>
+                <ScrollView
+                horizontal
+                pagingEnabled
+                // ref={scrollViewRef}
+                onMomentumScrollBegin={handleScrollStart}
+                onMomentumScrollEnd={handleScrollEnd}
+                showsHorizontalScrollIndicator={false}
+                contentOffset={{x: Dimensions.get('window').width, y: 0}} // 시작시 중간 페이지에서 시작
+                >
                 <CalendarGrid calendarDates={calendarDates} selectDate={selectDate} isDateSelected={isDateSelected} currentMonth={currentMonth} />
-      			</View>
+                </ScrollView>
+            </View>
     		</View>
       </ScrollView>
         
@@ -240,7 +258,7 @@ const ScheduleMainScreen = () => {
       </TouchableOpacity>
 
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -272,6 +290,81 @@ const ScheduleMainScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  dropDownText: {
+    fontSize: 14,
+    lineHeight: 19,
+    fontWeight: "500",
+    fontFamily: "Pretendard",
+    color: "#3b414f",
+    textAlign: "center"
+},
+  instanceParent: {
+    zIndex: 1000, // zIndex를 설정하여 모달 위에 표시되도록 함
+    alignItems: "center",
+    flexDirection: "column"
+},
+  instanceParent12: {
+    top: 105,
+    padding: 2,
+    left: 20,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#e6e8f0",
+    backgroundColor: "#fefefe"
+},
+  icon104WrapperShadowBox: {
+    top: 120, // Adjust this value based on your layout
+    zIndex: 1000,
+    padding: 10,
+    shadowOpacity: 1,
+    elevation: 10,
+    shadowRadius: 10,
+    shadowOffset: {
+        width: 0,
+        height: 0
+    },
+    shadowColor: "rgba(158, 163, 180, 0.25)",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute"
+},
+  checkCheckFormValidationCIcon: {
+    width: 13,
+    height: 11
+},
+text: {
+    color: "#287eff",
+    marginLeft: 4
+},
+checkCheckFormValidationCParent: {
+    backgroundColor: "#e5efff",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5
+},
+  defaultText: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: "600",
+    fontFamily: "Pretendard",
+    color: "#585f73",
+    textAlign: "left"
+},
+  scheduleEventCardDefault: {
+    paddingTop: 12,
+    paddingBottom: 8,
+    marginTop: 8,
+    paddingHorizontal: 16,
+    width: 350,
+    borderRadius: 5,
+    overflow: "hidden",
+    backgroundColor: "#F1F4FD"
+},
   addScheduleButton: {
     fontSize: 18,
     lineHeight: 24,
@@ -324,6 +417,7 @@ const styles = StyleSheet.create({
       flexDirection: "row"
   },
   wrapperFlexBox: {
+      padding : 10,
       justifyContent: "center",
       overflow: "hidden"
   },
@@ -483,6 +577,7 @@ const styles = StyleSheet.create({
       fontFamily: "Pretendard"
   },
   wrapper: {
+      padding : 10,
       alignItems: "center",
       flexDirection: "row",
       borderRadius: 5
