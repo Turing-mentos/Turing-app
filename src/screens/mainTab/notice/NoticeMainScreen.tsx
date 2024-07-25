@@ -7,7 +7,7 @@ import PlusButton from '../../../../assets/images/schedule/plus.svg'
 import {useSimpleSheet, SimpleSheet} from 'react-native-simple-sheet';
 import SimpleSheetContainer from '../../../components/common/SimpleSheetContainer.tsx';
 import NoticeWriteScreen from './NoticeWriteScreen.tsx';
-import HomeworkList from './HomeworkList.tsx';
+// import HomeworkList from './HomeworkList.tsx';
 const Notice = () => {
   const sheet = useSimpleSheet();
 
