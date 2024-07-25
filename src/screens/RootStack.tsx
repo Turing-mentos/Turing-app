@@ -69,10 +69,13 @@ export default function RootStack() {
     const autoLogin = async () => {
       try {
         const accessToken = await getStorage('accessToken');
+        console.log('accessToken:', accessToken);
 
         if (accessToken) {
           await fetchUserInfoAndSave();
           navigation.navigate('MainTab');
+        } else {
+          navigation.navigate('SignIn');
         }
       } catch (err) {
         console.log('자동 로그인 에러:', err);
@@ -81,7 +84,7 @@ export default function RootStack() {
     };
 
     autoLogin();
-  }, []);
+  }, [fetchUserInfoAndSave, navigation]);
 
   return (
     <Stack.Navigator>
