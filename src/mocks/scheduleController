@@ -1,0 +1,62 @@
+import MockAdapter from 'axios-mock-adapter';
+
+export function setupCalendarInMocks(mock: MockAdapter) {
+  // [회원] 프로필 조회 - 학생
+  mock.onGet('/schedule/month').reply(200, [
+    {
+      "scheduleId": 0,
+      "date": "2024-07-22",
+      "studentName": "string",
+      "subject": "string",
+      "session": 0,
+      "startTime": {
+        "hour": 0,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "endTime": {
+        "hour": 0,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "studyRoomId": 0,
+      "baseSession": 0
+    }
+  ]);
+
+  // [회원] 프로필 조회 - 선생님
+  mock.onGet('/schedule/{scheduleId}}').reply(200, {
+    "scheduleId": 0,
+    "date": "2024-07-22",
+    "studentName": "string",
+    "subject": "string",
+    "session": 0,
+    "startTime": {
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "nano": 0
+    },
+    "endTime": {
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "nano": 0
+    },
+    "studyRoomId": 0,
+    "baseSession": 0
+  });
+
+  // [회원] 프로필 수정 - 학생
+  mock.onPatch('/schedule/').reply(200, null);
+
+  // [회원] 프로필 수정 - 선생님
+  mock.onPatch('/teacher/profile').reply(200, null);
+}
+
+export function setupSignInMocks(mock: MockAdapter) {
+    // 카카오 로그인 api
+    mock.onPost('/auth/kakao/login').reply(200, signInResponseExample);
+  }
