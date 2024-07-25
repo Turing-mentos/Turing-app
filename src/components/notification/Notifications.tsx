@@ -7,6 +7,7 @@ import {NotificationAPI, NotificationDTO} from '../../api/notification';
 import PrevDivider from './PrevDivider';
 import NotificationLimitInfo from './NotificationLimitInfo';
 import Icon from '../common/icons/SvgIcon';
+import useUserStore from '../../store/useUserStore';
 
 function divideNotifications(notifications: NotificationDTO[]) {
   const currentNotifications: NotificationDTO[] = [];
@@ -29,12 +30,14 @@ function divideNotifications(notifications: NotificationDTO[]) {
 }
 
 const NoContent = () => {
+  const {firstName} = useUserStore(state => state.user);
+
   return (
     <NoContentContainer>
       <Icon name="HelpQuestionGrey" />
       <NoContentTitle>아직 새로운 알림이 없어요</NoContentTitle>
       <NoContentBody>
-        희재 선생님이 할 일을 잊지 않도록{'\n'}
+        {firstName} 선생님이 할 일을 잊지 않도록{'\n'}
         튜링이 알림을 보내드릴게요.
       </NoContentBody>
     </NoContentContainer>
@@ -48,10 +51,10 @@ export default function Notifications() {
 
   useEffect(() => {
     (async () => {
-      const fetchedNotifications = await NotificationAPI.getNotifications();
+      const response = await NotificationAPI.getNotifications();
 
-      if (fetchedNotifications) {
-        setNotifications(fetchedNotifications);
+      if (response.data) {
+        setNotifications(response.data);
       }
     })();
   }, []);

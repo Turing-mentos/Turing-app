@@ -14,6 +14,7 @@ export default function NotificationSettingScreen() {
 }
 
 const Container = styled.ScrollView`
-  background-color: ${props => props.theme.color.grey[150]};
+  flex: 1;
+  background-color: ${props => props.theme.color.grey[100]};
   gap: 4px;
 `;

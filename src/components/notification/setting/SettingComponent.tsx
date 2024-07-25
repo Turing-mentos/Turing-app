@@ -3,10 +3,13 @@ import styled from '@emotion/native';
 
 import Toggle from '../../common/Toggle';
 import NotificationIcon from '../NotificationIcon';
-import {category as CATEGORY} from '../../../api/notification';
+import {category as CATEGORY, NotificationAPI} from '../../../api/notification';
 
 interface SettingComponentProps {
   category: keyof typeof CATEGORY;
+  state?: boolean;
+  noticeSettingId: number;
+  fetchNotificationSetting: () => Promise<any>;
 }
 
 const comment = {
@@ -23,7 +26,22 @@ const comment = {
     '학생의 기준 회차 수업이 끝났을 때 리포트를 작성할 수 있도록 알려드려요.',
 };
 
-export default function SettingComponent({category}: SettingComponentProps) {
+export default function SettingComponent({
+  category,
+  state = false,
+  noticeSettingId,
+  fetchNotificationSetting,
+}: SettingComponentProps) {
+  const handleToggle = async () => {
+    try {
+      await NotificationAPI.setNotificationSetting(noticeSettingId);
+      await fetchNotificationSetting();
+      console.log('clicked!');
+    } catch (err) {
+      console.log('handleToggle err:', err);
+    }
+  };
+
   return (
     <SettingContainer>
       <Row>
@@ -31,7 +49,7 @@ export default function SettingComponent({category}: SettingComponentProps) {
           <NotificationIcon category={category} width={24} height={24} />
         </IconContainer>
         <SettingTitle>{CATEGORY[category]}</SettingTitle>
-        <Toggle />
+        <Toggle defaultValue={state} handleToggle={handleToggle} />
       </Row>
 
       <Comment>{comment[category]}</Comment>

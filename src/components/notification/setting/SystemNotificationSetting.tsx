@@ -23,6 +23,7 @@ export default function SystemNotificationSetting() {
 }
 
 const Container = styled.View`
+  flex: 1;
   background-color: ${props => props.theme.color.grey[100]};
   padding: 24px 20px;
   gap: 8px;
