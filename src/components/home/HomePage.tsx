@@ -6,6 +6,7 @@ import {format} from 'date-fns';
 import useUserStore from '../../store/useUserStore';
 import NoStudyRoom from './NoStudyRoom';
 import HomeInnerHeader from './HomeInnerHeader';
+import HomeSchedule from './HomeSchedule';
 import {getStorage, setStorage} from '../../utils/storage';
 import {NotificationAPI} from '../../api/notification';
 import {SimpleSheet, useSimpleSheet} from 'react-native-simple-sheet';
@@ -15,22 +16,43 @@ import {HomeAPI, Schedule} from '../../api/home';
 import {StudyRoomAPI} from '../../api/studyRoom';
 import {groupSchedulesByDate} from '../../utils/time';
 
+const timeToMinutes = (time: string) => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
 export default function HomePage() {
   const user = useUserStore(state => state.user);
   const sheet = useSimpleSheet();
 
-  const [headerState, setHeaderState] = useState(0);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [studyRoomIds, setStudyRoomIds] = useState<number[]>([]);
 
-  // console.log('studyRoomIds:', studyRoomIds);
   const today = format(new Date(), 'yyyy-MM-dd');
+  const hasEnrolledStudyRoom = studyRoomIds.length > 0;
   const dateSchedules = groupSchedulesByDate(schedules);
+  const todaySchedule = dateSchedules[today] || [];
 
-  // console.log('dateSchedules:', dateSchedules);
-  const todaySchedule = dateSchedules[today];
+  let headerState = 0;
 
-  // console.log('todaySchedule:', todaySchedule);
+  if (!hasEnrolledStudyRoom) {
+    headerState = 0;
+  } else if (todaySchedule.length === 0) {
+    headerState = 3;
+  } else {
+    const nowSchedule = todaySchedule.filter(schedule => {
+      const now = format(new Date(), 'HH:mm');
+      const {startTime} = schedule;
+
+      return timeToMinutes(startTime) > timeToMinutes(now);
+    });
+
+    if (nowSchedule.length > 0) {
+      headerState = 1;
+    } else {
+      headerState = 2;
+    }
+  }
 
   const handleInitNotificationSetting = async (enabled: boolean) => {
     try {
@@ -105,10 +127,14 @@ export default function HomePage() {
 
   return (
     <Container>
-      <HomeInnerHeader state={0} />
+      <HomeInnerHeader state={headerState} />
 
       <Main>
-        <NoStudyRoom />
+        {!hasEnrolledStudyRoom && <NoStudyRoom />}
+
+        {hasEnrolledStudyRoom && (
+          <HomeSchedule schedules={schedules} studyRoomIds={studyRoomIds} />
+        )}
       </Main>
     </Container>
   );
@@ -121,4 +147,5 @@ const Container = styled.View`
 
 const Main = styled.View`
   padding: 20px;
+  gap: 12px;
 `;
