@@ -65,7 +65,7 @@ axiosInstance.interceptors.response.use(
     } = err;
 
     /** 1 */
-    if (config.url === '/auth/reissue' || status !== 401 || config.sent) {
+    if (config.url === '/auth/reissue' || status !== 403 || config.sent) {
       return Promise.reject(err);
     }
 
