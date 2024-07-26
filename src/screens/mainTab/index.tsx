@@ -13,6 +13,7 @@ import Icon from '../../components/common/icons/SvgIcon';
 import HomeHeader from '../../components/home/HomeHeader';
 import ReportHeader from '../../components/report/ReportHeader';
 import NoticeHeader from '../../components/notice/NoticeHeader';
+import QuestionHeader from '../../components/question/QuestionHeader';
 
 import useUserStore from '../../store/useUserStore';
 
@@ -118,7 +119,7 @@ export default function MainTab() {
       <Tab.Screen
         name="Question"
         component={QuestionMainScreen}
-        options={{tabBarLabel: '질문'}}
+        options={{tabBarLabel: '질문', header: () => <QuestionHeader />}}
       />
       {role === 'teacher' && (
         <Tab.Screen

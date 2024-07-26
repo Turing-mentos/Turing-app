@@ -1,10 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import QuestionPage from '../../../components/question/QuestionPage';
 
 export default function QuestionMainScreen() {
-  return (
-    <View>
-      <Text>QuestionMainScreen</Text>
-    </View>
-  );
+  return <QuestionPage />;
 }
