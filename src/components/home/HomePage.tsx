@@ -78,7 +78,8 @@ export default function HomePage() {
           if (!studyRooms) {
             throw new Error('studyRooms do not exist');
           }
-
+          console.log('studyRoomIds : ' + studyRoomIds);
+          await setStorage('studyRoomIds', JSON.stringify(studyRoomIds));
           const fetchedStudyRoomIds = studyRooms.map(studyRoom => studyRoom.id);
           setStudyRoomIds(fetchedStudyRoomIds.sort((a, b) => a - b));
           const {data: fetchedSchedules} = await HomeAPI.getWeeklySchedule(

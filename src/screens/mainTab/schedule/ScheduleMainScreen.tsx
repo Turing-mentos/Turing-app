@@ -1,11 +1,15 @@
 import * as React from "react";
 import {Dimensions, Text, StyleSheet, View, Image, ScrollView, TouchableOpacity, Modal, Animated} from "react-native";
-import {Calendar, CalendarUtils} from 'react-native-calendars';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import PlusButton from '../../../../assets/images/schedule/plus.svg'
 import BelowArrowButton from '../../../../assets/images/schedule/underarrow.svg'
 import CancelButton from '../../../../assets/images/schedule/cancel.svg'
-// import Check from '../../../../assets/images/schedule/schedule-check.svg'
+import Check from '../../../../assets/images/schedule/schedule-check.svg'
+import Calendar from './Calendar.tsx';
+import styled from '@emotion/native';
+import {ScheduleAPI, DailySchedule} from '../../../api/schedule.ts';
+import { getStorage } from '../../../utils/storage.ts';
+
 const getDayOfWeek = (date) => {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
   return days[date.getDay()];
@@ -22,7 +26,7 @@ const formatDateToKorean = (dateString) => {
 };
 
 const ScheduleMainScreen = () => {
-  const animation = React.useRef(new Animated.Value(0)).current; // 애니메이션 초기값
+  const animation = React.useRef(new Animated.Value(0)).current;
   const insets = useSafeAreaInsets();
   const [icon, setIcon] = React.useState('plus');
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -245,6 +249,7 @@ const ScheduleMainScreen = () => {
                 contentOffset={{x: Dimensions.get('window').width, y: 0}} // 시작시 중간 페이지에서 시작
                 >
                 <CalendarGrid calendarDates={calendarDates} selectDate={selectDate} isDateSelected={isDateSelected} currentMonth={currentMonth} />
+                {/* <Calendar></Calendar> */}
                 </ScrollView>
             </View>
     		</View>
@@ -289,7 +294,50 @@ const ScheduleMainScreen = () => {
     );
 };
 
+const CalendarView = styled.View`
+  top: 133px;
+  
+  left: '50%',
+  align-items: center;
+  overflow: hidden
+  background-color: #fefefe
+  left: '50%';
+  position: 'absolute';
+`;
+
 const styles = StyleSheet.create({
+  scheduleDot: {
+    borderRadius: 5,
+    left: "0%",
+    bottom: "0%",
+    right: "0%",
+    top: "0%",
+    height: "100%",
+    position: "absolute",
+    width: "100%"
+},
+scheduleDot1: {
+    height: 8,
+    width: 8
+},
+scheduleDot2: {
+    backgroundColor: "#d8e8ff"
+},
+scheduleDot3: {
+    backgroundColor: "#fbe8ff"
+},
+scheduleDot4: {
+    marginLeft: 2
+},
+scheduleDot5: {
+    backgroundColor: "#e0fbe8"
+},
+scheduleDot6: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%"
+}
   dropDownText: {
     fontSize: 14,
     lineHeight: 19,
@@ -562,14 +610,6 @@ checkCheckFormValidationCParent: {
       justifyContent: "center",
       alignItems: "center",
       overflow: "hidden"
-  },
-  text: {
-      fontSize: 16,
-      lineHeight: 24,
-      textAlign: "left",
-      color: "#192239",
-      fontFamily: "Pretendard",
-      fontWeight: "600"
   },
   text1: {
       textAlign: "left",
