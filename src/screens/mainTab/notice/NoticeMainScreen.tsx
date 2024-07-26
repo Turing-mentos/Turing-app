@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Animated, Modal, TouchableOpacity, ScrollView,Image, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Animated, Modal, TouchableOpacity, ScrollView,Image, StyleSheet, Text, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CancelButton from '../../../../assets/images/schedule/cancel.svg'
@@ -9,102 +9,101 @@ import SimpleSheetContainer from '../../../components/common/SimpleSheetContaine
 import NoticeWriteScreen from './NoticeWriteScreen.tsx';
 import HomeworkList from './HomeworkList.tsx';
 import HomeworkHistory from './HomeworkHistory';
-const Notice = () => {
+
+const deviceWidth = Dimensions.get('window').width;
+//test [독해] 마더텅 -> ch.3 문풀"
+const sampleData = {
+  notebookId: 1,
+  studentName: '박민영',
+  subject: '영어',
+  deadline: '2024-07-25T03:42:53.267Z',
+  isDone: false,
+  homeworkDtoList: [
+    {
+      homeworkId: 1,
+      category: '독해',
+      title: '마더텅',
+      rangeType: 'ch',
+      rangeStart: 3,
+      rangeEnd: 5,
+      content: '문풀',
+      memo: '중요',
+      isDone: false,
+    },
+    {
+      homeworkId: 2,
+      category: '문법',
+      title: '능률',
+      rangeType: 'p',
+      rangeStart: 2,
+      rangeEnd: 24,
+      content: '문풀',
+      memo: '중요',
+      isDone: true,
+    },
+    {
+      homeworkId: 3,
+      category: '어휘',
+      title: '수특',
+      rangeType: 'ch',
+      rangeStart: 3,
+      rangeEnd: 5,
+      content: '암기',
+      memo: '중요',
+      isDone: true,
+    },
+    {
+      homeworkId: 4,
+      category: 'TEST',
+      title: '24년 6모',
+      rangeType: 'n',
+      rangeStart: 20,
+      rangeEnd: 28,
+      content: '분석',
+      memo: '중요',
+      isDone: true,
+    }
+  ]
+};
+
+const NoticeMainScreen = () => {
   const sheet = useSimpleSheet();
-
-  const handleOpenConnectModal = () => {
-    sheet.open(props => (
-      <SimpleSheet {...props}>
-        <SimpleSheetContainer title="숙제 1" close={props.close}>
-          <NoticeWriteScreen/>
-        </SimpleSheetContainer>
-      </SimpleSheet>
-    ));
-  };
-  //test [독해] 마더텅 -> ch.3 문풀"
-  const sampleData = {
-    notebookId: 1,
-    studentName: '박민영',
-    subject: '영어',
-    deadline: '2024-07-25T03:42:53.267Z',
-    isDone: false,
-    homeworkDtoList: [
-      {
-        homeworkId: 1,
-        category: '독해',
-        title: '마더텅',
-        rangeType: 'ch',
-        rangeStart: 3,
-        rangeEnd: 5,
-        content: '문풀',
-        memo: '중요',
-        isDone: false,
-      },
-      {
-        homeworkId: 2,
-        category: '문법',
-        title: '능률',
-        rangeType: 'p',
-        rangeStart: 2,
-        rangeEnd: 24,
-        content: '문풀',
-        memo: '중요',
-        isDone: true,
-      },
-      {
-        homeworkId: 3,
-        category: '어휘',
-        title: '수특',
-        rangeType: 'ch',
-        rangeStart: 3,
-        rangeEnd: 5,
-        content: '암기',
-        memo: '중요',
-        isDone: true,
-      },
-      {
-        homeworkId: 4,
-        category: 'TEST',
-        title: '24년 6모',
-        rangeType: 'n',
-        rangeStart: 20,
-        rangeEnd: 28,
-        content: '분석',
-        memo: '중요',
-        isDone: true,
-      }
-    ]
-  };
-
+  const widthAnim = React.useRef(new Animated.Value(deviceWidth - 250)).current;
 
   const insets = useSafeAreaInsets();
   const animation = React.useRef(new Animated.Value(0)).current;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [icon, setIcon] = React.useState('plus');
-  const [check, setCheck] = React.useState(false);
+  const [check, setCheck] = React.useState(true);
+  
   const toggleModal = () => {
-    setModalVisible(prev => {
-      if (!prev) {
-        setIcon('cancel'); // 모달을 열 때 취소 아이콘으로 변경
-        Animated.spring(animation, {
-          toValue: 1,
-          useNativeDriver: true
-        }).start();
-      } else {
-        Animated.spring(animation, {
-          toValue: 0,
-          useNativeDriver: true
-        }).start(() => {
-          setIcon('plus'); // 모달을 닫을 때 플러스 아이콘으로 변경
-        });
-      }
-      return !prev;
-    });
+    setModalVisible(!modalVisible);
+    Animated.timing(widthAnim, {
+      toValue: modalVisible === check ? deviceWidth - 250 : 55,
+      duration: 100,
+      useNativeDriver: false
+    }).start();
+    setIcon(icon === 'plus' ? 'cancel' : 'plus'); // Toggle icon
+  };
+
+  const handleOpenConnectModal = () => {
+    sheet.open(props => (
+      <View style={{flex: 1}}>
+      <SimpleSheet {...props}>
+        <SimpleSheetContainer title="숙제 1" close={props.close}>
+          <NoticeWriteScreen/>
+        </SimpleSheetContainer>
+      </SimpleSheet>
+      </View>
+    ));
+    setModalVisible(!modalVisible);
+    setCheck(!check);
+    console.log('check' + check);
   };
   	return (
-      <View>
-      <ScrollView>
+
     		<View style={styles.notice2}>
+        <ScrollView style={styles.noticeContainer}>
       			<View style={styles.abVariation}>
         				<View style={[styles.parent, styles.parentFlexBox2]}>
           					<Text style={[styles.text4, styles.textTypo5]}>알림장</Text>
@@ -129,56 +128,64 @@ const Notice = () => {
             						<View style={[styles.frameItem, styles.lineViewLayout]} />
           					</View>
           					<View style={styles.frameParent11}>
-            						<HomeworkHistory student="박민영" subject="영어" completion={15}/>
-            						<View style={[styles.frameWrapper4, styles.frameWrapperLayout]}>
+                        <View style={[styles.frameWrapper4, styles.frameWrapperLayout]}>
+                        <HomeworkHistory student="박민영" subject="영어" completion={15}/>
+            						</View>
+                        <View style={[styles.frameWrapper4, styles.frameWrapperLayout]}>
                         <HomeworkHistory student="박민영" subject="영어" completion={15}/>
             						</View>
           					</View>
         				</View>
       			</View>
-            
-            <TouchableOpacity
-        onPress={toggleModal}
-        style={[styles.icon104Wrapper, styles.wrapperFlexBox, {bottom: insets.bottom + 10}]}
-      >
-        {icon === 'plus' ? <PlusButton width={24} height={24} /> : <CancelButton width={24} height={24} />}
-        {icon === 'plus' ? <Text style = {styles.addNoticeButton}> 알림장 쓰기 </Text> : <Text></Text>}
-      </TouchableOpacity>
-    	</View>
-      </ScrollView>
+            </ScrollView>
+            <Animated.View style={{ width: widthAnim, alignSelf: 'flex-end' }}>
+        <TouchableOpacity onPress={toggleModal} style={[styles.button, { right: deviceWidth * 0.06, bottom: deviceWidth * 0.05}]}>
+          {modalVisible !== check ? <PlusButton width={24} height={24} /> : <CancelButton width={24} height={24} />}
+          <Text style={styles.buttonText}>{modalVisible !== check ? '알림장 쓰기' : <></>}</Text>
+        </TouchableOpacity>
+      </Animated.View>
       <Modal
         animationType="none"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-          setIcon('plus'); // 모달 닫힐 때 아이콘을 다시 플러스로 설정
+          setIcon('plus'); // Reset icon on close
         }}>
-        <TouchableOpacity
-          style={styles.modalBackground}
-          activeOpacity={1}
-          onPressOut={() => {
-            setModalVisible(false);
-            setIcon('plus'); // 외부를 탭할 때 모달을 닫고 아이콘을 플러스로 설정
-          }}>
-            <TouchableOpacity
-              style={[styles.optionButton, {right: insets.right - 90, bottom: insets.bottom -200}]}
-              onPress={handleOpenConnectModal}>
-              <Text style = {styles.addScheduleButton}>박민영 | 영어</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.optionButton, {right: insets.right - 90, bottom: insets.bottom -200}]}
-              onPress={handleOpenConnectModal}>
-              <Text style = {styles.addScheduleButton}>신이영 | 국어</Text>
-            </TouchableOpacity>
-            
+        <TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPressOut={toggleModal}>
+          <TouchableOpacity style={[styles.optionButton,{ right: deviceWidth * 0.06, bottom: deviceWidth * 0.45}]} onPress={handleOpenConnectModal}>
+            <Text style={styles.addScheduleButton}>박민영 | 영어</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.optionButton,{ right: deviceWidth * 0.06, bottom: deviceWidth * 0.45}]} onPress={handleOpenConnectModal}>
+            <Text style={styles.addScheduleButton}>신이영 | 국어</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
-        </Modal>
-      </View>
+      </Modal>
+    	</View>
         );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    borderRadius: 50,
+    padding: 16,
+    backgroundColor: "#192239",
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: "rgba(158, 163, 180, 0.25)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    shadowOpacity: 0.8,
+    elevation: 10
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fefefe",
+    marginLeft: 8,
+  },
+    noticeContainer: {
+      flex: 1,
+    },
     addNoticeButton: {
     		fontSize: 18,
     		lineHeight: 27,
@@ -227,8 +234,8 @@ const styles = StyleSheet.create({
     },
     modalBackground: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
       backgroundColor: 'rgba(12,14,18,0.2)',
     },
   	textTypo5: {
@@ -373,7 +380,6 @@ const styles = StyleSheet.create({
     		position: "absolute"
   	},
   	notice2: {
-    		height: 844,
     		overflow: "hidden",
     		width: "100%",
     		flex: 1,
@@ -381,4 +387,4 @@ const styles = StyleSheet.create({
   	}
 });
 
-export default Notice;
+export default NoticeMainScreen;

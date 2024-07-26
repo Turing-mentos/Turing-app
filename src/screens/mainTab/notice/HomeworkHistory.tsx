@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Image, Text } from "react-native";
 import styled from '@emotion/native';
-
+import Pink_1 from '../../../../assets/images/HomeworkHistory/UserPink_1.svg'
 interface HomeworkHistoryProps {
     student: string;
     subject: string;
@@ -17,7 +17,9 @@ export default function HomeworkHistory({student, subject, completion}:HomeworkH
         </Parent>
         <Group>
           <StyledText1>{completion}%</StyledText1>
-          <Image resizeMode="cover" source={require("../../../../assets/images/HomeworkHistory/pinkLevel_1.png")} />
+          <ArrowIcon>
+          <Pink_1/>
+          </ArrowIcon>
         </Group>
     </FrameParent>
   );
@@ -63,8 +65,14 @@ const StyledText1 = styled.Text`
 `;
 
 const ArrowIcon = styled.View`
-  width: 24px;
-  height: 24px;
+  background-color: #FBE8FF;
+  width: 60px;
+  height: 60px;
+  borderRadius: 50,
+  flex: 1,
+  width: "100%",
+  height: 60,
+  overflow: "hidden"
 `;
 
 const ComponentIcon = styled.Image`
