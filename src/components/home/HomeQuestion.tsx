@@ -30,11 +30,11 @@ export default function HomeQuestion({needConnect = true}: HomeQuestionProps) {
         </Pressable>
       </Header>
 
-      <Main>
-        {needConnect && (
+      {needConnect && (
+        <Main>
           <ContentText>학생의 간단한 질문은 미리 해결해보세요</ContentText>
-        )}
-      </Main>
+        </Main>
+      )}
     </Container>
   );
 }
