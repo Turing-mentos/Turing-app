@@ -45,7 +45,7 @@ export default function StepSix() {
     } finally {
       setIsLoading(false);
     }
-  }, [reportRequest, scrollDown]);
+  }, [reportRequest, scrollDown, handleNextChatStep]);
 
   const handleCompleteReport = () => {
     navigation.navigate('ReportDetail', {
