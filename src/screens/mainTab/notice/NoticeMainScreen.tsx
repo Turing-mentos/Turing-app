@@ -12,13 +12,16 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 
 import CancelButton from '../../../../assets/images/schedule/cancel.svg';
 import PlusButton from '../../../../assets/images/schedule/plus.svg';
-import {useSimpleSheet, SimpleSheet} from 'react-native-simple-sheet';
 import HomeworkList from './HomeworkList.tsx';
 import HomeworkHistory from './HomeworkHistory';
 import {StudyRoomSummary, StudyRoomAPI} from '../../../api/studyRoom.ts';
 import CustomModal from '../../../components/common/Modal.tsx';
 import NewNoticeModalContent from '../../../components/notice/newNotice/NewNoticeModalContent.tsx';
 import {showToast} from '../../../components/common/Toast.tsx';
+import {HomeAPI, Notebook} from '../../../api/home.ts';
+import {NotebookAPI} from '../../../api/notebook.ts';
+import NoStudyRoom from './NoStudyRoom.tsx';
+import NoNotebook from './NoNotebook.tsx';
 
 const deviceWidth = Dimensions.get('window').width;
 //test [독해] 마더텅 -> ch.3 문풀"
@@ -87,6 +90,7 @@ export default function NoticeMainScreen() {
   const [check, setCheck] = useState(true);
   const [studyRooms, setStudyRooms] = useState<StudyRoomSummary[]>([]);
   const [createdModalOpen, setCreatedModalOpen] = useState(false);
+  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
 
   useEffect(() => {
     if (route?.params?.isCreated) {
@@ -100,6 +104,26 @@ export default function NoticeMainScreen() {
     }
   }, [route?.params?.isUpdated]);
 
+  useEffect(() => {
+    const fetchNotebooks = async () => {
+      if (studyRooms.length === 0) {
+        return;
+      }
+
+      try {
+        const studyRoomIds = studyRooms.map(v => v.id);
+        const response = await HomeAPI.getWeeklyNotebooks(studyRoomIds);
+        if (response.data) {
+          setNotebooks(response.data);
+        }
+      } catch (err) {
+        console.log('fetchNotebooks err:', err);
+      }
+    };
+
+    fetchNotebooks();
+  }, [studyRooms]);
+
   const toggleModal = () => {
     setModalVisible(!modalVisible);
     Animated.timing(widthAnim, {
@@ -110,16 +134,34 @@ export default function NoticeMainScreen() {
     setIcon(icon === 'plus' ? 'cancel' : 'plus'); // Toggle icon
   };
 
-  const handleOpenConnectModal = (studyRoomId: number) => {
+  const handleOpenConnectModal = async (studyRoomId: number) => {
     const targetStudyRoom = studyRooms.find(v => v.id === studyRoomId);
     const name = `${targetStudyRoom?.opponentLastName}${targetStudyRoom?.opponentFirstName}`;
-    const scheduleId = 123;
-    navigation.navigate('NewNotice', {
-      name,
-      subject: targetStudyRoom?.subject,
-      studyRoomId,
-      scheduleId,
-    });
+
+    try {
+      const response = await NotebookAPI.checkLatestNotebook(studyRoomId);
+      if (!response.data) {
+        throw new Error('check latest notebook error');
+      }
+
+      const {isExist, scheduleId} = response.data;
+
+      if (isExist) {
+        showToast(
+          '한 회차당 하나의 알림장만 작성할 수 있어요.\n추가 숙제가 있다면 기존의 알림장을 수정해주세요.',
+        );
+      } else {
+        navigation.navigate('NewNotice', {
+          name,
+          subject: targetStudyRoom?.subject,
+          studyRoomId,
+          scheduleId,
+        });
+      }
+    } catch (err) {
+      showToast('에러가 발생했습니다.');
+      console.log('handleOpenConnectModal err', err);
+    }
 
     setModalVisible(prev => !prev);
     setCheck(prev => !prev);
@@ -150,9 +192,13 @@ export default function NoticeMainScreen() {
               <Line />
             </ContainerHeader>
 
+            {studyRooms.length === 0 && <NoStudyRoom />}
+            {studyRooms.length > 0 && notebooks.length === 0 && <NoNotebook />}
+
             <HomeworkListContent>
-              <HomeworkList {...sampleData} />
-              <HomeworkList {...sampleData} />
+              {notebooks.map(v => (
+                <HomeworkList {...v} />
+              ))}
             </HomeworkListContent>
           </HomeworkListContainer>
 
@@ -168,58 +214,59 @@ export default function NoticeMainScreen() {
                 subject="영어"
                 completion={15}
               />
+              <HomeworkHistory
+                student="신이현"
+                subject="수학"
+                completion={82}
+              />
             </HomeworkHistoryContent>
           </HomeworkHistoryContainer>
         </ScrollViewContainer>
 
-        <Animated.View style={{width: widthAnim, alignSelf: 'flex-end'}}>
+        <Animated.View style={{alignSelf: 'flex-end'}}>
           <TouchableOpacity
             onPress={toggleModal}
-            style={[
-              styles.button,
-              {right: deviceWidth * 0.06, bottom: deviceWidth * 0.05},
-            ]}>
-            {modalVisible !== check ? (
-              <PlusButton width={24} height={24} />
+            style={[styles.button, {bottom: deviceWidth * 0.05}]}>
+            {!modalVisible ? (
+              <ButtonContainer>
+                <PlusButton width={24} height={24} />
+                <WriteText>알림장 쓰기</WriteText>
+              </ButtonContainer>
             ) : (
               <CancelButton width={24} height={24} />
             )}
-            <Text style={styles.buttonText}>
-              {modalVisible !== check ? '알림장 쓰기' : <></>}
-            </Text>
           </TouchableOpacity>
         </Animated.View>
-
-        <Modal
-          animationType="none"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-            setIcon('plus'); // Reset icon on close
-          }}>
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPressOut={toggleModal}>
-            {studyRooms.map(studyRoom => (
-              <TouchableOpacity
-                key={studyRoom.id}
-                style={[
-                  styles.optionButton,
-                  {right: deviceWidth * 0.06, bottom: deviceWidth * 0.45},
-                ]}
-                onPress={() => handleOpenConnectModal(studyRoom.id)}>
-                <Text
-                  style={
-                    styles.addScheduleButton
-                  }>{`${studyRoom.opponentLastName}${studyRoom.opponentFirstName} | ${studyRoom.subject}`}</Text>
-              </TouchableOpacity>
-            ))}
-          </TouchableOpacity>
-        </Modal>
       </Container>
 
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+          setIcon('plus'); // Reset icon on close
+        }}>
+        <TouchableOpacity
+          style={styles.modalBackground}
+          activeOpacity={1}
+          onPressOut={toggleModal}>
+          {studyRooms.map(studyRoom => (
+            <TouchableOpacity
+              key={studyRoom.id}
+              style={[
+                styles.optionButton,
+                {right: deviceWidth * 0.06, bottom: deviceWidth * 0.45},
+              ]}
+              onPress={() => handleOpenConnectModal(studyRoom.id)}>
+              <Text
+                style={
+                  styles.addScheduleButton
+                }>{`${studyRoom.opponentLastName}${studyRoom.opponentFirstName} | ${studyRoom.subject}`}</Text>
+            </TouchableOpacity>
+          ))}
+        </TouchableOpacity>
+      </Modal>
       <CustomModal
         isVisible={createdModalOpen}
         close={() => {
@@ -234,7 +281,7 @@ export default function NoticeMainScreen() {
 const Container = styled.View`
   flex: 1;
   background-color: ${props => props.theme.color.BG100};
-  padding: 16px 20px;
+  padding: 0 20px;
 `;
 
 const ScrollViewContainer = styled.ScrollView`
@@ -257,7 +304,13 @@ const HomeworkListContent = styled.View`
   gap: 16px;
 `;
 
-const HomeworkHistoryContent = styled.View``;
+const HomeworkHistoryContent = styled.View`
+  margin-top: 16px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+`;
 
 const ContainerTitle = styled.Text`
   color: ${props => props.theme.color.BTN900};
@@ -274,6 +327,25 @@ const Line = styled.View`
   height: 1px;
   width: 100%;
   background-color: ${props => props.theme.color.grey[200]};
+`;
+
+const WriteText = styled.Text`
+  color: ${props => props.theme.color.grey[100]};
+
+  /* Text/SB18 */
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px; /* 27px */
+`;
+
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100px;
 `;
 
 const styles = StyleSheet.create({

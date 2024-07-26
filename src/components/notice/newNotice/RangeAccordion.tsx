@@ -30,15 +30,15 @@ export default function RangeAccordion({
   const [isSingle, setIsSingle] = useState(false);
 
   useEffect(() => {
-    handleChangeHomework('rangeStart', rangeStart);
+    handleChangeHomework('rangeStart', +rangeStart);
   }, [rangeStart, handleChangeHomework]);
 
   useEffect(() => {
-    handleChangeHomework('rangeEnd', rangeEnd);
+    handleChangeHomework('rangeEnd', +rangeEnd);
   }, [rangeEnd, handleChangeHomework]);
 
   useEffect(() => {
-    handleChangeHomework('rangeType', rangeType);
+    handleChangeHomework('rangeType', +rangeType);
   }, [rangeType, handleChangeHomework]);
 
   useEffect(() => {
@@ -74,14 +74,14 @@ export default function RangeAccordion({
             <RangeTypeText>{rangeTypeConverter[rangeType]}.</RangeTypeText>
             <RangeInput
               keyboardType="number-pad"
-              value={rangeStart}
+              value={rangeStart + ''}
               onChangeText={text => setRangeStart(text)}
             />
             <Wave>~</Wave>
             <RangeTypeText>{rangeTypeConverter[rangeType]}.</RangeTypeText>
             <RangeInput
               keyboardType="number-pad"
-              value={rangeEnd}
+              value={rangeEnd + ''}
               onChangeText={text => setRangeEnd(text)}
               readOnly={isSingle}
             />

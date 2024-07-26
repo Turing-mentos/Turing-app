@@ -29,7 +29,6 @@ export default function NoticeWriteModal({
   close,
   initialHomework,
 }: NoticeWriteModalProps) {
-  console.log('initialHomework:', initialHomework);
   const [homework, setHomework] = useState<Homework>({
     category: '',
     title: '',

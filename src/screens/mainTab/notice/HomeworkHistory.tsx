@@ -1,48 +1,59 @@
-import * as React from "react";
-import { Image, Text } from "react-native";
+import * as React from 'react';
+import {Image, Text} from 'react-native';
 import styled from '@emotion/native';
-import Pink_1 from '../../../../assets/images/HomeworkHistory/UserPink_1.svg'
+import Pink_1 from '../../../../assets/images/HomeworkHistory/UserPink_1.svg';
 interface HomeworkHistoryProps {
-    student: string;
-    subject: string;
-    completion: number;
+  student: string;
+  subject: string;
+  completion: number;
 }
 
-export default function HomeworkHistory({student, subject, completion}:HomeworkHistoryProps){
+export default function HomeworkHistory({
+  student,
+  subject,
+  completion,
+}: HomeworkHistoryProps) {
   return (
     <FrameParent>
-        <Parent>
-          <StyledText>{student} | {subject}</StyledText>
-          <Image resizeMode="cover" source={require("../../../../assets/images/arrow_rightward.png")}/>
-        </Parent>
-        <Group>
-          <StyledText1>{completion}%</StyledText1>
-          <ArrowIcon>
-          <Pink_1/>
-          </ArrowIcon>
-        </Group>
+      <Parent>
+        <StyledText>
+          {student} | {subject}
+        </StyledText>
+        <Image
+          resizeMode="cover"
+          source={require('../../../../assets/images/arrow_rightward.png')}
+        />
+      </Parent>
+
+      <Group>
+        <StyledText1>{completion}%</StyledText1>
+        <ArrowIcon>
+          <Pink_1 />
+        </ArrowIcon>
+      </Group>
     </FrameParent>
   );
-};
+}
 
 const FrameParent = styled.View`
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   flex: 1;
   padding: 12px;
-  align-items: left;
+  /* align-self: left; */
 `;
-
 
 const Parent = styled.View`
   justify-content: space-between;
   flex-direction: row;
-  width: 145px;
+  /* width: 145px; */
   align-items: center;
 `;
 
 const Group = styled.View`
   flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-top: 4px;
 `;
 
@@ -65,18 +76,8 @@ const StyledText1 = styled.Text`
 `;
 
 const ArrowIcon = styled.View`
-  background-color: #FBE8FF;
+  background-color: #fbe8ff;
   width: 60px;
   height: 60px;
-  borderRadius: 50,
-  flex: 1,
-  width: "100%",
-  height: 60,
-  overflow: "hidden"
-`;
-
-const ComponentIcon = styled.Image`
-  width: 60px;
-  height: 60px;
-  overflow: hidden;
+  border-radius: 50px;
 `;
