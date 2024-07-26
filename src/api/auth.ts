@@ -40,13 +40,14 @@ interface SignUpResponse {
  * @returns
  */
 async function getUserInfoFromAccessToken() {
-  const accessToken = await getStorage('accessToken');
+  // const accessToken = await getStorage('accessToken');
   const fcmToken = await fetchFcmToken();
+  // console.log('fcmToken:', fcmToken);
 
   const response = await http.post<GetUserInfoResponse>('/auth/login', {
-    accessToken,
     fcmToken,
   });
+  // console.log('getUserInfoFromAccessToken response:', response);
   return response;
 }
 

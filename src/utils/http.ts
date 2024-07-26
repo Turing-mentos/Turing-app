@@ -29,7 +29,6 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async config => {
-  console.log('config:', config);
   const accessToken = await getStorage('accessToken');
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -40,18 +39,20 @@ axiosInstance.interceptors.request.use(async config => {
 
 const getRefreshToken = async (): Promise<string | void> => {
   try {
-    const {
-      data: {accessToken, refreshToken},
-    } = await AuthAPI.reissueAccessToken();
+    const response = await AuthAPI.reissueAccessToken();
+    const {accessToken, refreshToken} = response.data;
 
-    await setStorage('accessToken', accessToken);
+    if (accessToken) {
+      await setStorage('accessToken', accessToken);
+    }
 
-    if (refreshToken !== null) {
+    if (refreshToken) {
       await setStorage('refreshToken', refreshToken);
     }
 
     return accessToken;
-  } catch (e) {
+  } catch (err) {
+    console.log('토큰 재발급 실패:', err);
     removeStorage('accessToken');
     removeStorage('refreshToken');
   }
@@ -64,7 +65,7 @@ axiosInstance.interceptors.response.use(
       config,
       response: {status},
     } = err;
-    console.log('err:', err);
+    // console.log('err:', err);
     /** 1 */
     if (config.url === '/auth/reissue' || status !== 403 || config.sent) {
       return Promise.reject(err);
