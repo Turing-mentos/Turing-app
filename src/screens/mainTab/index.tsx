@@ -12,6 +12,7 @@ import Icon from '../../components/common/icons/SvgIcon';
 
 import HomeHeader from '../../components/home/HomeHeader';
 import ReportHeader from '../../components/report/ReportHeader';
+import NoticeHeader from '../../components/notice/NoticeHeader';
 
 import useUserStore from '../../store/useUserStore';
 
@@ -29,7 +30,7 @@ function CustomTabBar({state, descriptors, navigation}) {
   const {role} = useUserStore(state => state.user);
 
   return (
-    <TabBarContainer>
+    <TabBarContainer $isStudent={role === 'student'}>
       {state.routes
         .filter(route => {
           if (role === 'student') {
@@ -103,9 +104,11 @@ function CustomTabBar({state, descriptors, navigation}) {
 }
 
 export default function MainTab() {
+  const {role} = useUserStore(state => state.user);
+
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={role === 'teacher' ? 'Home' : 'Notice'}
       tabBar={props => <CustomTabBar {...props} />}>
       <Tab.Screen
         name="Schedule"
@@ -117,28 +120,37 @@ export default function MainTab() {
         component={QuestionMainScreen}
         options={{tabBarLabel: '질문'}}
       />
-      <Tab.Screen
-        name="Home"
-        component={HomeMainScreen}
-        options={{tabBarLabel: 'HOME', header: () => <HomeHeader />}}
-      />
+      {role === 'teacher' && (
+        <Tab.Screen
+          name="Home"
+          component={HomeMainScreen}
+          options={{tabBarLabel: 'HOME', header: () => <HomeHeader />}}
+        />
+      )}
       <Tab.Screen
         name="Notice"
         component={NoticeMainScreen}
-        options={{tabBarLabel: '알림장'}}
+        options={{
+          tabBarLabel: '알림장',
+          header: () =>
+            role === 'teacher' ? <NoticeHeader /> : <HomeHeader />,
+        }}
       />
-      <Tab.Screen
-        name="Report"
-        component={ReportMainScreen}
-        options={{tabBarLabel: '리포트', header: () => <ReportHeader />}}
-      />
+      {role === 'teacher' && (
+        <Tab.Screen
+          name="Report"
+          component={ReportMainScreen}
+          options={{tabBarLabel: '리포트', header: () => <ReportHeader />}}
+        />
+      )}
     </Tab.Navigator>
   );
 }
 
-const TabBarContainer = styled.View`
-  padding: 6px 20px 32px 20px;
-  flex-direction: row;
+const TabBarContainer = styled.View<{$isStudent?: boolean}>`
+  padding: ${props =>
+    props.$isStudent ? '6px 40px 32px 40px' : '6px 20px 32px 20px'};
+  flex-direction: ${props => (props.$isStudent ? 'row-reverse' : 'row')};
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.color.grey[100]};
