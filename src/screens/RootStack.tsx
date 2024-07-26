@@ -39,6 +39,7 @@ import PrivacyPolicyScreen from './myPage/PrivacyPolicyScreen';
 
 // 알림장
 import NewNoticeScreen from './mainTab/notice/NewNoticeScreen';
+import NotebookHistoryScreen from './mainTab/notice/NotebookHistoryScreen';
 
 // 알림 내부 페이지
 import NotificationMainScreen from './notification/NotificationMainScreen';
@@ -62,6 +63,7 @@ import PrevReportHeader from '../components/report/detail/PrevReportHeader';
 import PrivacyPolicyHeader from '../components/myPage/PrivacyPolicyHeader';
 import TermsOfUseHeader from '../components/myPage/TermsOfUseHeader';
 import NewNoticeHeader from '../components/notice/NewNoticeHeader';
+import NotebookHistoryHeader from '../components/notice/NotebookHistoryHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -138,6 +140,11 @@ export default function RootStack() {
         name="NewNotice"
         component={NewNoticeScreen}
         options={{header: () => <NewNoticeHeader />}}
+      />
+      <Stack.Screen
+        name="NotebookHistory"
+        component={NotebookHistoryScreen}
+        options={{header: () => <NotebookHistoryHeader />}}
       />
 
       {/* 리포트 관련 페이지 */}
