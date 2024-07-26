@@ -17,6 +17,25 @@ export default function NoticeWriteScreen() {
   const [selectedContentIndex, setSelectedContentIndex] = useState();
   const [contentInput, setContentInput] = useState('');
   const [selectedContent, setSelectedContent] = useState('');
+  const [selectedMemo, setSelectedMemo] = useState('');
+  const [selectedTitle, setSelectedTitle] = useState('');
+  const [history, setHistory] = useState([]);
+  React.useEffect(() => {
+    const newHistory = [];
+    if (selectedCategory) newHistory.push(`${selectedCategory}`);
+    if (selectedTitle) newHistory.push(`${selectedTitle}`);
+    if (selectedRange) newHistory.push(`${selectedRange}`);
+    if (selectedContent) newHistory.push(`${selectedContent}`);
+    if (selectedMemo) newHistory.push(`${selectedMemo}`);
+    setHistory(newHistory);
+  }, [selectedCategory, selectedTitle, selectedRange, selectedContent, selectedMemo]);
+  
+  const handleCategorySelect = category => setSelectedCategory(category);
+  const handleTitleChange = title => setSelectedTitle(title);
+  const handleRangeSelect = range => setSelectedRange(range);
+  const handleContentSelect = content => setSelectedContent(content);
+  const handleMemoChange = memo => setSelectedMemo(memo);
+
   React.useEffect(() => {
     if (selectedContentIndex === contentTags.indexOf('직접입력')) {
       setSelectedContent(contentInput); // 직접 입력 상자의 값이 변경될 때마다 selectedCategory 업데이트
@@ -33,7 +52,6 @@ export default function NoticeWriteScreen() {
       setContentInput(null);
     }
   };
-  const [selectedTitle, setSelectedTitle] = useState('');
   React.useEffect(() => {
     if (selectedCategoryIndex === categoryTags.indexOf('직접입력')) {
       setSelectedCategory(customInput); // 직접 입력 상자의 값이 변경될 때마다 selectedCategory 업데이트
@@ -80,7 +98,7 @@ export default function NoticeWriteScreen() {
           </TouchableOpacity>
         ))}
         </ScrollView>
-        {rangeInput()}
+        {}
       </View>
     );
   };
@@ -175,12 +193,10 @@ export default function NoticeWriteScreen() {
       <View style={styles.paddingContainer1}></View>
       <View style={styles.instanceParent}>
         <ScrollView horizontal={true}>
-      			<View style={styles.wrapperFlexBox}>
-        				<Text style={styles.text}>독해</Text>
-      			</View>
-      			<View style={[styles.container,styles.wrapperFlexBox]}>
-        				<Text style={styles.text}>마더텅</Text>
-      			</View>
+        {history.map((item, index) => (
+            <View key={index} style={styles.historyItem}>
+              <Text>{item}</Text>
+            </View>))}
         </ScrollView>
     	</View>
       <TouchableOpacity>
@@ -195,6 +211,12 @@ export default function NoticeWriteScreen() {
 }
 
 const styles = StyleSheet.create({
+  historyItem: {
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    backgroundColor: '#ddd',
+  },
   textLimit:{
     padding: 12,
     fontSize: 12,
