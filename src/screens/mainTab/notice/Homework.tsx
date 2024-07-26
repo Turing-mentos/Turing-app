@@ -7,6 +7,7 @@ interface CommonCheckBoxProps {
   label: string;
   sub?: boolean;
   disabled?: boolean;
+  isDone: boolean;
   onPress: (...args: any[]) => any;
 }
 
@@ -14,23 +15,29 @@ export default function Homework({
   label,
   sub = false,
   disabled = false,
-  // isDone,
+  isDone,
   onPress,
 }: CommonCheckBoxProps) {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handlePress = () => {
-    if (!disabled) {
-      const newCheckedState = !isChecked;
-      setIsChecked(newCheckedState);
-      onPress(newCheckedState);
+  React.useEffect(() => {
+    if (disabled) {
+      setIsChecked(!isDone);
     }
+  }, [disabled, isDone]);
+
+  const handlePress = () => {
+    if (disabled) return;
+
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    onPress(newCheckedState);
   };
 
   return (
     <ButtonContainer onPress={handlePress} $sub={sub} $disabled={disabled}>
-      {!isChecked ? <Checked /> : <NonChecked />}
-      <CheckBoxLabel $sub={sub} $isChecked={isChecked}>
+      {isChecked ? <Checked /> : <NonChecked />}
+      <CheckBoxLabel $sub={sub} $isChecked={!isChecked}>
         {label}
       </CheckBoxLabel>
     </ButtonContainer>
