@@ -93,6 +93,16 @@ async function getCountOfNotifications() {
   return await http.get<number>('/notification/total');
 }
 
+/**
+ * [알림] 리마인드 콕찌르기
+ *
+ * @param notebookId
+ * @returns
+ */
+async function clickRemindNotification(notebookId: number) {
+  return await http.get<string>(`/notification/notebook/${notebookId}`);
+}
+
 export const NotificationAPI = {
   getNotifications,
   markNotificationAsRead,
@@ -100,4 +110,5 @@ export const NotificationAPI = {
   setNotificationSetting,
   getCountOfNotifications,
   initNotificationSetting,
+  clickRemindNotification,
 };

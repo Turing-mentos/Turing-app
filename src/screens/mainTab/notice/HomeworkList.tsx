@@ -1,193 +1,234 @@
-import * as React from "react";
-import {Text, StyleSheet, View, Image, Pressable} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import React, {useState, useEffect} from 'react';
+import {Text, StyleSheet, View, Image, Pressable} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Homework from './Homework.tsx';
 import RemindButtonIcon from '../../../../assets/images/Notice/ReminderIcon.svg';
-import { TouchableOpacity } from "react-native-gesture-handler";
 import {showToast} from '../../../components/common/Toast';
 import ProgressBar from './ProgressBar.tsx';
 import styled from '@emotion/native';
 import TimeLimitView from './TimeLimit.tsx';
+import useUserStore from '../../../store/useUserStore.ts';
+import {NotificationAPI} from '../../../api/notification.ts';
+import {HomeworkAPI} from '../../../api/homework-yeop.ts';
+import HomeworkCompleteModal from '../../../components/homework/HomeworkCompleteModal.tsx';
+import Modal from '../../../components/common/Modal.tsx';
+
 interface homeworkDto {
-    homeworkId: number;
-    category: string;
-    title: string;
-    rangeType: string;
-    rangeStart: number;
-    rangeEnd: number;
-    content: string;
-    memo?: string;
-    isDone: boolean;
+  homeworkId: number;
+  category: string;
+  title: string;
+  rangeType: string;
+  rangeStart: number;
+  rangeEnd: number;
+  content: string;
+  memo?: string;
+  isDone: boolean;
 }
 
 interface homeworkListProps {
   notebookId: number;
   studentName: string; // 박민영
-  subject: string;  // 영어
+  subject: string; // 영어
   deadline: string; //2024-07-25T03:42:53.267Z
   isDone?: boolean;
-  homeworkDtoList: homeworkDto[];// homework contents
+  homeworkDtoList: homeworkDto[]; // homework contents
 }
 
 const ArrowDown = () => (
-    <HeaderContainer>
-        <Image source={require('../../../../assets/images/arrow_downward.png')} />
-    </HeaderContainer>
+  <HeaderContainer>
+    <Image source={require('../../../../assets/images/arrow_downward.png')} />
+  </HeaderContainer>
 );
-  
+
 const ArrowUp = () => (
-    <HeaderContainer>
-        <Image source={require('../../../../assets/images/arrow_upward.png')} />
-    </HeaderContainer>
+  <HeaderContainer>
+    <Image source={require('../../../../assets/images/arrow_upward.png')} />
+  </HeaderContainer>
 );
+
+const calculateRemainingTime = deadline => {
+  const now = new Date();
+  const dueDate = new Date(deadline);
+  const timeDiff = dueDate.getTime() - now.getTime();
+  const days = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+
+  if (days > 0) {
+    return `수업 ${days}일 전`; // 일 단위로 표시
+  } else if (hours > 0) {
+    return `수업 ${hours}시간 전`; // 시간 단위로 표시
+  } else {
+    return `수업 종료`; // 매우 가까운 경우
+  }
+};
 
 export default function HomeworkList({
   studentName,
   subject,
   deadline,
+  notebookId,
   isDone,
   homeworkDtoList,
-  }: homeworkListProps) {
-  const [expanded, setExpanded] = React.useState(true);
-  const [homeworkCompletion, setHomeworkCompletion] = React.useState<homeworkDto[]>([]);
-  const [containerWidth, setContainerWidth] = React.useState(0);
+}: homeworkListProps) {
+  const {role} = useUserStore(state => state.user);
+  const [expanded, setExpanded] = useState(true);
+  const [homeworks, setHomeworks] = useState<homeworkDto[]>(homeworkDtoList);
+  const [completedModal, setCompletedModal] = useState(false);
 
-    const handleLayout = (event: any) => {
-        const { width } = event.nativeEvent.layout;
-        setContainerWidth(width);
-        console.log('containerWidth' + containerWidth);
-    };
+  const allCompleted = homeworks.every(homework => homework.isDone);
 
-    // 백분율을 기반으로 실제 너비 계산
-    const filledWidth = containerWidth * 0.7;
-  React.useEffect(() => {
-    setHomeworkCompletion(homeworkDtoList.map(homework => ({
-      ...homework,
-      isDone: homework.isDone || false
-    })));
-  }, [homeworkDtoList]);
-  const allCompleted = homeworkCompletion.every(homework => homework.isDone);
   // 체크 상태 변경 처리
-  const handleCheck = (homeworkId: number, checked: boolean) => {
-    const updatedHomework = homeworkCompletion.map(homework =>
-      homework.homeworkId === homeworkId ? {...homework, isDone: checked} : homework
-    );
-    setHomeworkCompletion(updatedHomework);
+  const handleCheck = async (homeworkId: number, checked: boolean) => {
+    setHomeworks(prev => {
+      const newHomeworks = prev.map(homework => {
+        if (homeworkId === homework.homeworkId) {
+          return {...homework, isDone: checked};
+        }
+        return homework;
+      });
+
+      const completed = newHomeworks.every(v => v.isDone);
+      if (completed && role === 'student') {
+        setCompletedModal(true);
+      }
+
+      return newHomeworks;
+    });
+
+    try {
+      await HomeworkAPI.toggleCompleteHomework(homeworkId);
+    } catch (err) {
+      console.log('숙제 완료 토글 에러:', err);
+    }
   };
 
   const calculateCompletion = () => {
-    const totalTasks = homeworkCompletion.length;
-    const completedTasks = homeworkCompletion.filter(task => task.isDone).length;
-    const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0; // 반환값을 숫자로 변경
+    const totalTasks = homeworks.length;
+    const completedTasks = homeworks.filter(task => task.isDone).length;
+    const completionRate =
+      totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0; // 반환값을 숫자로 변경
     return {
       totalTasks,
       completedTasks,
-      completionRate // 숫자 형태로 반환
+      completionRate, // 숫자 형태로 반환
     };
   };
-  const {totalTasks, completedTasks, completionRate} = calculateCompletion();
 
-
-  const calculateRemainingTime = (deadline) => {
-      const now = new Date();
-      const dueDate = new Date(deadline);
-      const timeDiff = dueDate.getTime() - now.getTime();
-      const days = Math.floor(timeDiff / (1000 * 3600 * 24));
-      const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
-
-      if (days > 0) {
-      return `수업 ${days}일 전`; // 일 단위로 표시
-      } else if (hours > 0) {
-      return `수업 ${hours}시간 전`; // 시간 단위로 표시
-      } else {
-      return `수업 종료`; // 매우 가까운 경우
-      }
-  };
-  
-  
   const handleToggle = () => {
     setExpanded(prev => !prev);
   };
-  
+
+  const handleRemindClick = async () => {
+    try {
+      await NotificationAPI.clickRemindNotification(notebookId);
+      showToast(`${studentName} 학생에게 리마인드를 보냈어요!`, 'complete');
+    } catch (err) {
+      console.log('콕 찌르기 오류:', err);
+    }
+  };
+
+  const {totalTasks, completedTasks, completionRate} = calculateCompletion();
   const remainingDays = calculateRemainingTime(deadline);
 
   return (
-    <AccordionContainer allCompleted={allCompleted} onLayout={handleLayout}>
-      <AccordionHeader>
-        <AccordionTitleGroup>
+    <>
+      <AccordionContainer allCompleted={allCompleted}>
+        <AccordionHeader>
+          <AccordionTitleGroup>
             <AccordionTitle>{studentName + ' | ' + subject}</AccordionTitle>
-            {/* <ToggleGroup/> */}
+
             <HeaderContainer>
-                <Pressable onPress={handleToggle}>
+              <Pressable onPress={handleToggle}>
                 {expanded ? <ArrowUp /> : <ArrowDown />}
-                </Pressable>
+              </Pressable>
             </HeaderContainer>
-        </AccordionTitleGroup>
-            <ProgressGroup>
-                <ProgressScale>{completionRate + '%'}</ProgressScale>
-                <ProgressNum>{'('+completedTasks + '/' + totalTasks+')'}</ProgressNum>
-            </ProgressGroup>
-      </AccordionHeader>
-      <TimeLimitContainer>
-      <TimeLimitView deadline={remainingDays}/>
-      </TimeLimitContainer>
-      <ProgressBar completionRate={completionRate}></ProgressBar>
-      <Line allCompleted={allCompleted}/>
-      {expanded && (
-        <>
-            {homeworkCompletion.map((homework) => (
-        <Homework
-          key={homework.homeworkId}
-          label={`[${homework.category}] ${homework.title} -> ${homework.rangeType}.${homework.rangeStart}~${homework.rangeType}.${homework.rangeEnd} ${homework.content}`}
-          disabled={true} // true -> 체크박스가 작동하지 않음
-          isDone={homework.isDone}
-          onPress={(checked: boolean) => handleCheck(homework.homeworkId, checked)}
-        />
-      ))} 
-          <Line allCompleted={allCompleted}/>
-            <TouchableButton>
-                {/* <ButtonContainer> */}
-                    <GradientButton colors={['#9708cc', '#287eff']} useAngle={true} angle={74.51}>
-                        <ButtonText>리마인드 콕 찌르기  </ButtonText>
-                        <RemindButtonIcon/>
-                    </GradientButton>
-                {/* </ButtonContainer> */}
-            </TouchableButton>
-        </>
-      )}
-    </AccordionContainer>
+          </AccordionTitleGroup>
+
+          <ProgressGroup>
+            <ProgressScale>
+              {allCompleted ? '완료' : completionRate + '%'}
+            </ProgressScale>
+            <ProgressNum>
+              {'(' + completedTasks + '/' + totalTasks + ')'}
+            </ProgressNum>
+          </ProgressGroup>
+        </AccordionHeader>
+
+        <TimeGroup>
+          <TimeLimitContainer>
+            <TimeLimitView deadline={remainingDays} />
+          </TimeLimitContainer>
+
+          <ProgressBar completionRate={completionRate} />
+        </TimeGroup>
+
+        <Line allCompleted={allCompleted} />
+        {expanded && (
+          <>
+            {homeworks.map(homework => (
+              <Homework
+                key={homework.homeworkId}
+                label={`[${homework.category}] ${homework.title} -> ${homework.rangeType}.${homework.rangeStart}~${homework.rangeType}.${homework.rangeEnd} ${homework.content}`}
+                // disabled={true} // true -> 체크박스가 작동하지 않음
+                memo={homework.memo}
+                isDone={homework.isDone}
+                onPress={(checked: boolean) =>
+                  handleCheck(homework.homeworkId, checked)
+                }
+              />
+            ))}
+
+            {role === 'teacher' && (
+              <TouchableButton onPress={handleRemindClick}>
+                <GradientButton
+                  colors={['#9708cc', '#287eff']}
+                  useAngle={true}
+                  angle={74.51}>
+                  <ButtonText>리마인드 콕 찌르기 </ButtonText>
+                  <RemindButtonIcon />
+                </GradientButton>
+              </TouchableButton>
+            )}
+          </>
+        )}
+      </AccordionContainer>
+      <Modal
+        isVisible={completedModal}
+        close={() => {
+          setCompletedModal(false);
+        }}
+        content={<HomeworkCompleteModal />}
+      />
+    </>
   );
 }
-const AccordionContainer = styled.View<{ allCompleted: boolean }>`
+const AccordionContainer = styled.View<{allCompleted: boolean}>`
   padding: 12px 16px;
-  background-color: ${props => props.allCompleted ? '#E6E8F0' : '#FEFEFE'};
+  background-color: ${props => (props.allCompleted ? '#E6E8F0' : '#FEFEFE')};
   border-radius: 5px;
-  gap: 12px;
+  gap: 8px;
 `;
 
 const TimeLimitContainer = styled.View`
-  align-items: flex-end; // 우측 정렬
-  width: 100%; // 부모 컨테이너의 전체 너비 사용
-   
-  margin-top: -10.0px;
+  /* align-items: flex-end; // 우측 정렬 */
+  position: absolute;
+  top: -35px;
+  right: 0;
 `;
 
 const AccordionHeader = styled.View`
-  flex-direction: column;
-  align-items: left;
   justify-content: space-between;
 `;
 const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: right; // 우측 정렬
-  align-self: flex-end;
-  margin-right: -10.0px;
 `;
 
 const AccordionTitleGroup = styled.View`
   flex-direction: row;
   gap: 12px;
-  align-items: right;
+
+  /* align-items: right; */
   justify-content: space-between;
 `;
 const ProgressGroup = styled.View`
@@ -224,7 +265,7 @@ const ProgressScale = styled.Text`
   line-height: 33px; /* 33px */
 `;
 const ProgressNum = styled.Text`
-  color: #C2C7D3;
+  color: #c2c7d3;
 
   /* Text/M22 */
   font-family: Pretendard;
@@ -235,35 +276,34 @@ const ProgressNum = styled.Text`
   line-height: 30px; /* 33px */
 `;
 
-const Line = styled.View<{ allCompleted: boolean }>`
+const Line = styled.View<{allCompleted: boolean}>`
   height: 2px;
-  background-color: ${props => !props.allCompleted? props.theme.color.grey[150] : '#D4D8E2'};
+  background-color: ${props =>
+    !props.allCompleted ? props.theme.color.grey[150] : '#D4D8E2'};
 `;
 
 const GradientButton = styled(LinearGradient)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 12px 0px;
-  border-Radius: 55px;
-  width: 250px;
+  padding: 4px 12px;
+  border-radius: 55px;
+  /* width: 250px; */
 `;
 
 const ButtonText = styled.Text`
-  color: #FEFEFE;
-  font-size: 20px;
-  line-height: 24px;
+  color: #fefefe;
+  font-size: 14px;
+  line-height: 21px;
   font-weight: 600;
   font-family: Pretendard;
 `;
-  
+
 const TouchableButton = styled.TouchableOpacity`
-    margin: 12px;
-    flex-direction: column;
-    align-items: center;
-`;
-const ButtonContainer = styled.View`
   flex-direction: column;
   align-items: center;
-  
+`;
+
+const TimeGroup = styled.View`
+  margin-top: -6px;
 `;

@@ -61,3 +61,4 @@ export {default as ArrowDownwardWhite} from '../../../../assets/images/arrow-dow
 export {default as HelpQuestionGrey} from '../../../../assets/images/help-question-grey.svg';
 export {default as BlueCheckSingle} from '../../../../assets/images/blue-check-single.svg';
 export {default as ArrowRightward} from '../../../../assets/images/arrow-rightward.svg';
+export {default as Memo} from '../../../../assets/images/memo.svg';
