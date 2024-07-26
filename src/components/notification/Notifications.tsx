@@ -30,16 +30,17 @@ function divideNotifications(notifications: NotificationDTO[]) {
 }
 
 const NoContent = () => {
-  const {firstName} = useUserStore(state => state.user);
+  const {firstName, role} = useUserStore(state => state.user);
+  const comment =
+    role === 'teacher'
+      ? `${firstName} 선생님이 할 일을 잊지 않도록\n튜링이 알림을 보내드릴게요.`
+      : `${firstName} 학생의 과외 수업을 위해\n튜링이 알림을 보내드릴게요.`;
 
   return (
     <NoContentContainer>
       <Icon name="HelpQuestionGrey" />
       <NoContentTitle>아직 새로운 알림이 없어요</NoContentTitle>
-      <NoContentBody>
-        {firstName} 선생님이 할 일을 잊지 않도록{'\n'}
-        튜링이 알림을 보내드릴게요.
-      </NoContentBody>
+      <NoContentBody>{comment}</NoContentBody>
     </NoContentContainer>
   );
 };
@@ -109,5 +110,5 @@ const NoContentBody = styled.Text`
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 24px */
+  line-height: 24px; /* 24px */
 `;
