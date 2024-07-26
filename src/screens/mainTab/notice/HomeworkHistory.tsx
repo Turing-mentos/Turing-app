@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Image, Text} from 'react-native';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
+
 import Pink_1 from '../../../../assets/images/HomeworkHistory/UserPink_1.svg';
 interface HomeworkHistoryProps {
   student: string;
@@ -13,8 +15,10 @@ export default function HomeworkHistory({
   subject,
   completion,
 }: HomeworkHistoryProps) {
+  const navigation = useNavigation();
+
   return (
-    <FrameParent>
+    <FrameParent onPress={() => navigation.navigate('NotebookHistory')}>
       <Parent>
         <StyledText>
           {student} | {subject}
@@ -35,7 +39,7 @@ export default function HomeworkHistory({
   );
 }
 
-const FrameParent = styled.View`
+const FrameParent = styled.Pressable`
   border-radius: 5px;
   background-color: #ffffff;
   flex: 1;
@@ -46,7 +50,7 @@ const FrameParent = styled.View`
 const Parent = styled.View`
   justify-content: space-between;
   flex-direction: row;
-  /* width: 145px; */
+  width: 145px;
   align-items: center;
 `;
 
