@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import PlusButton from '../../../../assets/images/schedule/plus.svg'
 import BelowArrowButton from '../../../../assets/images/schedule/underarrow.svg'
 import CancelButton from '../../../../assets/images/schedule/cancel.svg'
-import Check from '../../../../assets/images/schedule/schedule-check.svg'
+// import Check from '../../../../assets/images/schedule/schedule-check.svg'
 const getDayOfWeek = (date) => {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
   return days[date.getDay()];
@@ -207,7 +207,7 @@ const ScheduleMainScreen = () => {
           <View style={styles.instanceParent}>
           <TouchableOpacity>
           <View style={styles.checkCheckFormValidationCParent}>
-          <Check width={12} height={12} />
+          {/* <Check width={12} height={12} /> */}
               <Text style={[styles.text, styles.dropDownText]}>  전체  </Text>
           </View>
           </TouchableOpacity>

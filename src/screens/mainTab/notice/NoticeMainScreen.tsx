@@ -33,11 +33,11 @@ const Notice = () => {
         category: '독해',
         title: '마더텅',
         rangeType: 'ch',
-        rangeStart: '3',
-        rangeEnd: '5',
+        rangeStart: 3,
+        rangeEnd: 5,
         content: '문풀',
         memo: '중요',
-        isDone: false,
+        isDone: true,
       },
       {
         homeworkId: 2,
@@ -48,7 +48,7 @@ const Notice = () => {
         rangeEnd: 24,
         content: '문풀',
         memo: '중요',
-        isDone: false,
+        isDone: true,
       },
       {
         homeworkId: 3,
@@ -117,37 +117,8 @@ const Notice = () => {
           					</View>
           					<View style={styles.frameContainer}>
                     <HomeworkList {...sampleData} />
-            						<View style={[styles.frameWrapper1, styles.frameSpaceBlock]}>
-              							<View style={styles.frameParent1}>
-                								<View>
-                  									<View>
-                    										<View style={[styles.instanceParent, styles.parentFlexBox2]}>
-                      											<View style={[styles.wrapper, styles.wrapperFrameLayout]}>
-                        												<Text style={[styles.text6, styles.textTypo2]}>신이현 | 수학</Text>
-                      											</View>
-                      											<Image style={[styles.icon, styles.iconLayout1]} resizeMode="cover" source="ICON_.png" />
-                    										</View>
-                    										<View style={[styles.frameParent3, styles.parentFlexBox1]}>
-                      											<View style={styles.container}>
-                        												<Text style={[styles.text4, styles.textTypo5]}>완료</Text>
-                        												<Text style={[styles.text8, styles.textTypo3]}>(4/4)</Text>
-                      											</View>
-                      											<View style={styles.frameParent4}>
-                        												<View style={[styles.icon50Parent, styles.parentFlexBox]}>
-                          													<Image style={styles.icon50} resizeMode="cover" source="icon 50.png" />
-                          													<Text style={[styles.text9, styles.textTypo1]}>수업 2시간 전</Text>
-                        												</View>
-                        												<Image style={styles.frameInner} resizeMode="cover" source="Polygon 1.png" />
-                      											</View>
-                    										</View>
-                  									</View>
-                								</View>
-                								<View style={styles.rectangleParent}>
-                  									<View style={[styles.frameChild2, styles.frameChildPosition]} />
-                  									<LinearGradient style={[styles.frameChild3, styles.frameChildPosition]} locations={[0,1]} colors={['#9708cc','#287eff']} useAngle={true} angle={74.51} />
-                								</View>
-              							</View>
-            						</View>
+            						<View style={styles.frameSpaceBlock}/>
+                    <HomeworkList {...sampleData} />
           					</View>
         				</View>
         				<View style={styles.frameParent10}>
