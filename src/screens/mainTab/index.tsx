@@ -113,7 +113,7 @@ export default function MainTab() {
       <Tab.Screen
         name="Schedule"
         component={ScheduleMainScreen}
-        options={{tabBarLabel: '스케줄'}}
+        options={{tabBarLabel: '스케줄', headerShown: false}}
       />
       <Tab.Screen
         name="Question"
