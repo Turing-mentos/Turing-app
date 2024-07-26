@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import {ActivityIndicator} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {format} from 'date-fns';
@@ -17,6 +18,7 @@ import {StudyRoomAPI} from '../../api/studyRoom';
 import {groupSchedulesByDate} from '../../utils/time';
 import HomeQuestion from './HomeQuestion';
 import HomeNotice from './HomeNotice';
+import Indicator from '../report/Indicator';
 
 const timeToMinutes = (time: string) => {
   const [hours, minutes] = time.split(':').map(Number);
@@ -30,6 +32,7 @@ export default function HomePage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [studyRoomIds, setStudyRoomIds] = useState<number[]>([]);
   const [needConnect, setNeedConnect] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const today = format(new Date(), 'yyyy-MM-dd');
   const hasEnrolledStudyRoom = studyRoomIds.length > 0;
@@ -57,17 +60,20 @@ export default function HomePage() {
     }
   }
 
-  const handleInitNotificationSetting = async (enabled: boolean) => {
-    try {
-      console.log('user id', user.id);
-      if (user.id) {
-        await setStorage(user.id + '', true);
+  const handleInitNotificationSetting = useCallback(
+    async (enabled: boolean) => {
+      try {
+        console.log('user id', user.id);
+        if (user.id) {
+          await setStorage(user.id + '', true);
+        }
+        await NotificationAPI.initNotificationSetting(enabled);
+      } catch (err) {
+        console.log('handleInitNotificationSetting() err:', err);
       }
-      await NotificationAPI.initNotificationSetting(enabled);
-    } catch (err) {
-      console.log('handleInitNotificationSetting() err:', err);
-    }
-  };
+    },
+    [user.id],
+  );
 
   useEffect(() => {
     const initNotificationSetting = async () => {
@@ -94,7 +100,7 @@ export default function HomePage() {
     };
 
     initNotificationSetting();
-  }, [sheet]);
+  }, [sheet, handleInitNotificationSetting, user.id]);
 
   useFocusEffect(
     useCallback(() => {
@@ -124,30 +130,44 @@ export default function HomePage() {
           setSchedules(fetchedSchedules);
         } catch (err) {
           console.log('schedule fetch error:', err);
+        } finally {
+          setIsLoading(false);
         }
       };
 
       fetchSchedules();
-    }, []),
+    }, [today]),
   );
 
   return (
     <Container>
-      <HomeInnerHeader state={headerState} />
-      <ScrollView>
-        <Main>
-          {!hasEnrolledStudyRoom && <NoStudyRoom />}
+      {isLoading && (
+        <IndicatorContainer>
+          <Indicator />
+        </IndicatorContainer>
+      )}
+      {!isLoading && (
+        <>
+          <HomeInnerHeader state={headerState} />
+          <ScrollView>
+            <Main>
+              {!hasEnrolledStudyRoom && <NoStudyRoom />}
 
-          {hasEnrolledStudyRoom && (
-            <>
-              <HomeSchedule schedules={schedules} studyRoomIds={studyRoomIds} />
+              {hasEnrolledStudyRoom && (
+                <>
+                  <HomeSchedule
+                    schedules={schedules}
+                    studyRoomIds={studyRoomIds}
+                  />
 
-              <HomeQuestion needConnect={needConnect} />
-              <HomeNotice needConnect={false} studyRoomIds={studyRoomIds} />
-            </>
-          )}
-        </Main>
-      </ScrollView>
+                  <HomeQuestion needConnect={needConnect} />
+                  <HomeNotice needConnect={false} studyRoomIds={studyRoomIds} />
+                </>
+              )}
+            </Main>
+          </ScrollView>
+        </>
+      )}
     </Container>
   );
 }
@@ -164,4 +184,10 @@ const Container = styled.View`
 const Main = styled.View`
   padding: 20px;
   gap: 12px;
+`;
+
+const IndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
