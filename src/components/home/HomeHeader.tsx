@@ -13,8 +13,6 @@ export default function HomeHeader() {
 
   const [count, setCount] = useState(0);
 
-  console.log('count:', count);
-
   useFocusEffect(
     useCallback(() => {
       const fetchNotificationCount = async () => {
