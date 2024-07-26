@@ -86,8 +86,8 @@ export default function HomeNotice({
       try {
         const response = await HomeAPI.getWeeklyNotebooks(studyRoomIds);
         if (response.data) {
-          setNotebooks(response.data);
-          // setNotebooks(sampleNotebooks);
+          // setNotebooks(response.data);
+          setNotebooks(sampleNotebooks);
         }
       } catch (err) {
         console.log('fetchNotebooks err:', err);
