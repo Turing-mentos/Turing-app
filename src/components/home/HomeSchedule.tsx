@@ -123,11 +123,11 @@ export default function HomeSchedule({
 
       <Footer>
         {todaySchedule
-          .filter(schedule => {
-            const now = format(new Date(), 'HH:mm');
-            const {startTime} = schedule;
-            return timeToMinutes(startTime) - timeToMinutes(now) > 30;
-          })
+          // .filter(schedule => {
+          //   const now = format(new Date(), 'HH:mm');
+          //   const {startTime} = schedule;
+          //   return timeToMinutes(startTime) - timeToMinutes(now) > 30;
+          // })
           .map(schedule => (
             <OneScheduleContainer key={schedule.scheduleId}>
               <Badge

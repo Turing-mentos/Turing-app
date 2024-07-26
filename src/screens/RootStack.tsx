@@ -37,6 +37,9 @@ import ContactScreen from './myPage/ContactScreen';
 import TermsOfUseScreen from './myPage/TermsOfUseScreen';
 import PrivacyPolicyScreen from './myPage/PrivacyPolicyScreen';
 
+// 알림장
+import NewNoticeScreen from './mainTab/notice/NewNoticeScreen';
+
 // 알림 내부 페이지
 import NotificationMainScreen from './notification/NotificationMainScreen';
 import NotificationSettingScreen from './notification/NotificationSettingScreen';
@@ -58,6 +61,7 @@ import ReportHelpHeader from '../components/report/detail/ReportHelpHeader';
 import PrevReportHeader from '../components/report/detail/PrevReportHeader';
 import PrivacyPolicyHeader from '../components/myPage/PrivacyPolicyHeader';
 import TermsOfUseHeader from '../components/myPage/TermsOfUseHeader';
+import NewNoticeHeader from '../components/notice/NewNoticeHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -130,6 +134,11 @@ export default function RootStack() {
 
       {/* 알림장 관련 페이지 */}
       <Stack.Screen name="NoticeWrite" component={NoticeWriteScreen} />
+      <Stack.Screen
+        name="NewNotice"
+        component={NewNoticeScreen}
+        options={{header: () => <NewNoticeHeader />}}
+      />
 
       {/* 리포트 관련 페이지 */}
       <Stack.Screen

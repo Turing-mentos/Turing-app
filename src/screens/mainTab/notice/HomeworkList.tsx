@@ -120,7 +120,7 @@ export default function HomeworkList({
 
   const handleRemindClick = async () => {
     try {
-      await NotificationAPI.clickRemindNotification(notebookId);
+      // await NotificationAPI.clickRemindNotification(notebookId);
       showToast(`${studentName} 학생에게 리마인드를 보냈어요!`, 'complete');
     } catch (err) {
       console.log('콕 찌르기 오류:', err);
@@ -169,7 +169,7 @@ export default function HomeworkList({
               <Homework
                 key={homework.homeworkId}
                 label={`[${homework.category}] ${homework.title} -> ${homework.rangeType}.${homework.rangeStart}~${homework.rangeType}.${homework.rangeEnd} ${homework.content}`}
-                // disabled={true} // true -> 체크박스가 작동하지 않음
+                disabled={role === 'teacher'} // true -> 체크박스가 작동하지 않음
                 memo={homework.memo}
                 isDone={homework.isDone}
                 onPress={(checked: boolean) =>
@@ -192,6 +192,7 @@ export default function HomeworkList({
           </>
         )}
       </AccordionContainer>
+
       <Modal
         isVisible={completedModal}
         close={() => {

@@ -62,3 +62,9 @@ export {default as HelpQuestionGrey} from '../../../../assets/images/help-questi
 export {default as BlueCheckSingle} from '../../../../assets/images/blue-check-single.svg';
 export {default as ArrowRightward} from '../../../../assets/images/arrow-rightward.svg';
 export {default as Memo} from '../../../../assets/images/memo.svg';
+export {default as Calendar} from '../../../../assets/images/calendar.svg';
+export {default as PlusCircleGrey} from '../../../../assets/images/plus-circle-grey.svg';
+export {default as CheckBlack} from '../../../../assets/images/Notice/Homework-check-black.svg';
+export {default as CheckGrey} from '../../../../assets/images/Notice/Homework-check-grey-small.svg';
+export {default as EditChecked} from '../../../../assets/images/Notice/edit-checked.svg';
+export {default as EditNonChecked} from '../../../../assets/images/Notice/edit-nonchecked.svg';

@@ -21,7 +21,7 @@ export default function StudyRoomConnectContent({studentName, code}) {
         content: {
           title: '선생님과 계정 연결하고 편하게 과외해요!',
           imageUrl:
-            'https://drive.google.com/uc?id=1Z28aWMI2ndJn9Pq4hVWD3Knst5m_9vdB',
+            'https://drive.google.com/uc?id=1DdGYsIDRAMqjkJ1NpLKfyBx_XE5yry8A',
           link: {
             webUrl:
               'https://elegant-bass-d29.notion.site/Turing-b3206b2ad48f4634aa1d53e31a112ef1?pvs=4',

@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from '@emotion/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 import Icon from '../common/icons/SvgIcon';
 
 export default function NoStudyRoom() {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const comment =
+    route.name === 'Notice'
+      ? `알림장 작성을 위해\n진행하고 있는 수업을 등록해주세요.`
+      : `수업 일정을 등록하고 학생을 연결하여\n튜링에서 손쉬운 과외 수업을 경험해보세요.`;
 
   return (
     <Section>
       <StartTitle>아직 등록된 과외 정보가 없어요!</StartTitle>
-      <StartBody>
-        수업 일정을 등록하고 학생을 연결하여{'\n'}
-        튜링에서 손쉬운 과외 수업을 경험해보세요.
-      </StartBody>
+      <StartBody>{comment}</StartBody>
 
       <EnrollmentButton onPress={() => navigation.navigate('NewLesson')}>
         <EnrollmentText>과외 정보 등록하러 가기</EnrollmentText>

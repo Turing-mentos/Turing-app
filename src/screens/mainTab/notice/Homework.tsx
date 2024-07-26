@@ -46,7 +46,7 @@ export default function Homework({
         <CheckBoxLabel $isStudent={isStudent} $isChecked={isChecked}>
           {label}
         </CheckBoxLabel>
-        {memo && (
+        {memo && isStudent && (
           <MemoGroup>
             <Icon name="Memo" />
             <Memo>{memo}</Memo>
