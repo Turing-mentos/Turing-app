@@ -1,17 +1,101 @@
-import {View, Text, Pressable} from 'react-native';
-import React from 'react';
+import {Pressable} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
+import {Shadow} from 'react-native-shadow-2';
+
 import LinkStatus from '../myPage/lesson/LinkStatus';
+import HomeworkList from '../../screens/mainTab/notice/HomeworkList';
+
+import {HomeAPI, Notebook} from '../../api/home';
+
+const sampleData = {
+  notebookId: 1,
+  studentName: '박민영',
+  subject: '영어',
+  deadline: '2024-07-25T03:42:53.267Z',
+  isDone: false,
+  homeworkDtoList: [
+    {
+      homeworkId: 1,
+      category: '독해',
+      title: '마더텅',
+      rangeType: 'ch',
+      rangeStart: 3,
+      rangeEnd: 5,
+      content: '문풀',
+      memo: '중요',
+      isDone: false,
+    },
+    {
+      homeworkId: 2,
+      category: '문법',
+      title: '능률',
+      rangeType: 'p',
+      rangeStart: 2,
+      rangeEnd: 24,
+      content: '문풀',
+      memo: '중요',
+      isDone: true,
+    },
+    {
+      homeworkId: 3,
+      category: '어휘',
+      title: '수특',
+      rangeType: 'ch',
+      rangeStart: 3,
+      rangeEnd: 5,
+      content: '암기',
+      memo: '중요',
+      isDone: true,
+    },
+    {
+      homeworkId: 4,
+      category: 'TEST',
+      title: '24년 6모',
+      rangeType: 'n',
+      rangeStart: 20,
+      rangeEnd: 28,
+      content: '분석',
+      memo: '중요',
+      isDone: true,
+    },
+  ],
+};
 
 interface HomeHomeworkProps {
   needConnect: boolean;
+  studyRoomIds: number[];
 }
 
-export default function HomeNotice({needConnect = true}: HomeHomeworkProps) {
+export default function HomeNotice({
+  needConnect = false,
+  studyRoomIds = [],
+}: HomeHomeworkProps) {
   const navigation = useNavigation();
-  const homework = [];
-  const hasHomework = homework.length > 0;
+
+  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
+
+  // console.log('notebooks:', notebooks);
+
+  const sampleNotebooks = [...sampleData.homeworkDtoList];
+  const hasNotebook = notebooks.length > 0;
+
+  useEffect(() => {
+    const fetchNotebooks = async () => {
+      try {
+        const response = await HomeAPI.getWeeklyNotebooks(studyRoomIds);
+        if (response.data) {
+          setNotebooks(response.data);
+          // setNotebooks(sampleNotebooks);
+        }
+      } catch (err) {
+        console.log('fetchNotebooks err:', err);
+      }
+    };
+
+    fetchNotebooks();
+  }, [studyRoomIds]);
 
   return (
     <Container>
@@ -25,8 +109,8 @@ export default function HomeNotice({needConnect = true}: HomeHomeworkProps) {
 
         {!needConnect && (
           <>
-            {!hasHomework && <Title>새로운 알림장이 없어요</Title>}
-            {hasHomework && <Title>숙제 리스트</Title>}
+            {!hasNotebook && <Title>새로운 알림장이 없어요</Title>}
+            {hasNotebook && <Title>숙제 리스트</Title>}
           </>
         )}
 
@@ -38,8 +122,14 @@ export default function HomeNotice({needConnect = true}: HomeHomeworkProps) {
       </Header>
 
       <Main>
-        {needConnect && (
+        {(needConnect || !hasNotebook) && (
           <ContentText>학생의 실시간 숙제 현황을 확인해보세요</ContentText>
+        )}
+
+        {!needConnect && hasNotebook && (
+          <ShadowContainer stretch={true} distance={3}>
+            <HomeworkList {...sampleData} />
+          </ShadowContainer>
         )}
       </Main>
     </Container>
@@ -92,4 +182,8 @@ const ContentText = styled.Text`
   font-style: normal;
   font-weight: 500;
   line-height: 24px; /* 24px */
+`;
+
+const ShadowContainer = styled(Shadow)`
+  border-radius: 5px;
 `;

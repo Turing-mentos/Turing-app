@@ -143,7 +143,7 @@ export default function HomePage() {
               <HomeSchedule schedules={schedules} studyRoomIds={studyRoomIds} />
 
               <HomeQuestion needConnect={needConnect} />
-              <HomeNotice needConnect={needConnect} />
+              <HomeNotice needConnect={false} studyRoomIds={studyRoomIds} />
             </>
           )}
         </Main>
