@@ -93,7 +93,7 @@ export default function ProfileManagementUpdatePage() {
             <InputBox
               label="학번"
               value={profile.studentNumber}
-              onChangeText={value => handleTextChange('studentNum', value)}
+              onChangeText={value => handleTextChange('studentNumber', value)}
               placeholder="ex. 20학번"
             />
           </Section>
