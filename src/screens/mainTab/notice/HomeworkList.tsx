@@ -17,7 +17,7 @@ interface homeworkDto {
     rangeEnd: number;
     content: string;
     memo?: string;
-    isDone?: boolean;
+    isDone: boolean;
 }
 
 interface homeworkListProps {
@@ -30,11 +30,15 @@ interface homeworkListProps {
 }
 
 const ArrowDown = () => (
-    <Image source={require('../../../../assets/images/arrow_downward.png')} />
+    <HeaderContainer>
+        <Image source={require('../../../../assets/images/arrow_downward.png')} />
+    </HeaderContainer>
 );
   
 const ArrowUp = () => (
-    <Image source={require('../../../../assets/images/arrow_upward.png')} />
+    <HeaderContainer>
+        <Image source={require('../../../../assets/images/arrow_upward.png')} />
+    </HeaderContainer>
 );
 
 export default function HomeworkList({
@@ -46,7 +50,16 @@ export default function HomeworkList({
   }: homeworkListProps) {
   const [expanded, setExpanded] = React.useState(true);
   const [homeworkCompletion, setHomeworkCompletion] = React.useState<homeworkDto[]>([]);
+  const [containerWidth, setContainerWidth] = React.useState(0);
 
+    const handleLayout = (event: any) => {
+        const { width } = event.nativeEvent.layout;
+        setContainerWidth(width);
+        console.log('containerWidth' + containerWidth);
+    };
+
+    // 백분율을 기반으로 실제 너비 계산
+    const filledWidth = containerWidth * 0.7;
   React.useEffect(() => {
     setHomeworkCompletion(homeworkDtoList.map(homework => ({
       ...homework,
@@ -99,22 +112,21 @@ export default function HomeworkList({
   const remainingDays = calculateRemainingTime(deadline);
 
   return (
-    <AccordionContainer allCompleted={allCompleted}>
+    <AccordionContainer allCompleted={allCompleted} onLayout={handleLayout}>
       <AccordionHeader>
         <AccordionTitleGroup>
-            <ToggleGroup>
             <AccordionTitle>{studentName + ' | ' + subject}</AccordionTitle>
+            {/* <ToggleGroup/> */}
             <HeaderContainer>
                 <Pressable onPress={handleToggle}>
                 {expanded ? <ArrowUp /> : <ArrowDown />}
                 </Pressable>
             </HeaderContainer>
-            </ToggleGroup>
+        </AccordionTitleGroup>
             <ProgressGroup>
                 <ProgressScale>{completionRate + '%'}</ProgressScale>
                 <ProgressNum>{'('+completedTasks + '/' + totalTasks+')'}</ProgressNum>
             </ProgressGroup>
-        </AccordionTitleGroup>
       </AccordionHeader>
       <TimeLimitContainer>
       <TimeLimitView deadline={remainingDays}/>
@@ -127,7 +139,8 @@ export default function HomeworkList({
         <Homework
           key={homework.homeworkId}
           label={`[${homework.category}] ${homework.title} -> ${homework.rangeType}.${homework.rangeStart}~${homework.rangeType}.${homework.rangeEnd} ${homework.content}`}
-        //   isDone={homework.isDone}
+          disabled={true} // true -> 체크박스가 작동하지 않음
+          isDone={homework.isDone}
           onPress={(checked: boolean) => handleCheck(homework.homeworkId, checked)}
         />
       ))} 
@@ -155,24 +168,26 @@ const AccordionContainer = styled.View<{ allCompleted: boolean }>`
 const TimeLimitContainer = styled.View`
   align-items: flex-end; // 우측 정렬
   width: 100%; // 부모 컨테이너의 전체 너비 사용
-  margin-bottom: -10.0px;
+   
   margin-top: -10.0px;
 `;
 
 const AccordionHeader = styled.View`
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: left;
   justify-content: space-between;
 `;
 const HeaderContainer = styled.View`
-  flex-direction: column;
-  align-items: flex-end; // 우측 정렬
+  flex-direction: row;
+  align-items: right; // 우측 정렬
+  align-self: flex-end;
+  margin-right: -10.0px;
 `;
 
 const AccordionTitleGroup = styled.View`
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
-  align-items: left;
+  align-items: right;
   justify-content: space-between;
 `;
 const ProgressGroup = styled.View`
@@ -180,11 +195,9 @@ const ProgressGroup = styled.View`
   gap: 12px;
   align-items: left;
 `;
-const ToggleGroup = styled.View`
-  flex-direction: row;
-  gap: 12px;
-  align-items: right;
-`;
+// const ToggleGroup = styled.View`
+//   width: ${filledWidth};
+// `;
 
 const AccordionTitle = styled.Text`
   color: #192239;
