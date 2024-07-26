@@ -11,6 +11,13 @@ export const category = {
   SESSION: '기준회차 추가',
 } as const;
 
+export const categoryStudent = {
+  HOMEWORK: '숙제 콕 찌르기',
+  NOTEBOOK: '알림장 업데이트',
+  COMMENT: '질문 답변',
+  SCHEDULE_CHANGE: '일정 변동 확정',
+} as const;
+
 export interface NotificationDTO {
   id: number;
   readStatus: boolean;

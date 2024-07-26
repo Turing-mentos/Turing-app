@@ -1,5 +1,5 @@
 import {Pressable} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Icon from './icons/SvgIcon';
 
@@ -11,7 +11,7 @@ interface ToggleProps {
 }
 
 export default function Toggle({
-  defaultValue = false,
+  defaultValue,
   handleToggle = () => {},
   width = 48,
   height = 28,
@@ -21,6 +21,10 @@ export default function Toggle({
     setOn(prev => !prev);
     await handleToggle();
   };
+
+  useEffect(() => {
+    setOn(defaultValue);
+  }, [defaultValue]);
 
   const toggleName = on ? 'ToggleOn' : 'ToggleOff';
 

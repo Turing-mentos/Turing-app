@@ -3,7 +3,12 @@ import styled from '@emotion/native';
 
 import Toggle from '../../common/Toggle';
 import NotificationIcon from '../NotificationIcon';
-import {category as CATEGORY, NotificationAPI} from '../../../api/notification';
+import {
+  category as CATEGORY,
+  categoryStudent as CATEGORY_STUDENT,
+  NotificationAPI,
+} from '../../../api/notification';
+import useUserStore from '../../../store/useUserStore';
 
 interface SettingComponentProps {
   category: keyof typeof CATEGORY;
@@ -26,12 +31,21 @@ const comment = {
     '학생의 기준 회차 수업이 끝났을 때 리포트를 작성할 수 있도록 알려드려요.',
 };
 
+const commentStudent = {
+  NOTEBOOK: '선생님이 작성한 알림장이 업로드 되었을 때 알려드려요',
+  HOMEWORK:
+    '선생님이 숙제 진행 현황을 확인하고 ‘콕 찌르기’ 버튼을 눌렀을 때 알려드려요.',
+  SCHEDULE_CHANGE: '선생님이 수업 일정 조율을 수락했을 때 알려드려요.',
+  COMMENT: '선생님이 질문에 댓글을 달았을 때 알려드려요.',
+};
+
 export default function SettingComponent({
   category,
-  state = false,
+  state,
   noticeSettingId,
   fetchNotificationSetting,
 }: SettingComponentProps) {
+  const {role} = useUserStore(state => state.user);
   const handleToggle = async () => {
     try {
       await NotificationAPI.setNotificationSetting(noticeSettingId);
@@ -40,6 +54,11 @@ export default function SettingComponent({
       console.log('handleToggle err:', err);
     }
   };
+  const title =
+    role === 'teacher' ? CATEGORY[category] : CATEGORY_STUDENT[category];
+
+  const body =
+    role === 'teacher' ? comment[category] : commentStudent[category];
 
   return (
     <SettingContainer>
@@ -47,11 +66,11 @@ export default function SettingComponent({
         <IconContainer>
           <NotificationIcon category={category} width={24} height={24} />
         </IconContainer>
-        <SettingTitle>{CATEGORY[category]}</SettingTitle>
+        <SettingTitle>{title}</SettingTitle>
         <Toggle defaultValue={state} handleToggle={handleToggle} />
       </Row>
 
-      <Comment>{comment[category]}</Comment>
+      <Comment>{body}</Comment>
     </SettingContainer>
   );
 }
