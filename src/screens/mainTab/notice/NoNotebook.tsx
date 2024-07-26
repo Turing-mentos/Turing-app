@@ -1,22 +1,29 @@
 import React from 'react';
 import styled from '@emotion/native';
 
+import useUserStore from '../../../store/useUserStore';
 import Icon from '../../../components/common/icons/SvgIcon';
 
 export default function NoNotebook() {
+  const {role} = useUserStore(state => state.user);
+
+  const comment =
+    role === 'teacher'
+      ? '오른쪽 아래 [+알림장쓰기]를 클릭하여\n학생에게 손쉽게 알림장을 전달해보세요!'
+      : '선생님이 작성해주시는 알림장을\n숙제 체크리스트로 활용하세요!';
+
   return (
     <Container>
       <Title>아직 새로운 알림장이 없어요</Title>
-      <Body>
-        오른쪽 아래 [+알림장쓰기]를 클릭하여{'\n'}학생에게 손쉽게 알림장을
-        전달해보세요!
-      </Body>
+      <Body>{comment}</Body>
       <Image
         source={require('../../../../assets/images/Notice/notice-student-sample.png')}
       />
       <Sample>
         <Icon name="InformationBlack" />
-        <SampleText>학생에게 보이는 예시 화면이에요</SampleText>
+        <SampleText>
+          {role === 'teacher' && '학생에게 보이는 '}예시 화면이에요
+        </SampleText>
       </Sample>
     </Container>
   );
