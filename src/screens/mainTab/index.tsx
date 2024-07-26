@@ -13,6 +13,8 @@ import Icon from '../../components/common/icons/SvgIcon';
 import HomeHeader from '../../components/home/HomeHeader';
 import ReportHeader from '../../components/report/ReportHeader';
 
+import useUserStore from '../../store/useUserStore';
+
 const Tab = createBottomTabNavigator();
 
 const iconName = {
@@ -24,66 +26,78 @@ const iconName = {
 };
 
 function CustomTabBar({state, descriptors, navigation}) {
+  const {role} = useUserStore(state => state.user);
+
   return (
     <TabBarContainer>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            if (route.name === 'Report') {
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Report'}],
-                }),
-              );
-              return;
+      {state.routes
+        .filter(route => {
+          if (role === 'student') {
+            if (route.name === 'Home' || route.name === 'Report') {
+              return false;
             }
-            navigation.navigate(route.name);
           }
-        };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
+          return true;
+        })
+        .map((route, index) => {
+          const {options} = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : route.name;
 
-        const targetIconName =
-          iconName[route.name] + (isFocused ? '' : 'Unselected');
+          const isFocused = state.index === index;
 
-        return (
-          <TabBarItem
-            accessibilityRole="button"
-            accessibilityState={isFocused ? {selected: true} : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            key={index}>
-            <TabBarIconWrapper>
-              <Icon name={targetIconName} />
-            </TabBarIconWrapper>
-            <TabBarLabel $isFocused={isFocused}>{label}</TabBarLabel>
-          </TabBarItem>
-        );
-      })}
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              if (route.name === 'Report') {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Report'}],
+                  }),
+                );
+                return;
+              }
+              navigation.navigate(route.name);
+            }
+          };
+
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
+
+          const targetIconName =
+            iconName[route.name] + (isFocused ? '' : 'Unselected');
+
+          return (
+            <TabBarItem
+              accessibilityRole="button"
+              accessibilityState={isFocused ? {selected: true} : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              key={index}>
+              <TabBarIconWrapper>
+                <Icon name={targetIconName} />
+              </TabBarIconWrapper>
+              <TabBarLabel $isFocused={isFocused}>{label}</TabBarLabel>
+            </TabBarItem>
+          );
+        })}
     </TabBarContainer>
   );
 }
