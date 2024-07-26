@@ -47,7 +47,7 @@ export default function StepOne() {
     );
 
     if (selectedStudent?.currentSession === 0) {
-      showToast('아직 회차를 진행하진 학생은 생성할 수 없습니다!');
+      showToast('아직 회차를 진행하지 않은 학생은 생성할 수 없습니다!');
       return;
     }
 
