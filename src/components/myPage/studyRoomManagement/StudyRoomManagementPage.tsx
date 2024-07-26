@@ -20,7 +20,7 @@ interface Time {
   nano: number;
 }
 
-const convertDay = ['월', '화', '수', '목', '금', '토', '일'];
+const convertDay = ['일', '월', '화', '수', '목', '금', '토'];
 const convertTime = (time: Time) => {
   const {hour, minute} = time;
   const meridiem = hour < 12 ? '오전' : '오후';

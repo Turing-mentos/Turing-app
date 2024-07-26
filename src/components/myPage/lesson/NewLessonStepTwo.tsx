@@ -36,7 +36,7 @@ const subjects = [
   {key: 5, value: '논술', label: '논술'},
 ];
 
-const dayConvert = ['월', '화', '수', '목', '금', '토', '일'];
+const dayConvert = ['일', '월', '화', '수', '목', '금', '토'];
 
 const generateInitialDayTimeState = (day: number) => {
   return {

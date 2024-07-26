@@ -18,7 +18,7 @@ interface LessonTimeProps {
   handleChangeEndTime: ChangeTimeHandler;
 }
 
-const dayConverter = ['월', '화', '수', '목', '금', '토', '일'];
+const dayConverter = ['일', '월', '화', '수', '목', '금', '토'];
 
 export default function LessonTime({
   day,
