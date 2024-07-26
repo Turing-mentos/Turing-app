@@ -32,4 +32,23 @@ async function createHomework(homework: Homework) {
   return await http.post<number>('/homework', homework);
 }
 
-export const HomeworkAPI = {toggleCompleteHomework, createHomework};
+/**
+ * 숙제 수정
+ *
+ * @param homework
+ * @returns
+ */
+async function updateHomework(homework: Homework) {
+  return await http.put<number>('/homework', homework);
+}
+
+async function deleteHomework(homeworkId: number) {
+  return await http.delete<null>(`/homework/${homeworkId}`);
+}
+
+export const HomeworkAPI = {
+  toggleCompleteHomework,
+  createHomework,
+  updateHomework,
+  deleteHomework,
+};

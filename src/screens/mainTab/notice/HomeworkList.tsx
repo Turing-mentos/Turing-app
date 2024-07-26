@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Text, StyleSheet, View, Image, Pressable} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+
 import Homework from './Homework.tsx';
 import RemindButtonIcon from '../../../../assets/images/Notice/ReminderIcon.svg';
 import {showToast} from '../../../components/common/Toast';
@@ -8,7 +10,6 @@ import ProgressBar from './ProgressBar.tsx';
 import styled from '@emotion/native';
 import TimeLimitView from './TimeLimit.tsx';
 import useUserStore from '../../../store/useUserStore.ts';
-import {NotificationAPI} from '../../../api/notification.ts';
 import {HomeworkAPI} from '../../../api/homework-yeop.ts';
 import HomeworkCompleteModal from '../../../components/homework/HomeworkCompleteModal.tsx';
 import Modal from '../../../components/common/Modal.tsx';
@@ -70,6 +71,7 @@ export default function HomeworkList({
   isDone,
   homeworkDtoList,
 }: homeworkListProps) {
+  const navigation = useNavigation();
   const {role} = useUserStore(state => state.user);
   const [expanded, setExpanded] = useState(true);
   const [homeworks, setHomeworks] = useState<homeworkDto[]>(homeworkDtoList);
@@ -127,6 +129,19 @@ export default function HomeworkList({
     }
   };
 
+  const handleUpdateNotebook = () => {
+    if (role !== 'teacher') {
+      return;
+    }
+
+    navigation.navigate('NewNotice', {
+      initHomeworks: homeworkDtoList,
+      notebookId,
+      name: studentName,
+      subject,
+    });
+  };
+
   const {totalTasks, completedTasks, completionRate} = calculateCompletion();
   const remainingDays = calculateRemainingTime(deadline);
 
@@ -164,7 +179,9 @@ export default function HomeworkList({
 
         <Line allCompleted={allCompleted} />
         {expanded && (
-          <>
+          <HomeworkListPressable
+            onPress={handleUpdateNotebook}
+            pointerEvents={role === 'teacher' ? 'box-only' : 'auto'}>
             {homeworks.map(homework => (
               <Homework
                 key={homework.homeworkId}
@@ -189,7 +206,7 @@ export default function HomeworkList({
                 </GradientButton>
               </TouchableButton>
             )}
-          </>
+          </HomeworkListPressable>
         )}
       </AccordionContainer>
 
@@ -307,4 +324,8 @@ const TouchableButton = styled.TouchableOpacity`
 
 const TimeGroup = styled.View`
   margin-top: -6px;
+`;
+
+const HomeworkListPressable = styled.Pressable`
+  gap: 8px;
 `;

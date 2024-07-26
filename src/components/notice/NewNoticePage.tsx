@@ -28,12 +28,20 @@ export default function NewNoticePage() {
   const route = useRoute();
   const navigation = useNavigation();
   const sheet = useSimpleSheet();
-  const {name, subject, scheduleId} = route.params;
+  const {name, subject, scheduleId, notebookId, initHomeworks} = route.params;
 
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [homeworks, setHomeworks] = useState<Homework[]>([]);
   const [selectedHomeworks, setSelectedHomeworks] = useState<number[]>([]);
   const [edit, setEdit] = useState(false);
+  const [updateMode, setUpdateMode] = useState(false);
+
+  useEffect(() => {
+    if (initHomeworks && notebookId) {
+      setHomeworks(initHomeworks);
+      setUpdateMode(true);
+    }
+  }, [initHomeworks]);
 
   const addHomework = (homework: Homework) => {
     setHomeworks(prev => [...prev, homework]);
@@ -80,29 +88,88 @@ export default function NewNoticePage() {
   };
 
   const handleCreateNotebook = async () => {
-    try {
-      // 알림장 생성하기
-      const notebookResponse = await NotebookAPI.createNotebook({
-        scheduleId,
-        deadline: format(deadline, 'yyyy-MM-dd'),
-      });
+    if (updateMode) {
+      try {
+        // 알림장 수정하기
+        const notebookResponse = await NotebookAPI.updateNotebook({
+          notebookId,
+          deadline: format(deadline, 'yyyy-MM-dd'),
+        });
 
-      if (!notebookResponse.data) {
-        throw new Error('notebook response data does not exist');
+        if (!notebookResponse.data) {
+          throw new Error('update notebook response data does not exist');
+        }
+
+        // 각 숙제별 만들어내기
+        // 있는건 수정하고
+        const updatedHomeworks = homeworks.filter(homework =>
+          initHomeworks.some(
+            initHomework => initHomework.homeworkId === homework.homeworkId,
+          ),
+        );
+        await Promise.all(
+          updatedHomeworks.map(async homework => {
+            await HomeworkAPI.updateHomework(homework);
+          }),
+        );
+
+        // 없어질건 없애고
+        const deletedHomeworks = initHomeworks.filter(
+          initHomework =>
+            !homeworks.some(
+              homework => homework.homeworkId === initHomework.homeworkId,
+            ),
+        );
+        await Promise.all(
+          deletedHomeworks.map(async homework => {
+            await HomeworkAPI.deleteHomework(homework.homeworkId);
+          }),
+        );
+
+        // 없던건 만들고..
+        const newHomeworks = homeworks.filter(
+          homework =>
+            !homework.homeworkId ||
+            !initHomeworks.some(
+              initHomework => initHomework.homeworkId === homework.homeworkId,
+            ),
+        );
+        await Promise.all(
+          newHomeworks.map(async homework => {
+            await HomeworkAPI.createHomework({...homework, notebookId});
+          }),
+        );
+
+        navigation.navigate('Notice', {isUpdated: true});
+      } catch (err) {
+        showToast('알림장을 수정하는 도중 에러가 발생했습니다.');
+        console.log('handleCreateNotebook err:', err);
       }
+    } else {
+      try {
+        // 알림장 생성하기
+        const notebookResponse = await NotebookAPI.createNotebook({
+          scheduleId,
+          deadline: format(deadline, 'yyyy-MM-dd'),
+        });
 
-      const {notebookId} = notebookResponse.data;
-      // 각 숙제별 만들어내기
-      Promise.all(
-        homeworks.map(async homework => {
-          await HomeworkAPI.createHomework({...homework, notebookId});
-        }),
-      );
+        if (!notebookResponse.data) {
+          throw new Error('notebook response data does not exist');
+        }
 
-      navigation.navigate('Notice', {isCreated: true});
-    } catch (err) {
-      showToast('알림장을 생성하는 도중 에러가 발생했습니다.');
-      console.log('handleCreateNotebook err:', err);
+        const {notebookId} = notebookResponse.data;
+        // 각 숙제별 만들어내기
+        await Promise.all(
+          homeworks.map(async homework => {
+            await HomeworkAPI.createHomework({...homework, notebookId});
+          }),
+        );
+
+        navigation.navigate('Notice', {isCreated: true});
+      } catch (err) {
+        showToast('알림장을 생성하는 도중 에러가 발생했습니다.');
+        console.log('handleCreateNotebook err:', err);
+      }
     }
   };
 
@@ -181,7 +248,7 @@ export default function NewNoticePage() {
               <AddButtonText>숙제 추가</AddButtonText>
             </AddButton>
             <Button
-              label="알림장 생성하기"
+              label={updateMode ? '알림장 수정하기' : '알림장 생성하기'}
               onPress={handleCreateNotebook}
               disabled={homeworks.length === 0}
             />

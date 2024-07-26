@@ -18,6 +18,7 @@ import HomeworkHistory from './HomeworkHistory';
 import {StudyRoomSummary, StudyRoomAPI} from '../../../api/studyRoom.ts';
 import CustomModal from '../../../components/common/Modal.tsx';
 import NewNoticeModalContent from '../../../components/notice/newNotice/NewNoticeModalContent.tsx';
+import {showToast} from '../../../components/common/Toast.tsx';
 
 const deviceWidth = Dimensions.get('window').width;
 //test [독해] 마더텅 -> ch.3 문풀"
@@ -32,7 +33,7 @@ const sampleData = {
       homeworkId: 1,
       category: '독해',
       title: '마더텅',
-      rangeType: 'ch',
+      rangeType: '챕터',
       rangeStart: 3,
       rangeEnd: 5,
       content: '문풀',
@@ -43,7 +44,7 @@ const sampleData = {
       homeworkId: 2,
       category: '문법',
       title: '능률',
-      rangeType: 'p',
+      rangeType: '페이지',
       rangeStart: 2,
       rangeEnd: 24,
       content: '문풀',
@@ -54,7 +55,7 @@ const sampleData = {
       homeworkId: 3,
       category: '어휘',
       title: '수특',
-      rangeType: 'ch',
+      rangeType: '챕터',
       rangeStart: 3,
       rangeEnd: 5,
       content: '암기',
@@ -65,7 +66,7 @@ const sampleData = {
       homeworkId: 4,
       category: 'TEST',
       title: '24년 6모',
-      rangeType: 'n',
+      rangeType: '회차',
       rangeStart: 20,
       rangeEnd: 28,
       content: '분석',
@@ -92,6 +93,12 @@ export default function NoticeMainScreen() {
       setCreatedModalOpen(true);
     }
   }, [route?.params?.isCreated]);
+
+  useEffect(() => {
+    if (route?.params?.isUpdated) {
+      showToast('알림장이 수정됐어요.', 'complete');
+    }
+  }, [route?.params?.isUpdated]);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -209,15 +216,6 @@ export default function NoticeMainScreen() {
                   }>{`${studyRoom.opponentLastName}${studyRoom.opponentFirstName} | ${studyRoom.subject}`}</Text>
               </TouchableOpacity>
             ))}
-
-            <TouchableOpacity
-              style={[
-                styles.optionButton,
-                {right: deviceWidth * 0.06, bottom: deviceWidth * 0.45},
-              ]}
-              onPress={handleOpenConnectModal}>
-              <Text style={styles.addScheduleButton}>신이영 | 국어</Text>
-            </TouchableOpacity>
           </TouchableOpacity>
         </Modal>
       </Container>
