@@ -12,13 +12,16 @@ import useUserStore from '../../store/useUserStore';
 function divideNotifications(notifications: NotificationDTO[]) {
   const currentNotifications: NotificationDTO[] = [];
   const prevNotifications: NotificationDTO[] = [];
-  const sortedNotifications = notifications.sort(
-    (a, b) => +b.createdAt - +a.createdAt,
-  );
-  const now = new Date();
+  const sortedNotifications = notifications.sort((a, b) => {
+    const aTime = new Date(a.createdAt);
+    const bTime = new Date(b.createdAt);
+
+    return bTime.getTime() - aTime.getTime();
+  });
+  const now = new Date().getTime();
 
   sortedNotifications.forEach(notification => {
-    const diff = (+now - +notification.createdAt) / 1000;
+    const diff = (now - new Date(notification.createdAt).getTime()) / 1000;
     if (diff < 60 * 60 * 24 * 3) {
       currentNotifications.push(notification);
     } else {
@@ -66,13 +69,23 @@ export default function Notifications() {
       {notifications.length > 0 && (
         <>
           {currentNotifications
-            .sort((a, b) => +b.createdAt - +a.createdAt)
+            .sort((a, b) => {
+              const aTime = new Date(a.createdAt);
+              const bTime = new Date(b.createdAt);
+
+              return bTime.getTime() - aTime.getTime();
+            })
             .map(notification => (
               <Notification key={notification.id} {...notification} />
             ))}
           <PrevDivider />
           {prevNotifications
-            .sort((a, b) => +b.createdAt - +a.createdAt)
+            .sort((a, b) => {
+              const aTime = new Date(a.createdAt);
+              const bTime = new Date(b.createdAt);
+
+              return bTime.getTime() - aTime.getTime();
+            })
             .map(notification => (
               <Notification key={notification.id} {...notification} />
             ))}

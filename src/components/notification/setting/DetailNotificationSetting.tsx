@@ -4,6 +4,7 @@ import {useFocusEffect} from '@react-navigation/native';
 
 import SettingComponent from './SettingComponent';
 import {NotificationAPI} from '../../../api/notification';
+import useUserStore from '../../../store/useUserStore';
 
 const initialSettingState = {
   NOTEBOOK: {
@@ -41,11 +42,15 @@ const initialSettingState = {
 };
 
 export default function DetailNotificationSetting() {
-  const [settingState, setSettingState] = useState(initialSettingState);
+  const [settingState, setSettingState] = useState({...initialSettingState});
+  const {role} = useUserStore(state => state.user);
+
+  const copiedSettingState = {...settingState};
 
   const fetchNotificationSetting = async () => {
     try {
       const response = await NotificationAPI.getNotificationSetting();
+      console.log('response data:', response.data);
 
       if (response.data) {
         const settings = response.data;
@@ -55,9 +60,8 @@ export default function DetailNotificationSetting() {
             acc[category].noticeSettingId = noticeSettingId;
             return acc;
           },
-          initialSettingState,
+          {...initialSettingState},
         );
-        console.log('test!');
         setSettingState(transformedData);
       }
     } catch (err) {
@@ -79,15 +83,15 @@ export default function DetailNotificationSetting() {
         <SettingGroup>
           <SettingTitle>알림장</SettingTitle>
           <SettingComponent
-            state={settingState.NOTEBOOK.enabled}
+            state={copiedSettingState.NOTEBOOK.enabled}
             category="NOTEBOOK"
-            noticeSettingId={settingState.NOTEBOOK.noticeSettingId}
+            noticeSettingId={copiedSettingState.NOTEBOOK.noticeSettingId}
             fetchNotificationSetting={fetchNotificationSetting}
           />
           <SettingComponent
-            state={settingState.HOMEWORK.enabled}
+            state={copiedSettingState.HOMEWORK.enabled}
             category="HOMEWORK"
-            noticeSettingId={settingState.HOMEWORK.noticeSettingId}
+            noticeSettingId={copiedSettingState.HOMEWORK.noticeSettingId}
             fetchNotificationSetting={fetchNotificationSetting}
           />
         </SettingGroup>
@@ -95,44 +99,50 @@ export default function DetailNotificationSetting() {
         <SettingGroup>
           <SettingTitle>스케줄</SettingTitle>
           <SettingComponent
-            state={settingState.SCHEDULE_CHANGE.enabled}
+            state={copiedSettingState.SCHEDULE_CHANGE.enabled}
             category="SCHEDULE_CHANGE"
-            noticeSettingId={settingState.SCHEDULE_CHANGE.noticeSettingId}
+            noticeSettingId={copiedSettingState.SCHEDULE_CHANGE.noticeSettingId}
             fetchNotificationSetting={fetchNotificationSetting}
           />
-          <SettingComponent
-            state={settingState.SESSION.enabled}
-            category="SESSION"
-            noticeSettingId={settingState.SESSION.noticeSettingId}
-            fetchNotificationSetting={fetchNotificationSetting}
-          />
+          {role === 'teacher' && (
+            <SettingComponent
+              state={copiedSettingState.SESSION.enabled}
+              category="SESSION"
+              noticeSettingId={copiedSettingState.SESSION.noticeSettingId}
+              fetchNotificationSetting={fetchNotificationSetting}
+            />
+          )}
         </SettingGroup>
 
         <SettingGroup>
           <SettingTitle>질문 게시판</SettingTitle>
+          {role === 'teacher' && (
+            <SettingComponent
+              state={copiedSettingState.QUESTION.enabled}
+              category="QUESTION"
+              noticeSettingId={copiedSettingState.QUESTION.noticeSettingId}
+              fetchNotificationSetting={fetchNotificationSetting}
+            />
+          )}
           <SettingComponent
-            state={settingState.QUESTION.enabled}
-            category="QUESTION"
-            noticeSettingId={settingState.QUESTION.noticeSettingId}
-            fetchNotificationSetting={fetchNotificationSetting}
-          />
-          <SettingComponent
-            state={settingState.COMMENT.enabled}
+            state={copiedSettingState.COMMENT.enabled}
             category="COMMENT"
-            noticeSettingId={settingState.COMMENT.noticeSettingId}
+            noticeSettingId={copiedSettingState.COMMENT.noticeSettingId}
             fetchNotificationSetting={fetchNotificationSetting}
           />
         </SettingGroup>
 
-        <SettingGroup>
-          <SettingTitle>리포트</SettingTitle>
-          <SettingComponent
-            state={settingState.REPORT.enabled}
-            category="REPORT"
-            noticeSettingId={settingState.REPORT.noticeSettingId}
-            fetchNotificationSetting={fetchNotificationSetting}
-          />
-        </SettingGroup>
+        {role === 'teacher' && (
+          <SettingGroup>
+            <SettingTitle>리포트</SettingTitle>
+            <SettingComponent
+              state={copiedSettingState.REPORT.enabled}
+              category="REPORT"
+              noticeSettingId={copiedSettingState.REPORT.noticeSettingId}
+              fetchNotificationSetting={fetchNotificationSetting}
+            />
+          </SettingGroup>
+        )}
       </SettingGroupsContainer>
     </Container>
   );
