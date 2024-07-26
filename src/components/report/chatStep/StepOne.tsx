@@ -42,6 +42,15 @@ export default function StepOne() {
   };
 
   const selectStudent = (studentId: number) => {
+    const selectedStudent = students.find(
+      student => student.studentId === studentId,
+    );
+
+    if (selectedStudent?.currentSession === 0) {
+      showToast('아직 회차를 진행하진 학생은 생성할 수 없습니다!');
+      return;
+    }
+
     if (!selectedStudentId) {
       setSelectedStudentId(studentId);
       handleNextChatStep(0, 4);
