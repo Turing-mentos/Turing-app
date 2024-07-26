@@ -11,14 +11,17 @@ const KeyboardAvoid = ({
   const [keyboardHeight, setKeyboardHeight] = useState(336);
 
   useEffect(() => {
-    const handleKeyboardEvents = e => {
+    const handleKeyboardShow = e => {
       setKeyboardHeight(e.endCoordinates.height);
     };
 
-    Keyboard.addListener('keyboardWillShow', handleKeyboardEvents);
+    const keyboardShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      handleKeyboardShow,
+    );
 
     return () => {
-      Keyboard.removeAllListeners('keyboardWillShow');
+      keyboardShowListener.remove();
     };
   }, []);
 
