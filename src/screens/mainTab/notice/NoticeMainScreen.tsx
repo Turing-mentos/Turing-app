@@ -22,6 +22,8 @@ import {HomeAPI, Notebook} from '../../../api/home.ts';
 import {NotebookAPI} from '../../../api/notebook.ts';
 import NoStudyRoom from './NoStudyRoom.tsx';
 import NoNotebook from './NoNotebook.tsx';
+import useUserStore from '../../../store/useUserStore.ts';
+import Indicator from '../../../components/report/Indicator.tsx';
 
 const deviceWidth = Dimensions.get('window').width;
 //test [독해] 마더텅 -> ch.3 문풀"
@@ -82,6 +84,7 @@ const sampleData = {
 export default function NoticeMainScreen() {
   const navigation = useNavigation();
   const route = useRoute();
+  const {role} = useUserStore(state => state.user);
 
   const widthAnim = useRef(new Animated.Value(deviceWidth - 250)).current;
 
@@ -91,6 +94,7 @@ export default function NoticeMainScreen() {
   const [studyRooms, setStudyRooms] = useState<StudyRoomSummary[]>([]);
   const [createdModalOpen, setCreatedModalOpen] = useState(false);
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (route?.params?.isCreated) {
@@ -103,26 +107,6 @@ export default function NoticeMainScreen() {
       showToast('알림장이 수정됐어요.', 'complete');
     }
   }, [route?.params?.isUpdated]);
-
-  useEffect(() => {
-    const fetchNotebooks = async () => {
-      if (studyRooms.length === 0) {
-        return;
-      }
-
-      try {
-        const studyRoomIds = studyRooms.map(v => v.id);
-        const response = await HomeAPI.getWeeklyNotebooks(studyRoomIds);
-        if (response.data) {
-          setNotebooks(response.data);
-        }
-      } catch (err) {
-        console.log('fetchNotebooks err:', err);
-      }
-    };
-
-    fetchNotebooks();
-  }, [studyRooms]);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -182,61 +166,94 @@ export default function NoticeMainScreen() {
     fetchStudyRooms();
   }, []);
 
+  useEffect(() => {
+    const fetchNotebooks = async () => {
+      if (studyRooms.length === 0) {
+        return;
+      }
+
+      try {
+        const studyRoomIds = studyRooms.map(v => v.id);
+        const response = await HomeAPI.getWeeklyNotebooks(studyRoomIds);
+        if (response.data) {
+          setNotebooks(response.data);
+        }
+      } catch (err) {
+        console.log('fetchNotebooks err:', err);
+      }
+    };
+
+    setLoading(false);
+
+    fetchNotebooks();
+  }, [studyRooms]);
+
   return (
     <>
       <Container>
-        <ScrollViewContainer>
-          <HomeworkListContainer>
-            <ContainerHeader>
-              <ContainerTitle>숙제 리스트</ContainerTitle>
-              <Line />
-            </ContainerHeader>
+        {loading && (
+          <IndicatorContainer>
+            <Indicator />
+          </IndicatorContainer>
+        )}
+        {!loading && (
+          <ScrollViewContainer>
+            <HomeworkListContainer>
+              <ContainerHeader>
+                <ContainerTitle>숙제 리스트</ContainerTitle>
+                <Line />
+              </ContainerHeader>
 
-            {studyRooms.length === 0 && <NoStudyRoom />}
-            {studyRooms.length > 0 && notebooks.length === 0 && <NoNotebook />}
+              {studyRooms.length === 0 && <NoStudyRoom />}
+              {studyRooms.length > 0 && notebooks.length === 0 && (
+                <NoNotebook />
+              )}
 
-            <HomeworkListContent>
-              {notebooks.map(v => (
-                <HomeworkList {...v} />
-              ))}
-            </HomeworkListContent>
-          </HomeworkListContainer>
+              <HomeworkListContent>
+                {notebooks.map(v => (
+                  <HomeworkList {...v} />
+                ))}
+              </HomeworkListContent>
+            </HomeworkListContainer>
 
-          <HomeworkHistoryContainer>
-            <ContainerHeader>
-              <ContainerTitle>숙제 히스토리</ContainerTitle>
-              <Line />
-            </ContainerHeader>
+            <HomeworkHistoryContainer>
+              <ContainerHeader>
+                <ContainerTitle>숙제 히스토리</ContainerTitle>
+                <Line />
+              </ContainerHeader>
 
-            <HomeworkHistoryContent>
-              <HomeworkHistory
-                student="박민영"
-                subject="영어"
-                completion={15}
-              />
-              <HomeworkHistory
-                student="신이현"
-                subject="수학"
-                completion={82}
-              />
-            </HomeworkHistoryContent>
-          </HomeworkHistoryContainer>
-        </ScrollViewContainer>
+              <HomeworkHistoryContent>
+                <HomeworkHistory
+                  student="박민영"
+                  subject="영어"
+                  completion={15}
+                />
+                <HomeworkHistory
+                  student="신이현"
+                  subject="수학"
+                  completion={82}
+                />
+              </HomeworkHistoryContent>
+            </HomeworkHistoryContainer>
+          </ScrollViewContainer>
+        )}
 
-        <Animated.View style={{alignSelf: 'flex-end'}}>
-          <TouchableOpacity
-            onPress={toggleModal}
-            style={[styles.button, {bottom: deviceWidth * 0.05}]}>
-            {!modalVisible ? (
-              <ButtonContainer>
-                <PlusButton width={24} height={24} />
-                <WriteText>알림장 쓰기</WriteText>
-              </ButtonContainer>
-            ) : (
-              <CancelButton width={24} height={24} />
-            )}
-          </TouchableOpacity>
-        </Animated.View>
+        {role === 'teacher' && (
+          <Animated.View style={{alignSelf: 'flex-end'}}>
+            <TouchableOpacity
+              onPress={toggleModal}
+              style={[styles.button, {bottom: deviceWidth * 0.05}]}>
+              {!modalVisible ? (
+                <ButtonContainer>
+                  <PlusButton width={24} height={24} />
+                  <WriteText>알림장 쓰기</WriteText>
+                </ButtonContainer>
+              ) : (
+                <CancelButton width={24} height={24} />
+              )}
+            </TouchableOpacity>
+          </Animated.View>
+        )}
       </Container>
 
       <Modal
@@ -346,6 +363,12 @@ const ButtonContainer = styled.View`
   justify-content: center;
   gap: 4px;
   width: 100px;
+`;
+
+const IndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 const styles = StyleSheet.create({
