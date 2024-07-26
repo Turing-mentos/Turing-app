@@ -18,7 +18,7 @@ export default function SignIn() {
       </ContentGroup>
 
       <IconGroup>
-        <Icons onPress={() => navigation.navigate('SignUp')}>
+        <Icons>
           <Icon
             source={require('../../../assets/images/signin/signin-icons.png')}
           />
@@ -68,7 +68,7 @@ const IconGroup = styled.View`
   margin-top: 50px;
 `;
 
-const Icons = styled.TouchableOpacity`
+const Icons = styled.View`
   width: 240px;
   height: 240px;
   margin: 0 auto;
