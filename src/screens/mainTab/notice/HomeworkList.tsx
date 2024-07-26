@@ -45,9 +45,6 @@ export default function HomeworkList({
   homeworkDtoList,
   }: homeworkListProps) {
   const [expanded, setExpanded] = React.useState(true);
-  const [check, setCheck] = React.useState(false);
-  const [completion, setCompletion] = React.useState<homeworkDto[]>([]);
-
   const [homeworkCompletion, setHomeworkCompletion] = React.useState<homeworkDto[]>([]);
 
   React.useEffect(() => {
@@ -56,7 +53,7 @@ export default function HomeworkList({
       isDone: homework.isDone || false
     })));
   }, [homeworkDtoList]);
-
+  const allCompleted = homeworkCompletion.every(homework => homework.isDone);
   // 체크 상태 변경 처리
   const handleCheck = (homeworkId: number, checked: boolean) => {
     const updatedHomework = homeworkCompletion.map(homework =>
@@ -65,17 +62,7 @@ export default function HomeworkList({
     setHomeworkCompletion(updatedHomework);
   };
 
-  // 진행 상태 계산
-//   const calculateCompletion = () => {
-//     const totalTasks = homeworkCompletion.length;
-//     const completedTasks = homeworkCompletion.filter(task => task.isDone).length;
-//     return {
-//       totalTasks,
-//       completedTasks,
-//       completionRate: totalTasks > 0 ? (completedTasks / totalTasks * 100).toFixed(0) + '%' : '0%'
-//     };
-//   };
-const calculateCompletion = () => {
+  const calculateCompletion = () => {
     const totalTasks = homeworkCompletion.length;
     const completedTasks = homeworkCompletion.filter(task => task.isDone).length;
     const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0; // 반환값을 숫자로 변경
@@ -88,13 +75,20 @@ const calculateCompletion = () => {
   const {totalTasks, completedTasks, completionRate} = calculateCompletion();
 
 
-  const calculateRemainingDays = (deadline) => {
-    const today = new Date();
-    const dueDate = new Date(deadline);
-    const timeDiff = dueDate.getTime() - today.getTime();
-    const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    console.log(check);
-    return days;
+  const calculateRemainingTime = (deadline) => {
+      const now = new Date();
+      const dueDate = new Date(deadline);
+      const timeDiff = dueDate.getTime() - now.getTime();
+      const days = Math.floor(timeDiff / (1000 * 3600 * 24));
+      const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+
+      if (days > 0) {
+      return `수업 ${days}일 전`; // 일 단위로 표시
+      } else if (hours > 0) {
+      return `수업 ${hours}시간 전`; // 시간 단위로 표시
+      } else {
+      return `수업 종료`; // 매우 가까운 경우
+      }
   };
   
   
@@ -102,17 +96,19 @@ const calculateCompletion = () => {
     setExpanded(prev => !prev);
   };
   
-  const remainingDays = calculateRemainingDays(deadline);
+  const remainingDays = calculateRemainingTime(deadline);
 
   return (
-    <AccordionContainer>
+    <AccordionContainer allCompleted={allCompleted}>
       <AccordionHeader>
         <AccordionTitleGroup>
             <ToggleGroup>
             <AccordionTitle>{studentName + ' | ' + subject}</AccordionTitle>
-            <Pressable onPress={handleToggle}>
-            {expanded ? <ArrowUp /> : <ArrowDown />}
-            </Pressable>
+            <HeaderContainer>
+                <Pressable onPress={handleToggle}>
+                {expanded ? <ArrowUp /> : <ArrowDown />}
+                </Pressable>
+            </HeaderContainer>
             </ToggleGroup>
             <ProgressGroup>
                 <ProgressScale>{completionRate + '%'}</ProgressScale>
@@ -121,10 +117,10 @@ const calculateCompletion = () => {
         </AccordionTitleGroup>
       </AccordionHeader>
       <TimeLimitContainer>
-      <TimeLimitView deadline={'수업 ' + remainingDays + '일 전'}/>
+      <TimeLimitView deadline={remainingDays}/>
       </TimeLimitContainer>
       <ProgressBar completionRate={completionRate}></ProgressBar>
-      <Line />
+      <Line allCompleted={allCompleted}/>
       {expanded && (
         <>
             {homeworkCompletion.map((homework) => (
@@ -135,7 +131,7 @@ const calculateCompletion = () => {
           onPress={(checked: boolean) => handleCheck(homework.homeworkId, checked)}
         />
       ))} 
-          <Line />
+          <Line allCompleted={allCompleted}/>
             <TouchableButton>
                 {/* <ButtonContainer> */}
                     <GradientButton colors={['#9708cc', '#287eff']} useAngle={true} angle={74.51}>
@@ -149,12 +145,18 @@ const calculateCompletion = () => {
     </AccordionContainer>
   );
 }
-
-const AccordionContainer = styled.View`
+const AccordionContainer = styled.View<{ allCompleted: boolean }>`
   padding: 12px 16px;
-  background-color: #FEFEFE;
+  background-color: ${props => props.allCompleted ? '#E6E8F0' : '#FEFEFE'};
   border-radius: 5px;
   gap: 12px;
+`;
+
+const TimeLimitContainer = styled.View`
+  align-items: flex-end; // 우측 정렬
+  width: 100%; // 부모 컨테이너의 전체 너비 사용
+  margin-bottom: -10.0px;
+  margin-top: -10.0px;
 `;
 
 const AccordionHeader = styled.View`
@@ -162,9 +164,9 @@ const AccordionHeader = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
-const TimeLimitContainer = styled.View`
-  align-items: right;
-  
+const HeaderContainer = styled.View`
+  flex-direction: column;
+  align-items: flex-end; // 우측 정렬
 `;
 
 const AccordionTitleGroup = styled.View`
@@ -220,9 +222,9 @@ const ProgressNum = styled.Text`
   line-height: 30px; /* 33px */
 `;
 
-const Line = styled.View`
+const Line = styled.View<{ allCompleted: boolean }>`
   height: 2px;
-  background-color: ${props => props.theme.color.grey[150]};
+  background-color: ${props => !props.allCompleted? props.theme.color.grey[150] : '#D4D8E2'};
 `;
 
 const GradientButton = styled(LinearGradient)`

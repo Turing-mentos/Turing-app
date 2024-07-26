@@ -32,10 +32,10 @@ const StyledText = styled.Text`
   margin-left: 2px;
 `;
 
-const TriangleIcon = styled.Image`
+const TriangleIcon = styled.View`
   width: 14px;
   height: 12px;
-  margin-top: -5.5px;
+  margin-top: -2.0px;
 `;
 interface TimeLimitProps {
     deadline: String; // 0 to 100
@@ -48,7 +48,9 @@ export default function TimeLimit({deadline}:TimeLimitProps){
         <TimeLimits></TimeLimits>
         <StyledText>{deadline}</StyledText>
       </IconContainer>
+      <TriangleIcon>
       <Triangle></Triangle>
+      </TriangleIcon>
     </Container>
   );
 };
