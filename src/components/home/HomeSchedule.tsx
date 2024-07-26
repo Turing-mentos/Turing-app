@@ -41,8 +41,6 @@ function CalendarDate({
 
   const convertDay = ['일', '월', '화', '수', '목', '금', '토'];
 
-  console.log('daySchedules:', daySchedules);
-
   return (
     <CalendarItem>
       <Day>{convertDay[day]}</Day>
@@ -131,7 +129,7 @@ export default function HomeSchedule({
             return timeToMinutes(startTime) - timeToMinutes(now) > 30;
           })
           .map(schedule => (
-            <OneScheduleContainer>
+            <OneScheduleContainer key={schedule.scheduleId}>
               <Badge
                 $backgroundColor={
                   theme.color.student[studyRoomColors[schedule.studyRoomId]]
