@@ -38,7 +38,7 @@ export default function RangeAccordion({
   }, [rangeEnd, handleChangeHomework]);
 
   useEffect(() => {
-    handleChangeHomework('rangeType', +rangeType);
+    handleChangeHomework('rangeType', rangeType);
   }, [rangeType, handleChangeHomework]);
 
   useEffect(() => {

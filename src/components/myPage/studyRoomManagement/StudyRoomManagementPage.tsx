@@ -69,7 +69,7 @@ export default function StudyRoomManagementPage() {
   const firstScheduleDate = studyRoomDetail?.firstSchedule
     ? new Date(studyRoomDetail?.firstSchedule)
     : new Date();
-  const firstScheduleDay = (firstScheduleDate.getDay() + 6) % 7;
+  const firstScheduleDay = (firstScheduleDate.getDay() + 7) % 7;
   const startDate =
     format(firstScheduleDate, 'yyyy.MM.dd') +
     `(${convertDay[firstScheduleDay]})`;
