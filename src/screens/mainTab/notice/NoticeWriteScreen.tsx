@@ -177,6 +177,23 @@ export default function NoticeWriteScreen() {
     }
     return null;
   };
+  const memoInput = () => {
+    if (selectedMemo !== null) {
+      return (
+        <View>
+        <TextInput
+          style={styles.input}
+          onChangeText={setSelectedMemo}
+          value={selectedMemo}
+          placeholder="숙제에 대한 주의사항 Tip, 등을 적어주세요."
+          maxLength={10}
+        />
+        <Text style={styles.textLimit}>{"(" + selectedMemo.length + "/ 20)"}</Text>
+        </View>
+      );
+    }
+    return null;
+  };
 
   return (
     <View >
@@ -189,7 +206,7 @@ export default function NoticeWriteScreen() {
       <View style={styles.AccordionContainer}></View>
       <Accordion title='내용' subTitle={selectedContent} children={ContentTagListView()} />
       <View style={styles.AccordionContainer}></View>
-      <Accordion title='메모' subTitle='' children={<Text>내용입니다.</Text>} />
+      <Accordion title='메모' subTitle={selectedMemo} children={memoInput()} />
       <View style={styles.paddingContainer1}></View>
       <View style={styles.instanceParent}>
         <ScrollView horizontal={true}>
