@@ -62,6 +62,7 @@ const ButtonContainer = styled.TouchableOpacity<{
   $disabled: boolean;
 }>`
   flex: 1;
+  overflow: hidden;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;

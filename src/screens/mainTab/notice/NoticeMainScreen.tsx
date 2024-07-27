@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Dimensions,
   Animated,
@@ -8,7 +8,11 @@ import {
   Text,
 } from 'react-native';
 import styled from '@emotion/native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
 
 import CancelButton from '../../../../assets/images/schedule/cancel.svg';
 import PlusButton from '../../../../assets/images/schedule/plus.svg';
@@ -151,20 +155,22 @@ export default function NoticeMainScreen() {
     setCheck(prev => !prev);
   };
 
-  useEffect(() => {
-    const fetchStudyRooms = async () => {
-      try {
-        const response = await StudyRoomAPI.getStudyRoomsInProgress();
-        if (response.data) {
-          setStudyRooms(response.data);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchStudyRooms = async () => {
+        try {
+          const response = await StudyRoomAPI.getStudyRoomsInProgress();
+          if (response.data) {
+            setStudyRooms(response.data);
+          }
+        } catch (err) {
+          console.log('fetchStudyRooms err', err);
         }
-      } catch (err) {
-        console.log('fetchStudyRooms err', err);
-      }
-    };
+      };
 
-    fetchStudyRooms();
-  }, []);
+      fetchStudyRooms();
+    }, []),
+  );
 
   useEffect(() => {
     const fetchNotebooks = async () => {
@@ -211,7 +217,7 @@ export default function NoticeMainScreen() {
 
               <HomeworkListContent>
                 {notebooks.map(v => (
-                  <HomeworkList {...v} />
+                  <HomeworkList key={v.notebookId} {...v} />
                 ))}
               </HomeworkListContent>
             </HomeworkListContainer>

@@ -30,6 +30,8 @@ export default function NewNoticePage() {
   const sheet = useSimpleSheet();
   const {name, subject, scheduleId, notebookId, initHomeworks} = route.params;
 
+  console.log('scheduleId:', scheduleId);
+
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [homeworks, setHomeworks] = useState<Homework[]>([]);
   const [selectedHomeworks, setSelectedHomeworks] = useState<number[]>([]);

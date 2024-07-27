@@ -126,11 +126,13 @@ export default function HomeNotice({
           <ContentText>학생의 실시간 숙제 현황을 확인해보세요</ContentText>
         )}
 
-        {!needConnect && hasNotebook && (
-          <ShadowContainer stretch={true} distance={3}>
-            <HomeworkList {...sampleData} />
-          </ShadowContainer>
-        )}
+        {!needConnect &&
+          hasNotebook &&
+          notebooks.map(v => (
+            <ShadowContainer key={v.notebookId} stretch={true} distance={3}>
+              <HomeworkList {...v} />
+            </ShadowContainer>
+          ))}
       </Main>
     </Container>
   );
